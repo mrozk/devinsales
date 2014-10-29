@@ -7,8 +7,7 @@ include_once( APPPATH . 'classes/Sdk/mrozk/IntegratorShop.php');
 include_once( APPPATH . 'classes/Sdk/mrozk/IntegratorShop2.php');
 
 
-class Controller_Orders extends Controller
-{
+class Controller_Orders extends Controller{
     public function action_index(){
         echo Kohana::VERSION ;
     }
