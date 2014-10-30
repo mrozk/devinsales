@@ -366,7 +366,7 @@ class Controller_Sdk extends Controller
 
 
     public function action_test(){
-        echo 'ozk';
+        $insales_user = ORM::factory('InsalesUser', array('id' =>22));
         /*
         header('Content-Type: text/html; charset=utf-8');
         $insales_user = ORM::factory('InsalesUser', array('id' =>22));
