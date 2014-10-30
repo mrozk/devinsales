@@ -366,6 +366,7 @@ class Controller_Sdk extends Controller
 
 
     public function action_test(){
+        /*
         header('Content-Type: text/html; charset=utf-8');
         $insales_user = ORM::factory('InsalesUser', array('id' =>22));
         //$insales_api =  new InsalesApi( $insales_user->passwd, $insales_user->shop );
@@ -374,6 +375,7 @@ class Controller_Sdk extends Controller
         //$items = json_decode( $insales_api->api('GET', '/admin/products/29303486.json') );
         print_r($insales_user);
         //print_r($items->characteristics);
+        */
         /*
         if( $settings->source_params != '1' ){
             $item['width'] = $this->getOptionValue($items->products[$i]->product_field_values, $settings->width );
@@ -396,8 +398,9 @@ class Controller_Sdk extends Controller
             }
         }*/
         //exit();
-        $settings = json_decode($insales_user->settings );
+        //$settings = json_decode($insales_user->settings );
         //echo $settings->api;
+        /*
         try{
             //$settings->rezhim = '1';
             //$IntegratorShop = new IntegratorShop( $this->request, $settings );
@@ -418,7 +421,7 @@ class Controller_Sdk extends Controller
         }catch (\DDelivery\DDeliveryException $e){
             echo $e->getMessage();
         }
-
+        */
         /*
         $insales_user = ORM::factory('InsalesUser', array('id' => 52));
         $settings = json_decode($insales_user->settings );
