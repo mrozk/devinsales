@@ -405,6 +405,9 @@ class Controller_Cabinet extends  Controller_Base{
 
             }else{
                 if( !empty( $insales_id ) && !empty( $shop ) ){
+                    echo $insales_id;
+                    echo $shop;
+                    exit();
                     $this->_proccess_enter($insales_id, $shop);
                 }else{
                     echo 'Вход осуществляется через личный кабинет insales.ru';
