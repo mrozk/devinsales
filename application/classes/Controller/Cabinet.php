@@ -378,7 +378,9 @@ class Controller_Cabinet extends  Controller_Base{
     public function action_index(){
         $insales_id = (int)$this->request->query('insales_id');
         $shop = $this->request->query('shop');
-
+        echo $insales_id;
+        echo $shop;
+        exit;
         if( !$insales_id ){
             $session = Session::instance();
             $insalesuser = (int)$session->get('insalesuser');
@@ -391,9 +393,7 @@ class Controller_Cabinet extends  Controller_Base{
 
             $payment = self::getPaymentWays($insales_api);
             $fields = self::getFields( $insales_api);
-
             $characteristics = self::getOptionFields( $insales_api );
-
             $addr_fields = self::getAddressFields( $insales_api );
 
 
