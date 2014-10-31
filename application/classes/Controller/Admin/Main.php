@@ -287,6 +287,8 @@ class Controller_Admin_Main extends Controller_Admin_Layout{
     // Главная страница
     public function action_user(){
         $id = (int)$this->request->query('id');
+        echo $id;
+        exit();
         $usersettings = ORM::factory('InsalesUser', array('id' => $id));
 
         $insales_api =  new InsalesApi($usersettings->passwd, $usersettings->shop);
