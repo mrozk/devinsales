@@ -504,9 +504,9 @@ class Controller_Cabinet extends  Controller_Base{
         $token = md5( time() . $insales_id );
 
         $session = Session::instance();
-        $session->set('ddelivery_token', $token);
-        $session->set('token_insales_id', $insales_id);
-        $session->set('insalesshop', $shop);
+        //$session->set('ddelivery_token', $token);
+        ///$session->set('token_insales_id', $insales_id);
+       // $session->set('insalesshop', $shop);
 
         echo  $session->get('ddelivery_token');
         echo  $session->get('token_insales_id');
