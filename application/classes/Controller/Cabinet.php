@@ -380,7 +380,7 @@ class Controller_Cabinet extends  Controller_Base{
         $shop = $this->request->query('shop');
         echo $insales_id;
         echo $shop;
-        exit;
+        //exit;
         if( !$insales_id ){
             $session = Session::instance();
             $insalesuser = (int)$session->get('insalesuser');
