@@ -479,6 +479,7 @@ class Controller_Cabinet extends  Controller_Base{
         $insales_user = ORM::factory('InsalesUser', array('insales_id' => $insales_id));
         $insales_id = $session->get('token_insales_id');
         print_r($insales_id);
+        print_r($token);
         if( $insales_user->loaded() ){
             if( $insales_token == md5( $token . $insales_user->passwd ) ){
 
