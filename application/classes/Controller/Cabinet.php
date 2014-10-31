@@ -407,11 +407,6 @@ class Controller_Cabinet extends  Controller_Base{
                 if( !empty( $insales_id ) && !empty( $shop ) ){
                     $this->_proccess_enter($insales_id, $shop);
                 }else{
-                    $insales_id = (int)$this->request->query('insales_id');
-                    $shop = $this->request->query('shop');
-                    echo $insales_id;
-                    echo $shop;
-                    print_r($this->request);
                     echo 'Вход осуществляется через личный кабинет insales.ru';
                     Notice::add( Notice::ERROR,'Доступ только из админпанели магазина insales' );
                 }
