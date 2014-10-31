@@ -411,7 +411,7 @@ class Controller_Cabinet extends  Controller_Base{
                     $shop = $this->request->query('shop');
                     echo $insales_id;
                     echo $shop;
-                    print_r($_GET);
+                    print_r($this->request);
                     echo 'Вход осуществляется через личный кабинет insales.ru';
                     Notice::add( Notice::ERROR,'Доступ только из админпанели магазина insales' );
                 }
