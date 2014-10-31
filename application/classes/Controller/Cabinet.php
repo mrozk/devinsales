@@ -511,7 +511,7 @@ class Controller_Cabinet extends  Controller_Base{
         echo  $session->get('ddelivery_token');
         echo  $session->get('token_insales_id');
         echo  $session->get('insalesshop');
-
+        exit;
         $url = 'http://' . $shop . '/admin/applications/' . InsalesApi::$api_key . '/login?token=' . $token . '&login=' . $back_url;
 
         $this->redirect( $url );
