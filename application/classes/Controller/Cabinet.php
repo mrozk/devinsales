@@ -508,6 +508,7 @@ class Controller_Cabinet extends  Controller_Base{
         $session->set('token_insales_id', $insales_id);
         $session->set('insalesshop', $shop);
         echo 'xxx';
+        exit;
         $url = 'http://' . $shop . '/admin/applications/' . InsalesApi::$api_key . '/login?token=' . $token . '&login=' . $back_url;
 
         $this->redirect( $url );
