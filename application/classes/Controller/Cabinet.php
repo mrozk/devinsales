@@ -378,8 +378,7 @@ class Controller_Cabinet extends  Controller_Base{
     public function action_index(){
         $insales_id = (int)$this->request->query('insales_id');
         $shop = $this->request->query('shop');
-        echo $insales_id;
-        echo $shop;
+
         //exit;
         if( !$insales_id ){
             $session = Session::instance();
@@ -405,9 +404,7 @@ class Controller_Cabinet extends  Controller_Base{
 
             }else{
                 if( !empty( $insales_id ) && !empty( $shop ) ){
-                    echo $insales_id;
-                    echo $shop;
-                    exit();
+
                     $this->_proccess_enter($insales_id, $shop);
                 }else{
                     echo 'Вход осуществляется через личный кабинет insales.ru';
@@ -510,6 +507,10 @@ class Controller_Cabinet extends  Controller_Base{
         $session->set('ddelivery_token', $token);
         $session->set('token_insales_id', $insales_id);
         $session->set('insalesshop', $shop);
+
+        echo  $session->get('ddelivery_token');
+        echo  $session->get('token_insales_id');
+        echo  $session->get('insalesshop');
 
         $url = 'http://' . $shop . '/admin/applications/' . InsalesApi::$api_key . '/login?token=' . $token . '&login=' . $back_url;
 
