@@ -237,9 +237,6 @@ class Controller_Admin_Main extends Controller_Admin_Layout{
 
     // Главная страница
     public function action_index(){
-        $session = Session::instance();
-        //$insalesuser = $session->set('xxxx','rrrr');
-        echo $session->get('xxxx');
         $query = DB::select()->from('insalesusers')->as_object()->execute();
         $this->template->set('content', View::factory('admin/dashboard')->set('insalesusers',$query));
     }
