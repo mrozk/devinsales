@@ -102,6 +102,8 @@ if (isset($_SERVER['KOHANA_ENV']))
  * - boolean  caching     enable or disable internal caching                 FALSE
  * - boolean  expose      set the X-Powered-By header                        FALSE
  */
+
+
 Kohana::init(array(
     'base_url'   => '/',
     'errors'=>false,
