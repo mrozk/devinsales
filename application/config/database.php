@@ -19,9 +19,9 @@ return array
 			 * Ports and sockets may be appended to the hostname.
 			 */
 			'hostname'   => 'localhost',
-			'database'   => 'c1insales',
-			'username'   => 'c1dba',
-			'password'   => 'OH2AgbFiU',
+			'database'   => 'insales',
+			'username'   => 'root',
+			'password'   => 'litionkenotivili',
 			'persistent' => FALSE,
 		),
 		'table_prefix' => '',
@@ -39,9 +39,9 @@ return array
 			 * string   password    database password
 			 * boolean  persistent  use persistent connections?
 			 */
-			'dsn'        => 'mysql:host=localhost;dbname=c1insales',
-			'username'   => 'c1dba',
-			'password'   => 'OH2AgbFiU',
+			'dsn'        => 'mysql:host=localhost;dbname=insales',
+			'username'   => 'root',
+			'password'   => 'litionkenotivili',
 			'persistent' => FALSE,
 		),
 		/**
