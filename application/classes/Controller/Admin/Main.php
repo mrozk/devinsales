@@ -290,17 +290,18 @@ class Controller_Admin_Main extends Controller_Admin_Layout{
         echo $id;
         exit();
         $usersettings = ORM::factory('InsalesUser', array('id' => $id));
+        if( $usersettings->id ) {
+            $insales_api = new InsalesApi($usersettings->passwd, $usersettings->shop);
 
-        $insales_api =  new InsalesApi($usersettings->passwd, $usersettings->shop);
-
-        $payment = Controller_Cabinet::getPaymentWays($insales_api);
-        $fields = Controller_Cabinet::getFields( $insales_api);
-        $characteristics = Controller_Cabinet::getOptionFields( $insales_api );
-        $addr_fields = Controller_Cabinet::getAddressFields( $insales_api );
-        $this->template->set('content', View::factory('panel')->set('id', $id )->set('usersettings', $usersettings )
-                        ->set('addr_fields', $addr_fields)->set('message', $this->template->system_msg)
-                        ->set('payment', $payment)->set('characteristics', $characteristics)->set('fields', $fields)
-                        ->set('base_url', URL::base( $this->request ))->set('add_url', $usersettings->add_url));
+            $payment = Controller_Cabinet::getPaymentWays($insales_api);
+            $fields = Controller_Cabinet::getFields($insales_api);
+            $characteristics = Controller_Cabinet::getOptionFields($insales_api);
+            $addr_fields = Controller_Cabinet::getAddressFields($insales_api);
+            $this->template->set('content', View::factory('panel')->set('id', $id)->set('usersettings', $usersettings)
+                ->set('addr_fields', $addr_fields)->set('message', $this->template->system_msg)
+                ->set('payment', $payment)->set('characteristics', $characteristics)->set('fields', $fields)
+                ->set('base_url', URL::base($this->request))->set('add_url', $usersettings->add_url));
+        }
     }
 
 
