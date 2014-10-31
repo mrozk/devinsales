@@ -479,6 +479,9 @@ class Controller_Cabinet extends  Controller_Base{
         $insales_user = ORM::factory('InsalesUser', array('insales_id' => $insales_id));
         $insales_id = $session->get('token_insales_id');
 
+        echo $token;
+        exit;
+
         if( $insales_user->loaded() ){
             if( $insales_token == md5( $token . $insales_user->passwd ) ){
 
@@ -507,11 +510,7 @@ class Controller_Cabinet extends  Controller_Base{
         $session->set('ddelivery_token', $token);
         $session->set('token_insales_id', $insales_id);
         $session->set('insalesshop', $shop);
-        echo 'xxx';
-        echo $token;
-        echo $insales_id;
-        echo $shop;
-        exit;
+
         $url = 'http://' . $shop . '/admin/applications/' . InsalesApi::$api_key . '/login?token=' . $token . '&login=' . $back_url;
 
         $this->redirect( $url );
