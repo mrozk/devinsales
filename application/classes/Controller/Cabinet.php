@@ -82,7 +82,9 @@ class Controller_Cabinet extends  Controller_Base{
 
                     'params_width' => $this->request->post('params_width'),
                     'params_length' => $this->request->post('params_length'),
-                    'params_height'  => $this->request->post('params_height')
+                    'params_height'  => $this->request->post('params_height'),
+
+                    'status_send' => $this->request->post('status_send')
         );
 
 

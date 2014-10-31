@@ -56,10 +56,11 @@ if( !empty($message['success'])){
     <div class="row marketing">
         <div class="row" style="text-align: center">
             <div class="col-md-1"><h4>ID</h4></div>
-            <div class="col-md-4"><h4>Магазин</h4></div>
-            <div class="col-md-4"><h4>Url</h4></div>
+            <div class="col-md-3"><h4>Магазин</h4></div>
+            <div class="col-md-1"><h4>Url</h4></div>
             <div class="col-md-1"><h4>Insales ID</h4></div>
             <div class="col-md-4"><h4>API ключ DDelivery</h4></div>
+            <div class="col-md-1"><h4>Заказы</h4></div>
         </div>
             <?php
             if( count($insalesusers) > 0 ){
@@ -69,9 +70,10 @@ if( !empty($message['success'])){
                     <div class="row" style="text-align: center">
                             <div class="col-md-1"><?php echo $item->id;?></div>
                             <div class="col-md-3"><a href="/admin/main/user/?id=<?php echo $item->id; ?>" class=""><?php echo $item->shop . ', ' . $item->add_url;?></a></div>
-                            <div class="col-md-3"><a href="http://<?php echo $item->shop;?>"><?php echo $item->shop;?></a></div>
+                            <div class="col-md-1"><a href="http://<?php echo $item->shop;?>"><?='Перейти'?></a></div>
                             <div class="col-md-1"><?php echo $item->insales_id;?></div>
                             <div class="col-md-4"><?php echo $settings->api;?></div>
+                            <div class="col-md-1"><a href="/admin/main/userorders/?id=<?php echo $item->id; ?>" class="">Заказы</a></div>
                     </div>
             <?php
                 }

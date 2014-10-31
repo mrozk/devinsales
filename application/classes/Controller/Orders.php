@@ -7,7 +7,8 @@ include_once( APPPATH . 'classes/Sdk/mrozk/IntegratorShop.php');
 include_once( APPPATH . 'classes/Sdk/mrozk/IntegratorShop2.php');
 
 
-class Controller_Orders extends Controller{
+class Controller_Orders extends Controller
+{
     public function action_index(){
         echo Kohana::VERSION ;
     }
@@ -74,6 +75,7 @@ class Controller_Orders extends Controller{
                                     $order->toStreet = (($toStreet != '')?$toStreet:$order->toStreet);
                                 }
 
+                                $order->amount = $data->items_price;
 
                                 if( $order->localId ){
                                     if( $IntegratorShop->isStatusToSendOrder( $data->fulfillment_status ) && $order->ddeliveryID == 0 ){
@@ -100,8 +102,11 @@ class Controller_Orders extends Controller{
         if (!isset($HTTP_RAW_POST_DATA))
             $HTTP_RAW_POST_DATA = file_get_contents("php://input");
         /*
+        if( isset($_SERVER['HTTP_REFERER']) ){
+            $url = $_SERVER['HTTP_REFERER'];
+        }
         $query = DB::insert('ordddd', array( 'creater', 'orderer' ))
-            ->values(array($HTTP_RAW_POST_DATA, "asdsd"))->execute();
+                    ->values(array($HTTP_RAW_POST_DATA, ''))->execute();
         */
 
         $data = json_decode( $HTTP_RAW_POST_DATA );
@@ -133,6 +138,9 @@ class Controller_Orders extends Controller{
                                     $order->firstName = $data->shipping_address->name;
                                     $order->toEmail = $data->client->email;
                                     $order->toPhone = $IntegratorShop->formatPhone( $data->shipping_address->phone );
+
+                            $order->amount = $data->items_price;
+                            $order->addField2 = $data->id;
 
                             if( $order->type == \DDelivery\Sdk\DDeliverySDK::TYPE_COURIER ){
                                    $toFlat = $this->findInArray( $data->shipping_address->fields_values,  $settings->address['flat'] );
@@ -176,7 +184,7 @@ class Controller_Orders extends Controller{
     }
 
     public function action_get(){
-        $query = DB::query(Database::SELECT, 'SELECT * FROM ordddd WHERE id =4480');
+        $query = DB::query(Database::SELECT, 'SELECT * FROM ordddd WHERE id =4489 ');
 
         //$query->param(':user', 'john');
         $query->as_object();
@@ -184,6 +192,10 @@ class Controller_Orders extends Controller{
         header('Content-Type: text/html; charset=utf-8');
         $data = json_decode( $return[0]->creater );
 
+        echo '<pre>';
+        echo $data->items_price;
+        print_r($data);
+        echo '</pre>';
 
         if( count( $data->fields_values ) ){
             foreach( $data->fields_values as $item ){

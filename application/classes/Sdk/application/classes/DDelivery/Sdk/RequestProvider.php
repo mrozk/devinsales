@@ -121,6 +121,7 @@ class RequestProvider
 	    if(!$this->keepActive)
 	    {
 	    	curl_close($this->curl[$server]);
+
 	    	unset($this->curl[$server]);
 	    }
 	    
@@ -187,6 +188,7 @@ class RequestProvider
 			curl_setopt($this->curl[$server], CURLOPT_POST, true);
 			curl_setopt($this->curl[$server], CURLOPT_POSTFIELDS, $urlSuffix);
 		}
+       // echo $url;
 	}
     
 }

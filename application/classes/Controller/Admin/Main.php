@@ -1,5 +1,10 @@
 <?php defined('SYSPATH') or die('No direct script access.');
 
+
+use DDelivery\DDeliveryUI;
+include_once( APPPATH . 'classes/Sdk/application/bootstrap.php');
+include_once( APPPATH . 'classes/Sdk/mrozk/IntegratorShop.php');
+
 class Controller_Admin_Main extends Controller_Admin_Layout{
     public function _extractPost(){
         $zabor = $this->request->post('zabor');
@@ -79,7 +84,9 @@ class Controller_Admin_Main extends Controller_Admin_Layout{
 
             'params_width' => $this->request->post('params_width'),
             'params_length' => $this->request->post('params_length'),
-            'params_height'  => $this->request->post('params_height')
+            'params_height'  => $this->request->post('params_height'),
+
+            'status_send' => $this->request->post('status_send')
         );
     }
     public function action_save(){
@@ -233,6 +240,49 @@ class Controller_Admin_Main extends Controller_Admin_Layout{
 
         $query = DB::select()->from('insalesusers')->as_object()->execute();
         $this->template->set('content', View::factory('admin/dashboard')->set('insalesusers',$query));
+    }
+
+
+    // заказ из сервера
+    public function action_orderremote(){
+        $id = (int)$this->request->post('id');
+        $order_id = (int)$this->request->post('order_id');
+        if( $id && $order_id ){
+            $insales_user = ORM::factory('InsalesUser', array('id' => $id));
+            $insales_api =  new InsalesApi($insales_user->passwd, $insales_user->shop);
+            echo '<pre>';
+            print_r( json_decode( $insales_api->api('GET','/admin/orders/' . $order_id . '.json') ) );
+            echo '</pre>';
+        }
+        exit();
+    }
+    // Инфо о заказе
+    public function action_orderbyid(){
+        $id = (int)$this->request->post('id');
+        $order_id = (int)$this->request->post('order_id');
+        if( $id && $order_id ){
+            $insales_user = ORM::factory('InsalesUser', array('id' => $id));
+            $settings = json_decode($insales_user->settings );
+            $IntegratorShop = new IntegratorShop( $this->request, $settings );
+            $ddeliveryUI = new DDeliveryUI( $IntegratorShop, true );
+            echo '<pre>';
+            print_r( $ddeliveryUI->initOrder($order_id) );
+            echo '</pre>';
+        }
+        exit();
+    }
+    // Заказы клиента
+    public function action_userorders(){
+        $id = (int)$this->request->query('id');
+        if( $id ) {
+            $query = DB::select('shop_refnum', 'ddeliveryorder_id', 'id', 'add_field2')->from('ddelivery_orders')->
+                         where('add_field1', '=', $id)->order_by('id','DESC')->as_object()->execute();
+            $insales_user = ORM::factory('InsalesUser', array('id' => $id));
+
+            $this->template->set('content', View::factory('admin/userorders')->set('orders',$query)->set('user', $insales_user));
+        }else{
+            echo 'bad ID';
+        }
     }
 
     // Главная страница

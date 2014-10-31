@@ -527,8 +527,7 @@ abstract class DShopAdapter
      * Возвращает стоимоть заказа
      * @return float
      */
-    public function getAmount()
-    {
+    public function getAmount(){
         $amount = 0.;
         foreach($this->getProductsFromCart() as $product) {
             $amount .= $product->getPrice() * $product->getQuantity();

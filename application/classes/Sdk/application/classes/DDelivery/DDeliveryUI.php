@@ -1869,6 +1869,7 @@ use DDelivery\Sdk\Messager;
             $currentOrder->pointID = $item->point_id;
             $currentOrder->companyId = $item->delivery_company;
 
+            //$currentOrder->amount =  $item->amount;
             $currentOrder->amount = $currentOrder->getAmount();
 
             $currentOrder->orderCache = unserialize( $item->cache );

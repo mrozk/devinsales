@@ -108,7 +108,9 @@ if( empty($usersettings->settings) ){
 
             'params_width' => '',
             'params_length' => '',
-            'params_height'  => ''
+            'params_height'  => '',
+
+            'status_send' => ''
 
         );
 }else{
@@ -288,6 +290,24 @@ if( !empty($message['success'])){
 
                 ?>
             </p>
+
+            <h4>Статус заказа при отправке заявки на сервер</h4>
+            <p class="bg-success">Выберите статус, в котором заявки из вашей системы будут уходить в DDelivery.</p>
+            <p>
+                <?php
+
+                $attrs = array(
+                    'class' => 'form-control'
+                );
+                $options = array(
+                    1 => 'подтвержден',
+                    0 => 'не подтвержден',
+                );
+                echo Form::select('status_send', $options, $settings['status_send'], $attrs);
+
+                ?>
+            </p>
+
 
         </div>
 
