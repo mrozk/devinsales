@@ -333,7 +333,8 @@ class Controller_Sdk extends Controller
     public function action_index(){
         //$token = $this->request->query('tosken');
         print_r($_GET);
-        echo $_GET['tosken'];
+        $k = $_GET['tosken'] ;
+        echo $k;
        // echo 'xxx';
         //echo $token;
         //echo $items;
