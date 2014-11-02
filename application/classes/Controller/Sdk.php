@@ -331,7 +331,7 @@ class Controller_Sdk extends Controller
         return $result_products;
     }
     public function action_index(){
-        $token = $this->request->query('tosken');
+        //$token = $this->request->query('tosken');
          //$items = $this->request->query('items');
         print_r($this->request);
         //echo $token;
