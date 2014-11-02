@@ -335,10 +335,11 @@ class Controller_Sdk extends Controller
         print_r($_GET);
         $k = $_GET['tosken'] ;
         echo $k;
+        $card = 'card_' .$k;
        // echo 'xxx';
         //echo $token;
         //echo $items;
-         $has_token = MemController::getMemcacheInstance()->get( 'card_' . $token );
+         $has_token = MemController::getMemcacheInstance()->get( $card );
 
          if($has_token){
              $info = json_decode( $has_token, true );
@@ -348,7 +349,7 @@ class Controller_Sdk extends Controller
              if( isset($items) && !empty( $items ) ){
 
                  $info['cart'] = $this->getItemsFromInsales($info['scheme'] . '://' . $info['host'], $items, $settingsToIntegrator);
-                 MemController::getMemcacheInstance()->set( 'card_' . $token, json_encode( $info ), 0, 1200  );
+                 MemController::getMemcacheInstance()->set( $card, json_encode( $info ), 0, 1200  );
 
              }
              try{
