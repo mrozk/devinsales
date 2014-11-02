@@ -1283,10 +1283,11 @@ class Kohana_Request implements HTTP_Request {
 		}
 		elseif ($value === NULL)
 		{
+            echo 'cxxx';
 			// Act as a getter, single query string
 			return Arr::path($this->_get, $key);
 		}
-        echo 'cxxx';
+
 		// Act as a setter, single query string
 		$this->_get[$key] = $value;
 
