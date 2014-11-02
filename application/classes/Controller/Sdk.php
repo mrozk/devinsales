@@ -334,7 +334,7 @@ class Controller_Sdk extends Controller
         $items = $this->request->query('items');
         $k = $_GET['token'] ;
         $card = 'card_' .$k;
-        echo 'nginx1';
+        echo 'nginx2';
        // echo 'xxx';
         //echo $token;
         //echo $items;
