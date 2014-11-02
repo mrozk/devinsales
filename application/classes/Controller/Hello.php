@@ -13,6 +13,7 @@ class Controller_Hello extends Controller
     {
         $id = $this->request->param('id');
         $settings = MemController::initSettingsMemcache( 'settings_' . $id );
+        echo $settings;
         $result = 'jQuery(".loader").css("display","none");';
 
         if( !empty($settings) ){
