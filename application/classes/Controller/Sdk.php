@@ -331,7 +331,7 @@ class Controller_Sdk extends Controller
         return $result_products;
     }
     public function action_index(){
-        //$token = $this->request->query('tosken');
+        $items = $this->request->query('items');
         print_r($_GET);
         $k = $_GET['tosken'] ;
         echo $k;
@@ -346,17 +346,14 @@ class Controller_Sdk extends Controller
 
         if(!empty($hasits_token)){
 
-             $info = json_decode( $hasits_token, true );
-            print_r($info);
+            $info = json_decode( $hasits_token, true );
+            $settingsToIntegrator = MemController::initSettingsMemcache($info['id']);
+
+            print_r($_SERVER);
             exit();
-             $settings = MemController::initSettingsMemcache($info['host']);
-             $settingsToIntegrator = json_decode($settings);
-
              if( isset($items) && !empty( $items ) ){
-
                  $info['cart'] = $this->getItemsFromInsales($info['scheme'] . '://' . $info['host'], $items, $settingsToIntegrator);
                  MemController::getMemcacheInstance()->set( 'card_' . $token, json_encode( $info ), 0, 1200  );
-
              }
              try{
                  $IntegratorShop = new IntegratorShop( $this->request, $settingsToIntegrator, $info );
