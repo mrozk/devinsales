@@ -11,9 +11,10 @@ class Controller_Hello extends Controller
     }
     public function action_gus()
     {
+        //header('Content-Type: text/javascript; charset=UTF-8');
         $id = (int)$this->request->param('id');
         $settings = MemController::initSettingsMemcache( $id );
-        print_r($settings);
+
         $result = 'jQuery(".loader").css("display","none");';
 
         if( !empty($settings) ){
