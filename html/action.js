@@ -200,7 +200,7 @@ if(typeof(topWindow.DDeliveryIntegration) == 'undefined')
 
             url = ddelivery_insales.url + "sdk/?token=" + DDeliveryProtocolManager.token + "&items=" + DDeliveryProtocolManager.getProductString()
                   + "&" + parametrs + "&" + order_form ;
-
+            console.log(ddelivery_insales.url);
             DDelivery.delivery('ddelivery_container', url, {}, callback);
 
         };
