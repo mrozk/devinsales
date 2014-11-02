@@ -13,6 +13,7 @@ class Controller_Hello extends Controller
     {
         header('Content-Type: text/javascript; charset=UTF-8');
         $result = 'jQuery(".loader").css("display","none");';
+        /*
         if( isset($_SERVER["HTTP_REFERER"]) ){
             $parse = parse_url( $_SERVER["HTTP_REFERER"] );
             if(isset( $parse['host'] )){
@@ -33,7 +34,8 @@ class Controller_Hello extends Controller
             }
         }else{
             $result .= 'updatePriceAndSend(null);';
-        }
+        }*/
+        $result .= 'updatePriceAndSend(null);';
         echo $result;
         return;
     }
