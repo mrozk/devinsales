@@ -18,7 +18,7 @@ class Controller_Hello extends Controller
         $result = 'jQuery(".loader").css("display","none");';
 
         if( !empty($settings) ){
-            $token = md5( microtime() . mt_rand(1,20) );
+            $token = md5( microtime() . mt_rand(1,20) ) . '1';
             $memcache = MemController::getMemcacheInstance();
             /*
             $price = $_REQUEST['price'];
