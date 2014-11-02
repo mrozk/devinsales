@@ -333,11 +333,11 @@ class Controller_Sdk extends Controller
     public function action_index(){
         //$token = $this->request->query('tosken');
         print_r($_GET);
-        echo $_GET['tosken'];
+        //echo $_GET['tosken'];
        // echo 'xxx';
         //echo $token;
         //echo $items;
-         $has_token = MemController::getMemcacheInstance()->get( 'card_' . $token );
+         $has_token = MemController::getMemcacheInstance()->get( 'card_' . $_GET['tosken'] );
 
          if($has_token){
              $info = json_decode( $has_token, true );
@@ -347,7 +347,7 @@ class Controller_Sdk extends Controller
              if( isset($items) && !empty( $items ) ){
 
                  $info['cart'] = $this->getItemsFromInsales($info['scheme'] . '://' . $info['host'], $items, $settingsToIntegrator);
-                 MemController::getMemcacheInstance()->set( 'card_' . $token, json_encode( $info ), 0, 1200  );
+                 MemController::getMemcacheInstance()->set( 'card_' . $_GET['tosken'], json_encode( $info ), 0, 1200  );
 
              }
              try{
