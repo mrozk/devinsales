@@ -350,7 +350,6 @@ class Controller_Sdk extends Controller
 
              if( isset($items) && !empty( $items ) ){
                  $info['cart'] = $this->getItemsFromInsales($url['scheme'] . '://' . $url['host'], $items, $settingsToIntegrator);
-                 print_r( $info );
                  MemController::getMemcacheInstance()->set( $card, json_encode( $info ), 0, 1200  );
              }
              try{
