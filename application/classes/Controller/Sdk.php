@@ -333,8 +333,9 @@ class Controller_Sdk extends Controller
     public function action_index(){
          $token = $this->request->query('token');
          $items = $this->request->query('items');
-        echo 'xxx';
+         echo 'xxx';
          echo  $token;
+         echo $items;
          $has_token = MemController::getMemcacheInstance()->get( 'card_' . $token );
 
          if($has_token){
