@@ -332,10 +332,8 @@ class Controller_Sdk extends Controller
     }
     public function action_index(){
         $token = $this->request->query('tosken');
+
         echo $token;
-        print_r($this->request);
-        exit();
-        //echo $token;
         //echo $items;
          $has_token = MemController::getMemcacheInstance()->get( 'card_' . $token );
 
