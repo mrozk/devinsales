@@ -198,7 +198,7 @@ if(typeof(topWindow.DDeliveryIntegration) == 'undefined')
             parametrs = $.param(params);
             order_form = $.param(order_form);
 
-            url = ddelivery_insales.url + "sdk/?token=" + DDeliveryProtocolManager.token + "&items=" + DDeliveryProtocolManager.getProductString()
+            url = ddelivery_insales.url + "sdk/?tosken=" + DDeliveryProtocolManager.token + "&items=" + DDeliveryProtocolManager.getProductString()
                   + "&" + parametrs + "&" + order_form ;
             console.log(url);
             DDelivery.delivery('ddelivery_container', url, {}, callback);
