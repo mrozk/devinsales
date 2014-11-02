@@ -12,31 +12,40 @@ class Controller_Hello extends Controller
     public function action_gus()
     {
         $id = $this->request->param('id');
-        echo $id;
-        //header('Content-Type: text/javascript; charset=UTF-8');
+        $settings = MemController::initSettingsMemcache( 'settings_' . $id );
         $result = 'jQuery(".loader").css("display","none");';
 
-        if( isset($_SERVER["HTTP_REFERER"]) ){
-            $parse = parse_url( $_SERVER["HTTP_REFERER"] );
-            if(isset( $parse['host'] )){
-                $settings = MemController::initSettingsMemcache( $parse['host'] );
-                if( !empty($settings) ){
-                    $token = md5( microtime() . mt_rand(1,20) );
-                    $memcache = MemController::getMemcacheInstance();
-                    $price = $_REQUEST['price'];
-                    $info = array( "host" => $parse['host'], 'scheme' => $parse['scheme'],
-                                   "price" => $price );
-                    $memcache->set( 'card_' . $token, json_encode( $info ), 0, 1200 );
-                    $result .= 'updatePriceAndSend("' . $token . '");';
-                }else{
-                    $result .= 'updatePriceAndSend(null);';
-                }
-                $result .= 'enableDDButton();';
-
-            }
+        if( !empty($settings) ){
+            $token = md5( microtime() . mt_rand(1,20) );
+            $memcache = MemController::getMemcacheInstance();
+            /*
+            $price = $_REQUEST['price'];
+            $info = array( "host" => $parse['host'], 'scheme' => $parse['scheme'],
+                "price" => $price );
+            */
+            $info = array();
+            $memcache->set( 'card_' . $token, json_encode( $info ), 0, 1200 );
+            $result .= 'updatePriceAndSend("' . $token . '");';
         }else{
             $result .= 'updatePriceAndSend(null);';
         }
+        $result .= 'enableDDButton();';
+
+
+        //echo $id;
+        //header('Content-Type: text/javascript; charset=UTF-8');
+        //$result = 'jQuery(".loader").css("display","none");';
+
+        //if( isset($_SERVER["HTTP_REFERER"]) ){
+            //$parse = parse_url( $_SERVER["HTTP_REFERER"] );
+            //if(isset( $parse['host'] )){
+
+
+
+            //}
+        //}else{
+           // $result .= 'updatePriceAndSend(null);';
+        //}
         //$result .= 'updatePriceAndSend(null);';
         echo $result;
         return;
