@@ -255,12 +255,12 @@ $(function(){
         });
         var buttonCode1 = '' +
             '<input type=\"hidden\" class=\"dd_last_check\" value=\"\">' +
-            '<button id="dd_start1" disabled="disabled" onclick=\"return false\" class=\"startDD button\" style=\"display:block;clear:both;\" ' +
+            '<button id="dd_start1"  onclick=\"return false\" class=\"startDD button\" style=\"display:block;clear:both;\" ' +
             ' href=\"javascript:void(0);\" >Выбрать</button>';
 
         var buttonCode2 =    '' +
             '<input type=\"hidden\" class=\"dd_last_check\" value=\"\">' +
-            '<button id="dd_start2" disabled="disabled" onclick=\"return false\" class=\"startDD button\" style=\"display:block;clear:both;\" ' +
+            '<button id="dd_start2" onclick=\"return false\" class=\"startDD button\" style=\"display:block;clear:both;\" ' +
             ' href=\"javascript:void(0);\" >Выбрать</button>';
 
 
