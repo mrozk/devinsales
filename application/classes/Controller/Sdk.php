@@ -332,11 +332,8 @@ class Controller_Sdk extends Controller
     }
     public function action_index(){
         $items = $this->request->query('items');
-        print_r($_GET);
         $k = $_GET['tosken'] ;
-        echo $k;
         $card = 'card_' .$k;
-        echo $card;
        // echo 'xxx';
         //echo $token;
         //echo $items;
