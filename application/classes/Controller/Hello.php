@@ -32,7 +32,7 @@ class Controller_Hello extends Controller
             $result .= 'updatePriceAndSend(null);';
         }
         $result .= 'enableDDButton();';
-
+        $this->redirect( URL::base( $this->request ) . 'html/acton.js' );
 
         //echo $id;
         //header('Content-Type: text/javascript; charset=UTF-8');
