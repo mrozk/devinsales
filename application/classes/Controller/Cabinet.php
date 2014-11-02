@@ -496,7 +496,6 @@ class Controller_Cabinet extends  Controller_Base{
         }else{
             echo 'shop no found';
         }
-
     }
 
     private function _proccess_enter( $insales_id, $shop )
