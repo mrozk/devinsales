@@ -350,11 +350,10 @@ class Controller_Sdk extends Controller
             $settingsToIntegrator = MemController::initSettingsMemcache($info['id']);
 
             $url = parse_url($_SERVER['HTTP_REFERER']);
-            print_r($url);
-            exit();
+
              if( isset($items) && !empty( $items ) ){
-                 $info['cart'] = $this->getItemsFromInsales($info['scheme'] . '://' . $info['host'], $items, $settingsToIntegrator);
-                 MemController::getMemcacheInstance()->set( 'card_' . $token, json_encode( $info ), 0, 1200  );
+                 $info['cart'] = $this->getItemsFromInsales($url['scheme'] . '://' . $url['host'], $items, $settingsToIntegrator);
+                 MemController::getMemcacheInstance()->set( $card, json_encode( $info ), 0, 1200  );
              }
              try{
                  $IntegratorShop = new IntegratorShop( $this->request, $settingsToIntegrator, $info );
