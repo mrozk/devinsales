@@ -340,7 +340,7 @@ class Controller_Sdk extends Controller
          //$has_token = MemController::getMemcacheInstance()->get( 'card_' . $token );
         $instance = MemController::getMemcacheInstance();
         $hasits_token = $instance->get($card);
-
+        print_r($hasits_token);
         if(!empty($hasits_token)){
 
             $info = json_decode( $hasits_token, true );
