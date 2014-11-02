@@ -11,6 +11,8 @@ class Controller_Hello extends Controller
     }
     public function action_gus()
     {
+        $id = $this->request->param('id');
+        echo $id;
         //header('Content-Type: text/javascript; charset=UTF-8');
         $result = 'jQuery(".loader").css("display","none");';
 
@@ -35,7 +37,7 @@ class Controller_Hello extends Controller
         }else{
             $result .= 'updatePriceAndSend(null);';
         }
-        $result .= 'updatePriceAndSend(null);';
+        //$result .= 'updatePriceAndSend(null);';
         echo $result;
         return;
     }
