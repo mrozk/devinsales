@@ -331,11 +331,11 @@ class Controller_Sdk extends Controller
         return $result_products;
     }
     public function action_index(){
-         $token = $this->request->query('tosken');
-         $items = $this->request->query('items');
+         //$token = $this->request->query('tosken');
+         //$items = $this->request->query('items');
         print_r($this->request);
-        echo $token;
-        echo $items;
+        //echo $token;
+        //echo $items;
          $has_token = MemController::getMemcacheInstance()->get( 'card_' . $token );
 
          if($has_token){
