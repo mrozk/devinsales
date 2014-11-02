@@ -343,9 +343,10 @@ class Controller_Sdk extends Controller
          //$has_token = MemController::getMemcacheInstance()->get( 'card_' . $token );
         $instance = MemController::getMemcacheInstance();
         $hasits_token = $instance->get($card);
-        echo $hasits_token;
-        if(!empty($has_token)){
 
+        if(!empty($hasits_token)){
+            echo $hasits_token;
+             exit();
              $info = json_decode( $instance->get($card), true );
              $settings = MemController::initSettingsMemcache($info['host']);
              $settingsToIntegrator = json_decode($settings);
