@@ -349,7 +349,8 @@ class Controller_Sdk extends Controller
             $info = json_decode( $hasits_token, true );
             $settingsToIntegrator = MemController::initSettingsMemcache($info['id']);
 
-            print_r($_SERVER['HTTP_REFERER']);
+            $url = parse_url($_SERVER['HTTP_REFERER']);
+            print_r($url);
             exit();
              if( isset($items) && !empty( $items ) ){
                  $info['cart'] = $this->getItemsFromInsales($info['scheme'] . '://' . $info['host'], $items, $settingsToIntegrator);
