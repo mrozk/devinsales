@@ -345,9 +345,10 @@ class Controller_Sdk extends Controller
         $hasits_token = $instance->get($card);
 
         if(!empty($hasits_token)){
-            echo $hasits_token;
-             exit();
-             $info = json_decode( $instance->get($card), true );
+
+             $info = json_decode( $hasits_token, true );
+            print_r($info);
+            exit();
              $settings = MemController::initSettingsMemcache($info['host']);
              $settingsToIntegrator = json_decode($settings);
 
