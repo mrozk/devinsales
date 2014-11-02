@@ -18,17 +18,20 @@ class MemController{
         return self::$memcacheInstance;
     }
 
-    public static function initSettingsMemcache( $url ){
+    public static function initSettingsMemcache( $id ){
         $memcache = self::getMemcacheInstance();
         
-        if( !empty( $url ) ){
-            $query = DB::select( 'id', 'settings')->from('insalesusers')->
-                     where( 'shop', '=', $url )->or_where('add_url', '=', $url)->as_object()->execute();
-            // print_r($query);
-            if( isset( $query[0]->id )){
-                $settings = json_decode( $query[0]->settings );
-                $settings->insalesuser_id = $query[0]->id;
-                return json_encode($settings);
+        if( !empty( $id ) ){
+            $settings = $memcache->get('settings_' . $id );
+            if( empty($settings) ){
+                $query = DB::select( 'id', 'settings')->from('insalesusers')->where( 'id', '=', $id )->as_object()->execute();
+                if( isset( $query[0]->id )){
+                    $settings = json_decode( $query[0]->settings );
+                    $settings->insalesuser_id = $query[0]->id;
+                    return $settings;
+                }
+            }else{
+                return json_decode($settings);
             }
             /*
             $settings = $memcache->get($url);

@@ -11,9 +11,9 @@ class Controller_Hello extends Controller
     }
     public function action_gus()
     {
-        $id = $this->request->param('id');
-        $settings = MemController::initSettingsMemcache( 'settings_' . $id );
-        echo $settings;
+        $id = (int)$this->request->param('id');
+        $settings = MemController::initSettingsMemcache( $id );
+        print_r($settings);
         $result = 'jQuery(".loader").css("display","none");';
 
         if( !empty($settings) ){
@@ -24,7 +24,7 @@ class Controller_Hello extends Controller
             $info = array( "host" => $parse['host'], 'scheme' => $parse['scheme'],
                 "price" => $price );
             */
-            $info = array();
+            $info = array( 'id' => $id );
             $memcache->set( 'card_' . $token, json_encode( $info ), 0, 1200 );
             $result .= 'updatePriceAndSend("' . $token . '");';
         }else{
