@@ -1267,7 +1267,7 @@ class Kohana_Request implements HTTP_Request {
 	 */
 	public function query($key = NULL, $value = NULL)
 	{
-        echo 'cxxx';
+
 		if (is_array($key))
 		{
 			// Act as a setter, replace all query strings
@@ -1286,7 +1286,7 @@ class Kohana_Request implements HTTP_Request {
 			// Act as a getter, single query string
 			return Arr::path($this->_get, $key);
 		}
-
+        echo 'cxxx';
 		// Act as a setter, single query string
 		$this->_get[$key] = $value;
 
