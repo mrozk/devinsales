@@ -11,7 +11,7 @@ class Controller_Hello extends Controller
     }
     public function action_gus()
     {
-        header('Content-Type: text/javascript; charset=UTF-8');
+        //header('Content-Type: text/javascript; charset=UTF-8');
         $result = 'jQuery(".loader").css("display","none");';
 
         if( isset($_SERVER["HTTP_REFERER"]) ){
