@@ -6,94 +6,12 @@ include_once( APPPATH . 'classes/Sdk/application/bootstrap.php');
 include_once( APPPATH . 'classes/Sdk/mrozk/IntegratorShop.php');
 
 class Controller_Admin_Main extends Controller_Admin_Layout{
-    public function _extractPost(){
-        $zabor = $this->request->post('zabor');
-        if( empty( $zabor ) )
-        {
-            $this->request->post('zabor', '');
-        }
 
-        $pvz_companies = $this->request->post('pvz_companies');
-        $cur_companies = $this->request->post('cur_companies');
-        if( is_array( $pvz_companies ) )
-        {
-            $pvz_companies = implode( ',', $this->request->post('pvz_companies') );
-        }
-        else
-        {
-            $pvz_companies = '';
-        }
-
-        if( is_array( $cur_companies ) )
-        {
-            $cur_companies = implode( ',', $this->request->post('cur_companies') );
-        }
-        else
-        {
-            $cur_companies = '';
-        }
-        $this->request->post('pvz_companies', $pvz_companies);
-        $this->request->post('cur_companies', $cur_companies);
-        $address = $this->request->post('address');
-        $this->request->post('address', json_encode($address));
-
-        return array( 'api' => $this->request->post('api'),
-            'rezhim' => $this->request->post('rezhim'),
-            'declared' => $this->request->post('declared'),
-            'width' => $this->request->post('width'),
-            'height' => $this->request->post('height'),
-            'length' => $this->request->post('length'),
-            'weight' => $this->request->post('weight'),
-            'status' => $this->request->post('status'),
-            'secondname' => $this->request->post('secondname'),
-            'firstname' => $this->request->post('firstname'),
-            'plan_width' => $this->request->post('plan_width'),
-            'plan_lenght' => $this->request->post('plan_lenght'),
-            'plan_height' => $this->request->post('plan_height'),
-            'plan_weight' => $this->request->post('plan_weight'),
-            'type' => $this->request->post('type'),
-            'pvz_companies' => $this->request->post('pvz_companies'),
-            'cur_companies' => $this->request->post('cur_companies'),
-            'from1' => $this->request->post('from1'),
-            'to1' => $this->request->post('to1'),
-            'val1' => $this->request->post('val1'),
-            'sum1' => $this->request->post('sum1'),
-            'from2' => $this->request->post('from2'),
-            'to2' => $this->request->post('to2'),
-            'val2' => $this->request->post('val2'),
-            'sum2' => $this->request->post('sum2'),
-            'from3' => $this->request->post('from3'),
-            'to3' => $this->request->post('to3'),
-            'val3' => $this->request->post('val3'),
-            'sum3' => $this->request->post('sum3'),
-            'okrugl' => $this->request->post('okrugl'),
-            'shag' => $this->request->post('shag'),
-            'zabor' => $this->request->post('zabor'),
-            'payment' => $this->request->post('payment'),
-            'address' => $this->request->post('address'),
-            'theme' => $this->request->post('theme'),
-            'form' => $this->request->post('form'),
-            'common_caption' => $this->request->post('common_caption'),
-            'self_caption' => $this->request->post('self_caption'),
-            'courier_caption' => $this->request->post('courier_caption'),
-
-            'common_description' => $this->request->post('common_description'),
-            'self_description' => $this->request->post('self_description'),
-            'courier_description' => $this->request->post('courier_description'),
-            'source_params' => $this->request->post('source_params'),
-
-            'params_width' => $this->request->post('params_width'),
-            'params_length' => $this->request->post('params_length'),
-            'params_height'  => $this->request->post('params_height'),
-
-            'status_send' => $this->request->post('status_send')
-        );
-    }
     public function action_save(){
         $id = (int)$this->request->query('id');
         $insales_user = ORM::factory('InsalesUser', array('id' => $id));
         if($insales_user->loaded()){
-            $settings = $this->_extractPost();
+            $settings = Controller_Cabinet::_extractPost($this->request);
             $settings['insalesuser_id'] = $insales_user->id;
 
             $settings = json_encode( $settings );
@@ -120,6 +38,9 @@ class Controller_Admin_Main extends Controller_Admin_Layout{
 
 
     public function action_addway(){
+        $id = (int)$this->request->query('id');
+        Controller_Cabinet::addWayProcess($id);
+        /*
         $id = (int)$this->request->query('id');
         $insales_user = ORM::factory('InsalesUser', array('id' => $id));
         $settings = json_decode($insales_user->settings);
@@ -232,6 +153,7 @@ class Controller_Admin_Main extends Controller_Admin_Layout{
             Notice::add( Notice::SUCCESS,'Способ доставки успешно добавлен' );
             $this->redirect( URL::base( $this->request )  . 'admin/main/user/?id=' . $id );
         }
+        */
     }
 
 

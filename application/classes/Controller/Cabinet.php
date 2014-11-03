@@ -5,18 +5,18 @@ include_once( APPPATH . 'classes/Sdk/mrozk/IntegratorShop.php');
 
 class Controller_Cabinet extends  Controller_Base{
 
-    public function _extractPost(){
-        $zabor = $this->request->post('zabor');
+    public static  function _extractPost($request){
+        $zabor = $request->post('zabor');
         if( empty( $zabor ) )
         {
-            $this->request->post('zabor', '');
+            $request->post('zabor', '');
         }
 
-        $pvz_companies = $this->request->post('pvz_companies');
-        $cur_companies = $this->request->post('cur_companies');
+        $pvz_companies = $request->post('pvz_companies');
+        $cur_companies = $request->post('cur_companies');
         if( is_array( $pvz_companies ) )
         {
-            $pvz_companies = implode( ',', $this->request->post('pvz_companies') );
+            $pvz_companies = implode( ',', $request->post('pvz_companies') );
         }
         else
         {
@@ -25,66 +25,68 @@ class Controller_Cabinet extends  Controller_Base{
 
         if( is_array( $cur_companies ) )
         {
-            $cur_companies = implode( ',', $this->request->post('cur_companies') );
+            $cur_companies = implode( ',', $request->post('cur_companies') );
         }
         else
         {
             $cur_companies = '';
         }
-        $this->request->post('pvz_companies', $pvz_companies);
-        $this->request->post('cur_companies', $cur_companies);
-        $address = $this->request->post('address');
-        $this->request->post('address', json_encode($address));
+        $request->post('pvz_companies', $pvz_companies);
+        $request->post('cur_companies', $cur_companies);
+        $address = $request->post('address');
+        $request->post('address', json_encode($address));
 
-        return array( 'api' => $this->request->post('api'),
-                   'rezhim' => $this->request->post('rezhim'),
-                   'declared' => $this->request->post('declared'),
-                   'width' => $this->request->post('width'),
-                   'height' => $this->request->post('height'),
-                   'length' => $this->request->post('length'),
-                   'weight' => $this->request->post('weight'),
-                   'status' => $this->request->post('status'),
-                   'secondname' => $this->request->post('secondname'),
-                   'firstname' => $this->request->post('firstname'),
-                   'plan_width' => $this->request->post('plan_width'),
-                   'plan_lenght' => $this->request->post('plan_lenght'),
-                   'plan_height' => $this->request->post('plan_height'),
-                   'plan_weight' => $this->request->post('plan_weight'),
-                   'type' => $this->request->post('type'),
-                   'pvz_companies' => $this->request->post('pvz_companies'),
-                   'cur_companies' => $this->request->post('cur_companies'),
-                   'from1' => $this->request->post('from1'),
-                    'to1' => $this->request->post('to1'),
-                    'val1' => $this->request->post('val1'),
-                    'sum1' => $this->request->post('sum1'),
-                    'from2' => $this->request->post('from2'),
-                    'to2' => $this->request->post('to2'),
-                    'val2' => $this->request->post('val2'),
-                    'sum2' => $this->request->post('sum2'),
-                    'from3' => $this->request->post('from3'),
-                    'to3' => $this->request->post('to3'),
-                    'val3' => $this->request->post('val3'),
-                    'sum3' => $this->request->post('sum3'),
-                    'okrugl' => $this->request->post('okrugl'),
-                    'shag' => $this->request->post('shag'),
-                    'zabor' => $this->request->post('zabor'),
-                    'payment' => $this->request->post('payment'),
-                    'address' => $this->request->post('address'),
-                    'theme' => $this->request->post('theme'),
-                    'form' => $this->request->post('form'),
-                    'common_caption' => $this->request->post('common_caption'),
-                    'self_caption' => $this->request->post('self_caption'),
-                    'courier_caption' => $this->request->post('courier_caption'),
-                    'common_description' => $this->request->post('common_description'),
-                    'self_description' => $this->request->post('self_description'),
-                    'courier_description' => $this->request->post('courier_description'),
-                    'source_params' => $this->request->post('source_params'),
+        return array( 'api' => $request->post('api'),
+                   'rezhim' => $request->post('rezhim'),
+                   'declared' => $request->post('declared'),
+                   'width' => $request->post('width'),
+                   'height' => $request->post('height'),
+                   'length' => $request->post('length'),
+                   'weight' => $request->post('weight'),
+                   'status' => $request->post('status'),
+                   'secondname' => $request->post('secondname'),
+                   'firstname' => $request->post('firstname'),
+                   'plan_width' => $request->post('plan_width'),
+                   'plan_lenght' => $request->post('plan_lenght'),
+                   'plan_height' => $request->post('plan_height'),
+                   'plan_weight' => $request->post('plan_weight'),
+                   'type' => $request->post('type'),
+                   'pvz_companies' => $request->post('pvz_companies'),
+                   'cur_companies' => $request->post('cur_companies'),
+                   'from1' => $request->post('from1'),
+                    'to1' => $request->post('to1'),
+                    'val1' => $request->post('val1'),
+                    'sum1' => $request->post('sum1'),
+                    'from2' => $request->post('from2'),
+                    'to2' => $request->post('to2'),
+                    'val2' => $request->post('val2'),
+                    'sum2' => $request->post('sum2'),
+                    'from3' => $request->post('from3'),
+                    'to3' => $request->post('to3'),
+                    'val3' => $request->post('val3'),
+                    'sum3' => $request->post('sum3'),
+                    'okrugl' => $request->post('okrugl'),
+                    'shag' => $request->post('shag'),
+                    'zabor' => $request->post('zabor'),
+                    'payment' => $request->post('payment'),
+                    'address' => $request->post('address'),
+                    'theme' => $request->post('theme'),
+                    'form' => $request->post('form'),
+                    'common_caption' => $request->post('common_caption'),
+                    'self_caption' => $request->post('self_caption'),
+                    'courier_caption' => $request->post('courier_caption'),
+                    'common_description' => $request->post('common_description'),
+                    'self_description' => $request->post('self_description'),
+                    'courier_description' => $request->post('courier_description'),
+                    'source_params' => $request->post('source_params'),
 
-                    'params_width' => $this->request->post('params_width'),
-                    'params_length' => $this->request->post('params_length'),
-                    'params_height'  => $this->request->post('params_height'),
+                    'params_width' => $request->post('params_width'),
+                    'params_length' => $request->post('params_length'),
+                    'params_height'  => $request->post('params_height'),
 
-                    'status_send' => $this->request->post('status_send')
+                    'status_send' => $request->post('status_send'),
+                    'debug' => (int)$request->post('debug')
+
         );
 
 
@@ -98,7 +100,8 @@ class Controller_Cabinet extends  Controller_Base{
 
             if($insales_user->loaded())
             {
-                $settings = $this->_extractPost();
+                $settings = self::_extractPost($this->request);
+
                 $settings['insalesuser_id'] = $insales_user->id;
                 $settings = json_encode( $settings );
                 $add_url = $this->request->post('add_url');
@@ -151,6 +154,15 @@ class Controller_Cabinet extends  Controller_Base{
                         </field>';
     }
 
+    public static function addWayProcess( $userID ){
+        $userID = (int)$userID;
+        if( $userID > 0 ){
+            $settings = MemController::initSettingsMemcache($userID);
+            if( $settings ){
+                echo 'good';
+            }
+        }
+    }
 
     public function action_addway(){
         $session = Session::instance();
