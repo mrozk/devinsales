@@ -295,10 +295,14 @@ class Controller_Admin_Main extends Controller_Admin_Layout{
             $fields = Controller_Cabinet::getFields($insales_api);
             $characteristics = Controller_Cabinet::getOptionFields($insales_api);
             $addr_fields = Controller_Cabinet::getAddressFields($insales_api);
+
+
+
             $this->template->set('content', View::factory('panel')->set('id', $id)->set('usersettings', $usersettings)
                 ->set('addr_fields', $addr_fields)->set('message', $this->template->system_msg)
                 ->set('payment', $payment)->set('characteristics', $characteristics)->set('fields', $fields)
-                ->set('base_url', URL::base($this->request))->set('add_url', $usersettings->add_url));
+                ->set('base_url', URL::base($this->request))->set('add_url', $usersettings->add_url)
+                ->set('is_admin', 1));
         }
     }
 

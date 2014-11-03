@@ -110,7 +110,8 @@ if( empty($usersettings->settings) ){
             'params_length' => '',
             'params_height'  => '',
 
-            'status_send' => ''
+            'status_send' => '',
+            'debug' => ''
 
         );
 }else{
@@ -373,6 +374,28 @@ if( !empty($message['success'])){
             </p>
 
 
+
+            <?php
+            if( isset($is_admin) ) {
+                ?>
+                <h4>Дебаг режим</h4>
+                <p class="bg-success">Переводит работу модуля в режим дебаг</p>
+                <p>
+                    <?php
+                    $attrs = array(
+                        'class' => 'form-control'
+                    );
+                    $options = array(
+                        '0' => 'Нет',
+                        '1' => 'Да'
+                    );
+                    echo Form::select('debug', $options, $settings['debug'], $attrs);
+                    ?>
+                </p>
+
+            <?php
+            }
+            ?>
 
 
 
