@@ -335,7 +335,7 @@ class Controller_Sdk extends Controller
         $k = $this->request->query('token'); //$_GET['token'] ;
         $card = 'card_' .$k;
 
-        echo 'xxx';
+        //echo 'xxx';
         //echo $token;
         //echo $items;
          //$has_token = MemController::getMemcacheInstance()->get( 'card_' . $token );
@@ -343,7 +343,7 @@ class Controller_Sdk extends Controller
         $hasits_token = $instance->get($card);
 
         if(!empty($hasits_token)){
-            echo $_SERVER['HTTP_REFERER'];
+            //echo $_SERVER['HTTP_REFERER'];
             $info = json_decode( $hasits_token, true );
             $settingsToIntegrator = MemController::initSettingsMemcache($info['id']);
 
