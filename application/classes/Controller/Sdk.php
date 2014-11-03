@@ -354,7 +354,7 @@ class Controller_Sdk extends Controller
                  MemController::getMemcacheInstance()->set( $card, json_encode( $info ), 0, 1200  );
              }
              try{
-                 echo 'nginx2';
+
                  $IntegratorShop = new IntegratorShop( $this->request, $settingsToIntegrator, $info );
                  //echo $IntegratorShop->getApiKey();
                  $ddeliveryUI = new DDeliveryUI( $IntegratorShop );
