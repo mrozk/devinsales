@@ -334,7 +334,7 @@ class Controller_Sdk extends Controller
         $items = $this->request->query('items');
         $k = $this->request->query('token'); //$_GET['token'] ;
         $card = 'card_' .$k;
-        echo 'nginx2';
+
        // echo 'xxx';
         //echo $token;
         //echo $items;
@@ -354,6 +354,7 @@ class Controller_Sdk extends Controller
                  MemController::getMemcacheInstance()->set( $card, json_encode( $info ), 0, 1200  );
              }
              try{
+                 echo 'nginx2';
                  $IntegratorShop = new IntegratorShop( $this->request, $settingsToIntegrator, $info );
                  //echo $IntegratorShop->getApiKey();
                  $ddeliveryUI = new DDeliveryUI( $IntegratorShop );
