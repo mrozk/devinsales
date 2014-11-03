@@ -332,9 +332,9 @@ class Controller_Sdk extends Controller
     }
     public function action_index(){
         $items = $this->request->query('items');
-        $k = $_GET['token'] ;
+        $k = $this->request->query('token'); //$_GET['token'] ;
         $card = 'card_' .$k;
-        echo 'nginx1';
+        //echo 'nginx1';
        // echo 'xxx';
         //echo $token;
         //echo $items;
