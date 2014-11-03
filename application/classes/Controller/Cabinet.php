@@ -378,7 +378,7 @@ class Controller_Cabinet extends  Controller_Base{
     public function action_index(){
         $insales_id = (int)$this->request->query('insales_id');
         $shop = $this->request->query('shop');
-
+        echo 'nginx 2';
         //exit;
         if( !$insales_id ){
             $session = Session::instance();
