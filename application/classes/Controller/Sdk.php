@@ -335,7 +335,7 @@ class Controller_Sdk extends Controller
         $k = $this->request->query('token'); //$_GET['token'] ;
         $card = 'card_' .$k;
 
-       // echo 'xxx';
+        echo 'xxx';
         //echo $token;
         //echo $items;
          //$has_token = MemController::getMemcacheInstance()->get( 'card_' . $token );
