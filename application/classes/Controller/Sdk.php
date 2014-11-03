@@ -343,7 +343,7 @@ class Controller_Sdk extends Controller
         $hasits_token = $instance->get($card);
 
         if(!empty($hasits_token)){
-
+            echo $_SERVER['HTTP_REFERER'];
             $info = json_decode( $hasits_token, true );
             $settingsToIntegrator = MemController::initSettingsMemcache($info['id']);
 
