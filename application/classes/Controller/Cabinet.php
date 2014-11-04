@@ -159,7 +159,11 @@ class Controller_Cabinet extends  Controller_Base{
         if( $userID > 0 ){
             $settings = MemController::initSettingsMemcache($userID);
             if( $settings ){
-                echo 'good';
+                /////////sadasdasdsasadasdsdasdasd
+                MemController::getMemcacheInstance()->flush();
+                /////asdasdasdasdsdasds
+                $insales_api =  new InsalesApi( $settings->insalesPasswd, $settings->insalesShop );
+                print_r($insales_api);
             }
         }
     }
