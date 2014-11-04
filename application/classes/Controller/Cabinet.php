@@ -5,30 +5,25 @@ include_once( APPPATH . 'classes/Sdk/mrozk/IntegratorShop.php');
 
 class Controller_Cabinet extends  Controller_Base{
 
+    const TestServerSuf = '1';
+
     public static  function _extractPost($request){
         $zabor = $request->post('zabor');
-        if( empty( $zabor ) )
-        {
+        if( empty( $zabor ) ){
             $request->post('zabor', '');
         }
 
         $pvz_companies = $request->post('pvz_companies');
         $cur_companies = $request->post('cur_companies');
-        if( is_array( $pvz_companies ) )
-        {
+        if( is_array( $pvz_companies ) ){
             $pvz_companies = implode( ',', $request->post('pvz_companies') );
-        }
-        else
-        {
+        }else{
             $pvz_companies = '';
         }
 
-        if( is_array( $cur_companies ) )
-        {
+        if( is_array( $cur_companies ) ){
             $cur_companies = implode( ',', $request->post('cur_companies') );
-        }
-        else
-        {
+        }else{
             $cur_companies = '';
         }
         $request->post('pvz_companies', $pvz_companies);
@@ -79,11 +74,9 @@ class Controller_Cabinet extends  Controller_Base{
                     'self_description' => $request->post('self_description'),
                     'courier_description' => $request->post('courier_description'),
                     'source_params' => $request->post('source_params'),
-
                     'params_width' => $request->post('params_width'),
                     'params_length' => $request->post('params_length'),
                     'params_height'  => $request->post('params_height'),
-
                     'status_send' => $request->post('status_send'),
                     'debug' => (int)$request->post('debug')
 
@@ -94,35 +87,20 @@ class Controller_Cabinet extends  Controller_Base{
     public function action_save(){
         $session = Session::instance();
         $insalesuser = (int)$session->get('insalesuser');
-        if ( !empty( $insalesuser ) )
-        {
-            $insales_user = ORM::factory('InsalesUser', array('insales_id' => $insalesuser));
-
-            if($insales_user->loaded())
-            {
-                $settings = self::_extractPost($this->request);
-
-                $settings['insalesuser_id'] = $insales_user->id;
-                $settings = json_encode( $settings );
-                $add_url = $this->request->post('add_url');
-                $query = DB::update( 'insalesusers')->set( array('settings' => $settings,
-                        'add_url' => $add_url) )
-                         ->where('insales_id','=', $insalesuser)->execute() ;
-                $memcache = MemController::getMemcacheInstance();
-                if( !empty( $insales_user->shop ) ){
-                    $memcache->set( $insales_user->shop, $settings);
-                }
-
-                Notice::add( Notice::SUCCESS,'Успешно сохранено' );
-                $this->redirect( URL::base( $this->request ) . 'cabinet/' );
-            }
-
+        if ( !empty( $insalesuser ) ){
+            $settings = self::_extractPost($this->request);
+            $settings = json_encode($settings);
+            //$add_url = $this->request->post('add_url');
+            $query = DB::update( 'insalesusers')->set( array('settings' => $settings /*,'add_url' => $add_url */) )
+                        ->where('insales_id','=', $insalesuser)->execute() ;
+            MemController::clearSettingsMemcache($insalesuser);
+            MemController::initSettingsMemcache($insalesuser);
+            $msg = 'Успешно сохранено';
+        }else{
+            $msg = 'Доступ только из админпанели магазина insales';
         }
-        else
-        {
-            Notice::add( Notice::ERROR,'Доступ только из админпанели магазина insales' );
-            $this->redirect( URL::base( $this->request ) . 'cabinet/' );
-        }
+        Notice::add( Notice::SUCCESS, $msg );
+        $this->redirect( URL::base( $this->request ) . 'cabinet/' );
     }
 
 
@@ -158,40 +136,18 @@ class Controller_Cabinet extends  Controller_Base{
         $userID = (int)$userID;
         if( $userID > 0 ){
             $settings = MemController::initSettingsMemcache($userID);
-            if( $settings ){
-                /////////sadasdasdsasadasdsdasdasd
-                MemController::getMemcacheInstance()->flush();
-                /////asdasdasdasdsdasds
+
+            if( !empty( $settings ) ){
+
                 $insales_api =  new InsalesApi( $settings->insalesPasswd, $settings->insalesShop );
-                print_r($insales_api);
-            }
-        }
-    }
-
-    public function action_addway(){
-        $session = Session::instance();
-        $insalesuser = (int)$session->get('insalesuser');
-
-        if ( $insalesuser )
-        {
-            $insales_user = ORM::factory('InsalesUser', array('insales_id' => $insalesuser));
-            $settings = json_decode($insales_user->settings);
-
-            if ( $insales_user->loaded() )
-            {
-
-                $insales_api =  new InsalesApi( $insales_user->passwd, $insales_user->shop );
-
                 self::preClean( $insales_api );
 
-                $variantsSettings = explode(',', $insales_user->delivery_variant_id);
-
+                $variantsSettings = explode(',', $settings->delivery_variant_id);
                 if( count( $variantsSettings ) > 0 ){
                     foreach($variantsSettings as $item){
                         $insales_api->api('DELETE', '/admin/delivery_variants/' . $item . '.json');
                     }
                 }
-
                 if( $settings->type != '4' ){
                     if( $settings->common_caption == '' ){
                         $settings->common_caption = 'DDelivery - сервис доставки';
@@ -199,8 +155,7 @@ class Controller_Cabinet extends  Controller_Base{
                     if( $settings->common_description == ''  ){
                         $settings->common_description = 'Доставка товаров во все населенные пункты России + пункты самовывоза в 150 городах';
                     }
-
-                    $payload = self::getShippingMethod( $settings->common_caption, $settings->common_description, $insales_user->id );
+                    $payload = self::getShippingMethod( $settings->common_caption, $settings->common_description, $userID );
                     $delivery_variants = $insales_api->api('POST', '/admin/delivery_variants.xml', $payload);
                     $delivery_variants = new SimpleXMLElement($delivery_variants);
                     $delivery = $delivery_variants->id ;
@@ -221,17 +176,20 @@ class Controller_Cabinet extends  Controller_Base{
                         $settings->courier_description = 'Доставка товаров во все населенные пункты России + пункты самовывоза в 150 городах';
                     }
 
-                    $payload = self::getShippingMethod( $settings->self_caption, $settings->self_description, $insales_user->id );
+                    $payload = self::getShippingMethod( $settings->self_caption, $settings->self_description, $userID );
+
                     $delivery_variants = $insales_api->api('POST', '/admin/delivery_variants.xml', $payload);
 
                     $delivery_variants = new SimpleXMLElement( $delivery_variants );
 
                     $payload = self::getShippingMethod( $settings->courier_caption, $settings->self_description );
+
                     $delivery_variants2 = $insales_api->api('POST', '/admin/delivery_variants.xml', $payload);
                     $delivery_variants2 = new SimpleXMLElement( $delivery_variants2 );
 
                     $delivery = ($delivery_variants->id . ', ' . $delivery_variants2->id) ;
                 }
+
                 // Добавляем поля для хранения id заказа ddelivery
                 $field = self::isFieldExists($insales_api, 'ddelivery_id');
                 if( $field === false ){
@@ -266,27 +224,42 @@ class Controller_Cabinet extends  Controller_Base{
                 $payload = self::getWidgetXml();
                 $w = $insales_api->api('POST', '/admin/application_widgets.xml  ', $payload);
                 // Добавляем JS
-                $payload = self::getXmlJsToInsales( $insales_user->id, $data->id, $data2->id, $delivery, $data3->id);
+                $payload = self::getXmlJsToInsales( $settings->insalesuser_id, $data->id, $data2->id, $delivery, $data3->id);
                 // json_decode( $insales_api->api('PUT', '/admin/delivery_variants/' . $delivery->id . '.json', $payload) );
                 $insales_api->api('PUT', '/admin/delivery_variants/' . $delivery_variants->id . '.xml', $payload);
                 // Добавляем JS
                 // Подписываемся на хук на создание заказа
-                $payload = self::getXmlCreateHook( $insales_user->id );
+                $payload = self::getXmlCreateHook( $settings->insalesuser_id );
                 $insales_api->api('POST', '/admin/webhooks.xml', $payload) ;
                 // Подписываемся на хук на создание заказа
 
                 // Подписываемся на хук на обновление заказа
-                $payload = self::getXmlUpdateHook( $insales_user->id );
+                $payload = self::getXmlUpdateHook( $settings->insalesuser_id );
                 $insales_api->api('POST', '/admin/webhooks.xml', $payload) ;
                 // Подписываемся на хук на обновление заказа
-
+                $insales_user = ORM::factory('InsalesUser', array('id' => $settings->insalesuser_id));
                 $insales_user->delivery_variant_id = $delivery;
                 $insales_user->save();
-
-                Notice::add( Notice::SUCCESS,'Способ доставки успешно добавлен' );
-                $this->redirect( URL::base( $this->request ) . 'cabinet/' );
+                MemController::getMemcacheInstance()->set('settings_' . $userID, '');
+                return $delivery;
             }
         }
+        return;
+    }
+
+    public function action_addway(){
+        $session = Session::instance();
+        $insalesuser = (int)$session->get('insalesuser');
+        $variants = self::addWayProcess($insalesuser);
+        if(!empty( $variants )){
+            $msg =  'Способ доставки успешно добавлен';
+        }else{
+            $msg =  'Ошибка добавления';
+        }
+
+        Notice::add( Notice::SUCCESS, $msg );
+        $this->redirect( URL::base( $this->request ) . 'cabinet/' );
+
     }
 
 
