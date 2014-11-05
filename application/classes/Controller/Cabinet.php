@@ -530,10 +530,9 @@ class Controller_Cabinet extends  Controller_Base{
 
         $token = ( $token . '(|)' . $insales_id );
 
-        echo $token;
-        exit();
-        $back_url = self::getUrl($settings->debug) . 'cabinet/autologin/' . $token . '/';
 
+        $back_url = self::getUrl($settings->debug) . 'cabinet/autologin/' . $token . '/';
+        echo $back_url;
         /*
         $session = Session::instance();
         $session->set('ddelivery_token', $token);
