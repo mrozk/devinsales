@@ -780,11 +780,6 @@ if( !empty($message['success'])){
                         echo '<a class="activate_all" href="javascript:void(0)">Выделить все</a>';
                         echo ' | <a class="deactivate_all" href="javascript:void(0)">Убрать все</a>';
                     ?>
-                        <?php
-                        //echo Form::checkbox('all_cur_companies', $key, in_array($key, $cur_companies) );
-                        echo '<a class="activate_all" href="javascript:void(0)">Выделить все</a>';
-                        echo ' | <a class="deactivate_all" href="javascript:void(0)">Убрать все</a>';
-                     ?>
                 </p>
                 <?php
                 $mid = ceil(count($companiesArray)/2);
@@ -823,6 +818,7 @@ if( !empty($message['success'])){
             <p>
                 <?php
                     echo '<a class="activate_all" href="javascript:void(0)">Выделить все</a>';
+                    echo ' | <a class="deactivate_all" href="javascript:void(0)">Убрать все</a>';
                 ?>
             </p>
 
