@@ -51,6 +51,7 @@ class Controller_Hello extends Controller
         //}
         //$result .= 'updatePriceAndSend(null);';
         echo $result;
+        exit();
         return;
     }
 }
