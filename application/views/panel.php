@@ -12,7 +12,8 @@
 
         $('.activate_all').on('trigger', function(){
             $(this).parent().parent().find('input:checkbox').each(function(){
-                $(this).attr('checked', false)  ;
+                console.log($(this).attr('name'));
+                //$(this).attr('checked', false)  ;
             });
         });
         $('#insales-form').submit(function(){
