@@ -459,7 +459,7 @@ class Controller_Cabinet extends  Controller_Base{
 
         if( !$insales_id ){
             $session = Session::instance();
-            //$insalesuser = (int)$session->get('insalesuser');
+            $insalesuser = (int)$session->get('insalesuser');
         }
 
         if ( isset($insalesuser) && !empty( $insalesuser ) ){
