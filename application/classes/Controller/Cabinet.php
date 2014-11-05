@@ -91,13 +91,13 @@ class Controller_Cabinet extends  Controller_Base{
             $query = DB::update( 'insalesusers')->set( array('settings' => $settings /*,'add_url' => $add_url */) )
                         ->where('insales_id','=', $insalesuser)->execute() ;
             MemController::clearSettingsMemcache($insalesuser);
-            MemController::initSettingsMemcache($insalesuser);
+            $settings = MemController::initSettingsMemcache($insalesuser);
             $msg = 'Успешно сохранено';
         }else{
             $msg = 'Доступ только из админпанели магазина insales';
         }
         Notice::add( Notice::SUCCESS, $msg );
-        $this->redirect( URL::base( $this->request ) . 'cabinet/' );
+        $this->redirect( Controller_Cabinet::getUrl($settings->debug) . 'cabinet/' );
     }
 
 
@@ -317,10 +317,9 @@ class Controller_Cabinet extends  Controller_Base{
         }else{
             $msg =  'Ошибка добавления';
         }
-
         Notice::add( Notice::SUCCESS, $msg );
-        $this->redirect( URL::base( $this->request ) . 'cabinet/' );
-
+        $settings = MemController::initSettingsMemcache($insalesuser);
+        $this->redirect(  Controller_Cabinet::getUrl( $settings->debug ) . 'cabinet/' );
     }
 
 

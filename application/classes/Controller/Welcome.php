@@ -8,7 +8,6 @@ class Controller_Welcome extends Controller {
 
 	public function action_index()
 	{
-        echo '2';
         Notice::add( Notice::ERROR,'Доступ только из админпанели магазина insales' );
 	}
     public function getOptionValue( $option_list, $needle ){
