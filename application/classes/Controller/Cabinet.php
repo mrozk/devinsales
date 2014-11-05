@@ -493,7 +493,11 @@ class Controller_Cabinet extends  Controller_Base{
 
         $insales_user = ORM::factory('InsalesUser', array('insales_id' => $insales_id));
         $insales_id = $session->get('token_insales_id');
-        echo $insales_id;
+
+
+        $id = $this->request->param('id');
+        echo $insales_token;
+        echo $id;
         exit();
 
         if( $insales_user->loaded() ){
@@ -518,15 +522,24 @@ class Controller_Cabinet extends  Controller_Base{
     private function _proccess_enter( $insales_id, $shop ){
 
         $insales_user = ORM::factory('InsalesUser', array('insales_id' => $insales_id));
-        $settings = MemController::initSettingsMemcache($insales_user->id);
-        $back_url = self::getUrl($settings->debug) . 'cabinet/autologin/';
+
 
         //$back_url = URL::base( $this->request ) . 'cabinet/autologin/';
         $token = md5( time() . $insales_id );
+        $settings = MemController::initSettingsMemcache($insales_user->id);
+
+        $token = ( $token . '(|)' . $insales_id );
+
+        echo $token;
+        exit();
+        $back_url = self::getUrl($settings->debug) . 'cabinet/autologin/' . $token . '/';
+
+        /*
         $session = Session::instance();
         $session->set('ddelivery_token', $token);
         $session->set('token_insales_id', $insales_id);
         $session->set('insalesshop', $shop);
+        */
 
         $url = 'http://' . $shop . '/admin/applications/' . InsalesApi::$api_key . '/login?token=' . $token . '&login=' . $back_url;
 
