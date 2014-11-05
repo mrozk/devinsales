@@ -459,7 +459,7 @@ class Controller_Cabinet extends  Controller_Base{
 
         if( !$insales_id ){
             $session = Session::instance();
-            $insalesuser = (int)$session->get('insalesuser');
+            //$insalesuser = (int)$session->get('insalesuser');
         }
 
         if ( isset($insalesuser) && !empty( $insalesuser ) ){
@@ -469,7 +469,6 @@ class Controller_Cabinet extends  Controller_Base{
             $fields = self::getFields( $insales_api);
             $characteristics = self::getOptionFields( $insales_api );
             $addr_fields = self::getAddressFields( $insales_api );
-
 
             $this->template->set('content', View::factory('panel')->set('usersettings', $usersettings )
                            ->set('addr_fields', $addr_fields)->set('message', $this->template->system_msg)
@@ -520,6 +519,8 @@ class Controller_Cabinet extends  Controller_Base{
         $insales_user = ORM::factory('InsalesUser', array('insales_id' => $insales_id));
         $settings = MemController::initSettingsMemcache($insales_user->id);
         $back_url = self::getUrl($settings->debug) . 'cabinet/autologin/';
+        echo $back_url;
+        exit();
         //$back_url = URL::base( $this->request ) . 'cabinet/autologin/';
         $token = md5( time() . $insales_id );
         $session = Session::instance();
