@@ -101,6 +101,7 @@ class Controller_Orders extends Controller
     public function action_create(){
         if (!isset($HTTP_RAW_POST_DATA))
             $HTTP_RAW_POST_DATA = file_get_contents("php://input");
+
         /*
         if( isset($_SERVER['HTTP_REFERER']) ){
             $url = $_SERVER['HTTP_REFERER'];
