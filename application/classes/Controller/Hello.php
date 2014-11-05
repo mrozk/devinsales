@@ -15,8 +15,8 @@ class Controller_Hello extends Controller
         $id = (int)$this->request->param('id');
         $settings = MemController::initSettingsMemcache( $id );
 
-        $result = 'jQuery(".loader").css("display","none");';
-
+        //$result = 'jQuery(".loader").css("display","none");';
+        $result = '';
         if( !empty($settings) ){
             $token = md5( microtime() . mt_rand(1,20) ) ;
             $memcache = MemController::getMemcacheInstance();
@@ -31,7 +31,7 @@ class Controller_Hello extends Controller
         }else{
             $result .= 'updatePriceAndSend(null);';
         }
-        $result .= 'enableDDButton();';
+        //$result .= 'enableDDButton();';
         //$this->redirect( URL::base( $this->request ) . 'html/elem.js' );
 
         //echo $id;
