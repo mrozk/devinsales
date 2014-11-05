@@ -11,7 +11,9 @@
     $(document).ready(function(){
 
         $('.activate_all').on('click', function(){
-            alert('xxx');
+            $(this).parent().parent().find('input:checkbox').each(function(){
+                console.log($(this));
+            });
         });
         $('#insales-form').submit(function(){
 
