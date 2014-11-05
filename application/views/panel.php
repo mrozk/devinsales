@@ -12,7 +12,8 @@
 
         $('.activate_all').on('trigger', function(){
             $(this).parent().parent().find('input:checkbox').each(function(){
-                console.log($(this).attr('name'));
+                //console.log($(this).attr('name'));
+                console.log($(this));
                 //$(this).attr('checked', false)  ;
             });
         });
