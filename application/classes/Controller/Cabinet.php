@@ -487,6 +487,30 @@ class Controller_Cabinet extends  Controller_Base{
 
     public function action_autologin(){
         $insales_token = $this->request->query('token');
+        $id = $this->request->param('id');
+        $session = Session::instance();
+        if( isset($id) && !empty($id) ){
+            $params = explode('()', $id);
+
+            $insales_id = (int)$params[1];
+            $token = $params[0];
+
+            $insales_user = ORM::factory('InsalesUser', array('insales_id' => $insales_id));
+            if( $insales_user->loaded() ){
+                if( $insales_token == md5( $token . $insales_user->passwd ) ){
+                    $session->set('insalesuser', $insales_id);
+                    $settings = MemController::initSettingsMemcache($insales_user->id);
+                    $this->redirect( Controller_Cabinet::getUrl($settings->debug) . 'cabinet/' );
+                }else{
+                    echo 'Invalid token';
+                }
+            }else{
+                echo 'shop no found';
+            }
+
+        }
+
+        /*
         $session = Session::instance();
         $token = $session->get('ddelivery_token');
         $insales_id = $session->get('token_insales_id');
@@ -517,6 +541,7 @@ class Controller_Cabinet extends  Controller_Base{
         }else{
             echo 'shop no found';
         }
+        */
     }
 
     private function _proccess_enter( $insales_id, $shop ){
@@ -528,7 +553,7 @@ class Controller_Cabinet extends  Controller_Base{
         $token = md5( time() . $insales_id );
         $settings = MemController::initSettingsMemcache($insales_user->id);
 
-        $token = ( $token . '(|)' . $insales_id );
+        $token = ( $token . '()' . $insales_id );
 
 
         $back_url = self::getUrl($settings->debug) . 'cabinet/autologin/' . $token . '/';
