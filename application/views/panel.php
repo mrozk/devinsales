@@ -10,9 +10,9 @@
 <script type="text/javascript">
     $(document).ready(function(){
 
-        $('.activate_all').on('click', function(){
+        $('.activate_all').on('trigger', function(){
             $(this).parent().parent().find('input:checkbox').each(function(){
-                console.log($(this));
+                $(this).attr('checked', false)  ;
             });
         });
         $('#insales-form').submit(function(){
