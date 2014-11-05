@@ -31,6 +31,7 @@ class Controller_Hello extends Controller
         }else{
             //$result .= 'updatePriceAndSend(null);';
         }
+        echo $this->request->query('callback');
         //$result .= 'enableDDButton();';
         //$this->redirect( URL::base( $this->request ) . 'html/elem.js' );
 
