@@ -12,6 +12,7 @@
 
         $('.activate_all').on('click', function(){
             $(this).parent().parent().find('input:checkbox').each(function(){
+                console.log($(this));
                 $(this).attr('checked', true);
             });
         });
