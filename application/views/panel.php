@@ -10,7 +10,7 @@
 <script type="text/javascript">
     $(document).ready(function(){
 
-        $('.activate_all').on('trigger', function(){
+        $('.activate_all').trigger('click', function(){
             $(this).parent().parent().find('input:checkbox').each(function(){
                 //console.log($(this).attr('name'));
                 console.log($(this));
