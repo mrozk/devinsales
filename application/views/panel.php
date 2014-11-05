@@ -12,11 +12,16 @@
 
         $('.activate_all').on('click', function(){
             $(this).parent().parent().find('input:checkbox').each(function(){
-                //console.log($(this).attr('name'));
-                console.log($(this));
-                //$(this).attr('checked', false)  ;
+                $(this).attr('checked', true);
             });
         });
+
+        $('.deactivate_all').on('click', function(){
+            $(this).parent().parent().find('input:checkbox').each(function(){
+                $(this).attr('checked', false);
+            });
+        });
+
         $('#insales-form').submit(function(){
 
             var matchInt = /^[0-9\-]{1,}$/;
@@ -773,15 +778,13 @@ if( !empty($message['success'])){
                 <p>
                     <?php
                         echo '<a class="activate_all" href="javascript:void(0)">Выделить все</a>';
+                        echo ' | <a class="deactivate_all" href="javascript:void(0)">Убрать все</a>';
                     ?>
-                    <!--
-                    <label class="checkbox-inline">
                         <?php
                         //echo Form::checkbox('all_cur_companies', $key, in_array($key, $cur_companies) );
                         echo '<a class="activate_all" href="javascript:void(0)">Выделить все</a>';
-                        ?>
-                    </label>
-                    -->
+                        echo ' | <a class="deactivate_all" href="javascript:void(0)">Убрать все</a>';
+                     ?>
                 </p>
                 <?php
                 $mid = ceil(count($companiesArray)/2);
