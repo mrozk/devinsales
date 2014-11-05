@@ -496,6 +496,7 @@ class Controller_Cabinet extends  Controller_Base{
             $token = $params[0];
 
             $insales_user = ORM::factory('InsalesUser', array('insales_id' => $insales_id));
+            print_r($insales_user);
             if( $insales_user->loaded() ){
                 if( $insales_token == md5( $token . $insales_user->passwd ) ){
                     $session->set('insalesuser', $insales_id);
@@ -553,10 +554,10 @@ class Controller_Cabinet extends  Controller_Base{
         $token = md5( time() . $insales_id );
         $settings = MemController::initSettingsMemcache($insales_user->id);
 
-        $token = ( $token . '()' . $insales_id );
+        $token_url = ( $token . '()' . $insales_id );
 
 
-        $back_url = self::getUrl($settings->debug) . 'cabinet/autologin/' . $token . '/';
+        $back_url = self::getUrl($settings->debug) . 'cabinet/autologin/' . $token_url . '/';
         //echo $back_url;
         /*
         $session = Session::instance();
