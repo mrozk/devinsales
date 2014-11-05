@@ -112,7 +112,6 @@ if( empty($usersettings->settings) ){
 
             'status_send' => '',
             'debug' => ''
-
         );
 }else{
     $settings = json_decode( $usersettings->settings, true );
@@ -153,11 +152,14 @@ if ($user !== null){
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand active" style="color: #fff" href="javascript:void(0)">Настройки DDelivery Insales</a>
+                <a class="navbar-brand active" style="color: #fff" href="javascript:void(0)">Настройки </a>
             </div>
             <div style="margin-top: 5px;">
                 <a  class="btn btn-warning"  href="/admin/">Вернуться назад</a>
                 <a class="btn btn-success" href="/admin/main/addway/?id=<?php echo $id; ?>">Добавить способ доставки в Insales</a>
+
+                <a class="btn btn-success" href="/admin/main/addtest/?id=<?php echo $id; ?>">В тестовый режим</a>
+
                 <a class="btn btn-success" onclick="jQuery('#insales-form').submit();" href="javascript:void(0)">Сохранить</a>
                 <a class="btn btn-success" href="/admin/auth/logout/">Выход</a>
             </div>

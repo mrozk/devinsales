@@ -9,9 +9,13 @@ class Controller_Admin_Main extends Controller_Admin_Layout{
 
     public function action_save(){
         $id = (int)$this->request->query('id');
-        if( empty($id) ){
+
+        if( !empty($id) ){
+
             $settings = Controller_Cabinet::_extractPost($this->request);
+            $settings['debug'] = (int)$this->request->post('debug');
             $settings = json_encode( $settings );
+
             $query = DB::update('insalesusers')->set( array('settings' => $settings /*, 'add_url' => $add_url*/) )
                         ->where('id','=', $id)->execute();
             MemController::clearSettingsMemcache($id);
@@ -75,6 +79,35 @@ class Controller_Admin_Main extends Controller_Admin_Layout{
         }
         exit();
     }
+
+
+    // Заказы клиента
+    public function action_addtest(){
+        $id = (int)$this->request->query('id');
+
+        $edit = Controller_Cabinet::editWays($id);
+        if( $edit ){
+            $msg = 'Успешно изменен режим работы';
+        }else{
+            $msg = 'Ошибка изменения режима работы';
+        }
+        Notice::add( Notice::SUCCESS, $msg );
+        $this->redirect( URL::base( $this->request )  . 'admin/main/user/?id=' . $id );
+        /*
+        $id = (int)$this->request->query('id');
+        if( $id ) {
+            $query = DB::select('shop_refnum', 'ddeliveryorder_id', 'id', 'add_field2')->from('ddelivery_orders')->
+            where('add_field1', '=', $id)->order_by('id','DESC')->as_object()->execute();
+            $insales_user = ORM::factory('InsalesUser', array('id' => $id));
+
+            $this->template->set('content', View::factory('admin/userorders')->set('orders',$query)->set('user', $insales_user));
+        }else{
+            echo 'bad ID';
+        }
+        */
+    }
+
+
     // Заказы клиента
     public function action_userorders(){
         $id = (int)$this->request->query('id');

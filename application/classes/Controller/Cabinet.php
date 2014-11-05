@@ -5,7 +5,7 @@ include_once( APPPATH . 'classes/Sdk/mrozk/IntegratorShop.php');
 
 class Controller_Cabinet extends  Controller_Base{
 
-    const TestServerSuf = '1';
+    const TestServerSuf = 'http://insales2.ddelivery.ru/';
 
     public static  function _extractPost($request){
         $zabor = $request->post('zabor');
@@ -31,57 +31,54 @@ class Controller_Cabinet extends  Controller_Base{
         $address = $request->post('address');
         $request->post('address', json_encode($address));
 
-        return array( 'api' => $request->post('api'),
-                   'rezhim' => $request->post('rezhim'),
-                   'declared' => $request->post('declared'),
-                   'width' => $request->post('width'),
-                   'height' => $request->post('height'),
-                   'length' => $request->post('length'),
-                   'weight' => $request->post('weight'),
-                   'status' => $request->post('status'),
-                   'secondname' => $request->post('secondname'),
-                   'firstname' => $request->post('firstname'),
-                   'plan_width' => $request->post('plan_width'),
-                   'plan_lenght' => $request->post('plan_lenght'),
-                   'plan_height' => $request->post('plan_height'),
-                   'plan_weight' => $request->post('plan_weight'),
-                   'type' => $request->post('type'),
-                   'pvz_companies' => $request->post('pvz_companies'),
-                   'cur_companies' => $request->post('cur_companies'),
-                   'from1' => $request->post('from1'),
-                    'to1' => $request->post('to1'),
-                    'val1' => $request->post('val1'),
-                    'sum1' => $request->post('sum1'),
-                    'from2' => $request->post('from2'),
-                    'to2' => $request->post('to2'),
-                    'val2' => $request->post('val2'),
-                    'sum2' => $request->post('sum2'),
-                    'from3' => $request->post('from3'),
-                    'to3' => $request->post('to3'),
-                    'val3' => $request->post('val3'),
-                    'sum3' => $request->post('sum3'),
-                    'okrugl' => $request->post('okrugl'),
-                    'shag' => $request->post('shag'),
-                    'zabor' => $request->post('zabor'),
-                    'payment' => $request->post('payment'),
-                    'address' => $request->post('address'),
-                    'theme' => $request->post('theme'),
-                    'form' => $request->post('form'),
-                    'common_caption' => $request->post('common_caption'),
-                    'self_caption' => $request->post('self_caption'),
-                    'courier_caption' => $request->post('courier_caption'),
-                    'common_description' => $request->post('common_description'),
-                    'self_description' => $request->post('self_description'),
-                    'courier_description' => $request->post('courier_description'),
-                    'source_params' => $request->post('source_params'),
-                    'params_width' => $request->post('params_width'),
-                    'params_length' => $request->post('params_length'),
-                    'params_height'  => $request->post('params_height'),
-                    'status_send' => $request->post('status_send'),
-                    'debug' => (int)$request->post('debug')
-
+        return   array( 'api' => $request->post('api'),
+                        'rezhim' => $request->post('rezhim'),
+                        'declared' => $request->post('declared'),
+                        'width' => $request->post('width'),
+                        'height' => $request->post('height'),
+                        'length' => $request->post('length'),
+                        'weight' => $request->post('weight'),
+                        'status' => $request->post('status'),
+                        'secondname' => $request->post('secondname'),
+                        'firstname' => $request->post('firstname'),
+                        'plan_width' => $request->post('plan_width'),
+                        'plan_lenght' => $request->post('plan_lenght'),
+                        'plan_height' => $request->post('plan_height'),
+                        'plan_weight' => $request->post('plan_weight'),
+                        'type' => $request->post('type'),
+                        'pvz_companies' => $request->post('pvz_companies'),
+                        'cur_companies' => $request->post('cur_companies'),
+                        'from1' => $request->post('from1'),
+                        'to1' => $request->post('to1'),
+                        'val1' => $request->post('val1'),
+                        'sum1' => $request->post('sum1'),
+                        'from2' => $request->post('from2'),
+                        'to2' => $request->post('to2'),
+                        'val2' => $request->post('val2'),
+                        'sum2' => $request->post('sum2'),
+                        'from3' => $request->post('from3'),
+                        'to3' => $request->post('to3'),
+                        'val3' => $request->post('val3'),
+                        'sum3' => $request->post('sum3'),
+                        'okrugl' => $request->post('okrugl'),
+                        'shag' => $request->post('shag'),
+                        'zabor' => $request->post('zabor'),
+                        'payment' => $request->post('payment'),
+                        'address' => $request->post('address'),
+                        'theme' => $request->post('theme'),
+                        'form' => $request->post('form'),
+                        'common_caption' => $request->post('common_caption'),
+                        'self_caption' => $request->post('self_caption'),
+                        'courier_caption' => $request->post('courier_caption'),
+                        'common_description' => $request->post('common_description'),
+                        'self_description' => $request->post('self_description'),
+                        'courier_description' => $request->post('courier_description'),
+                        'source_params' => $request->post('source_params'),
+                        'params_width' => $request->post('params_width'),
+                        'params_length' => $request->post('params_length'),
+                        'params_height'  => $request->post('params_height'),
+                        'status_send' => $request->post('status_send')
         );
-
 
     }
     public function action_save(){
@@ -224,7 +221,7 @@ class Controller_Cabinet extends  Controller_Base{
                 $payload = self::getWidgetXml();
                 $w = $insales_api->api('POST', '/admin/application_widgets.xml  ', $payload);
                 // Добавляем JS
-                $payload = self::getXmlJsToInsales( $settings->insalesuser_id, $data->id, $data2->id, $delivery, $data3->id);
+                $payload = self::getXmlJsToInsales( $settings->insalesuser_id, $data->id, $data2->id, $delivery, $data3->id, $settings->debug);
                 // json_decode( $insales_api->api('PUT', '/admin/delivery_variants/' . $delivery->id . '.json', $payload) );
                 $insales_api->api('PUT', '/admin/delivery_variants/' . $delivery_variants->id . '.xml', $payload);
                 // Добавляем JS
@@ -240,11 +237,75 @@ class Controller_Cabinet extends  Controller_Base{
                 $insales_user = ORM::factory('InsalesUser', array('id' => $settings->insalesuser_id));
                 $insales_user->delivery_variant_id = $delivery;
                 $insales_user->save();
-                MemController::getMemcacheInstance()->set('settings_' . $userID, '');
+
+                MemController::clearSettingsMemcache($userID);
+                MemController::initSettingsMemcache($userID);
+                // MemControllegr::getMemcacheInstance()->set('settings_' . $userID, '');
                 return $delivery;
             }
         }
         return;
+    }
+
+    public static function editWays( $userID ){
+        $userID = (int)$userID;
+        if( $userID > 0 ){
+            $settings = MemController::initSettingsMemcache($userID);
+            if( !empty( $settings ) ){
+                $insales_api =  new InsalesApi( $settings->insalesPasswd, $settings->insalesShop );
+                self::preClean( $insales_api );
+
+                $variantsSettings = explode(',', $settings->delivery_variant_id);
+                // Добавляем поля для хранения id заказа ddelivery
+                $field = self::isFieldExists($insales_api, 'ddelivery_id');
+                if( $field === false ){
+                    $payload = self::getXmlField( 'ddelivery_id' );
+                    $data = $insales_api->api('POST', '/admin/fields.xml', $payload);
+                    $data = new SimpleXMLElement( $data );
+                }
+                else{
+                    $data = $field;
+                }
+                // Добавляем поля для хранения id ddelivery_insales
+                $field = self::isFieldExists($insales_api, 'ddelivery_insales');
+                if( $field === false ){
+                    $payload = self::getXmlField( 'ddelivery_insales' );
+                    $data2 =  $insales_api->api('POST', '/admin/fields.xml', $payload );
+                    $data2 = new SimpleXMLElement( $data2 );
+                }else{
+                    $data2 = $field;
+                }
+
+                $field = self::isFieldExists($insales_api, 'Информация о доставке');
+                if( $field === false ){
+                    $payload = self::getXmlInfoField( 'Информация о доставке' );
+                    $data3 =  $insales_api->api('POST', '/admin/fields.xml', $payload );
+                    $data3 = new SimpleXMLElement( $data3 );
+                }else{
+                    $data3 = $field;
+                }
+
+                $payload = self::getXmlJsToInsales( $settings->insalesuser_id, $data->id, $data2->id, $settings->delivery_variant_id, $data3->id,
+                                                    $settings->debug);
+                $insales_api->api('PUT', '/admin/delivery_variants/' . $variantsSettings[0] . '.xml', $payload);
+
+                // Добавляем Способ доставки
+                $payload = self::getWidgetXml($settings->debug);
+                $w = $insales_api->api('POST', '/admin/application_widgets.xml  ', $payload);
+
+
+                // Подписываемся на хук на создание заказа
+                $payload = self::getXmlCreateHook( $settings->insalesuser_id, $settings->debug );
+                $insales_api->api('POST', '/admin/webhooks.xml', $payload) ;
+                // Подписываемся на хук на создание заказа
+
+                // Подписываемся на хук на обновление заказа
+                $payload = self::getXmlUpdateHook( $settings->insalesuser_id, $settings->debug );
+                $insales_api->api('POST', '/admin/webhooks.xml', $payload) ;
+
+                return true;
+            }
+        }
     }
 
     public function action_addway(){
@@ -282,12 +343,30 @@ class Controller_Cabinet extends  Controller_Base{
         if( count($data) ){
             foreach( $data as $item ){
 
+                if( substr_count( $item->address, 'ddelivery.ru' ) ){
+                    $insales_api->api('DELETE', '/admin/webhooks/' . $item->id . '.json');
+                }
+            }
+        }
+        /*
+        $xml = json_decode( $insales_api->api('GET', '/admin/application_widgets.json') );
+        if( count($xml) > 0 ){
+            foreach( $xml as $item ) {
+                if(strpos($item->code, 'ddelivery_id') > 0) {
+                    $insales_api->api('DELETE', '/admin/application_widgets/' . $item->id . '.json');
+                }
+            }
+        }
+
+
+        if( count($data) ){
+            foreach( $data as $item ){
                 if( substr_count( $item->address, URL::base(TRUE, FALSE) ) ){
                     $insales_api->api('DELETE', '/admin/webhooks/' . $item->id . '.json');
                 }
             }
         }
-
+        */
         $data = json_decode( $insales_api->api('GET', '/admin/application_widgets.json') );
         if( count($data) ){
             foreach( $data as $item ){
@@ -301,7 +380,6 @@ class Controller_Cabinet extends  Controller_Base{
                                 <delivery-variant>
                                   <title>' . $title . '</title>
                                   <position type="integer">1</position>
-                                  <url>' . URL::base(TRUE, FALSE) . 'hello/gus/' . $id . '</url>
                                   <description>' . $description . '</description>
                                   <type>DeliveryVariant::External</type>
                                   <delivery-locations type="array"/>
@@ -311,40 +389,51 @@ class Controller_Cabinet extends  Controller_Base{
                                 </delivery-variant>';
     }
 
-    public static  function getXmlUpdateHook( $insalesuser )
-    {
+    public static  function getXmlUpdateHook( $insalesuser, $testMode = 0 ){
         return $payload = '<webhook>
-                               <address>' . URL::base(TRUE, FALSE) . 'orders/update/?mag_id=' .
+                               <address>' . self::getUrl($testMode) . 'orders/update/?mag_id=' .
                                $insalesuser . '</address>
                                <topic>orders/update</topic>
                                <format type="integer">1</format>
                            </webhook>';
     }
-    public static  function getXmlCreateHook( $insalesuser )
-    {
+    public static  function getXmlCreateHook( $insalesuser, $testMode = 0 ){
         return $payload = '<webhook>
-                               <address>' . URL::base(TRUE, FALSE) . 'orders/create/?mag_id=' .
+                               <address>' . self::getUrl($testMode) . 'orders/create/?mag_id=' .
                                $insalesuser . '</address>
                                <topic>orders/create</topic>
                                <format type="integer">1</format>
                            </webhook>';
     }
-    public static  function getXmlJsToInsales( $insalesuser_id, $field_id, $field2_id, $deliveryID, $field3_id)
-    {
+
+    public static function getUrl( $testMode ){
+        $testMode = (int)$testMode;
+        if($testMode){
+            return self::TestServerSuf;
+        }else{
+            return URL::base(TRUE, FALSE);
+        }
+    }
+
+    public static  function getXmlJsToInsales( $insalesuser_id, $field_id, $field2_id, $deliveryID,
+                                               $field3_id, $testMode = 0){
+
+        $id = explode( ',', $deliveryID );
 
         return $payload = '<?xml version="1.0" encoding="UTF-8"?>
                             <delivery-variant>
-                              <id type="integer">' . $deliveryID . '</id>
-                              <javascript>&lt;script type="text/javascript" src="' . URL::base(TRUE, FALSE) . 'html/js/ddelivery.js"&gt;&lt;/script&gt;
+                              <id type="integer">' . ((int)$id[0]) . '</id>
+                              <url>' . self::getUrl($testMode) . 'hello/gus/' . $insalesuser_id . '</url>
+                              <javascript>&lt;script type="text/javascript" src="' . self::getUrl($testMode) . 'html/js/ddelivery.js"&gt;&lt;/script&gt;
                                      &lt;script type="text/javascript"&gt;var ddelivery_insales={
                                      "delivery_id" : [ ' . $deliveryID . '],
                                      "field_id":' .  $field_id . ',
                                      "field2_id":' . $field2_id . ',"_id":' . $insalesuser_id . ',
                                      "field3_id":' . $field3_id . ',
-                                     "url": "' . URL::base(TRUE, FALSE) . '"
+                                     "url": "' .  self::getUrl($testMode) . '"
                                        };
                                        &lt;/script&gt;
-                                    &lt;script type="text/javascript" src="' . URL::base(TRUE, FALSE) . 'html/action.js"&gt;&lt;/script&gt;
+                                    &lt;script type="text/javascript" src="' . self::getUrl($testMode) . 'html/action.js"&gt;&lt;/script&gt;
                               </javascript>
                             </delivery-variant>';
     }
@@ -504,7 +593,7 @@ class Controller_Cabinet extends  Controller_Base{
 
 
 
-    public static  function getWidgetXml(){
+    public static  function getWidgetXml($testMode = 0){
         return $pulet = "<application-widget>
             <code>
               &lt;html xmlns=&quot;http://www.w3.org/1999/xhtml&quot;&gt;
@@ -557,7 +646,7 @@ class Controller_Cabinet extends  Controller_Base{
                   if( green_lite != 0 ){
                             // подключаем скрипт который передаёт нам данные через JSONP
                       var script = document.createElement('script');
-                      script.src = '" . URL::base(TRUE, FALSE) . "sdk/orderinfo/?order=' + ddelivery_id;
+                      script.src = '" . self::getUrl($testMode) . "sdk/orderinfo/?order=' + ddelivery_id;
                       document.documentElement.appendChild(script);
 
                       // после отработки внешнего скрипта, заполняем таблицу пришедшими данными
