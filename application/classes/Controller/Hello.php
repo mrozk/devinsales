@@ -27,11 +27,11 @@ class Controller_Hello extends Controller
             */
             $info = array( 'id' => $id );
             $memcache->set( 'card_' . $token, json_encode( $info ), 0, 1200 );
-            //$result .= 'updatePriceAndSend("' . $token . '");';
+            $result .= 'updatePriceAndSend("' . $token . '");';
         }else{
             //$result .= 'updatePriceAndSend(null);';
         }
-        echo $this->request->query('callback');
+        //echo $this->request->query('callback');
         //$result .= 'enableDDButton();';
         //$this->redirect( URL::base( $this->request ) . 'html/elem.js' );
 
