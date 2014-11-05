@@ -763,12 +763,17 @@ if( !empty($message['success'])){
                 <h4>Доступные компании ПВЗ</h4>
                 <p class="bg-success">Выберите компании доставки, которые вы бы хотели сделать доступными для ваших клиентов</p>
                 <p>
+                    <?php
+                        echo '<a class="activate_all" href="javascript:void(0)">Выделить все</a>';
+                    ?>
+                    <!--
                     <label class="checkbox-inline">
                         <?php
                         //echo Form::checkbox('all_cur_companies', $key, in_array($key, $cur_companies) );
                         echo '<a class="activate_all" href="javascript:void(0)">Выделить все</a>';
                         ?>
                     </label>
+                    -->
                 </p>
                 <?php
                 $mid = ceil(count($companiesArray)/2);
@@ -805,12 +810,9 @@ if( !empty($message['success'])){
             <h4>Доступные компании Курьерская доставка</h4>
             <p class="bg-success">Выберите компании доставки, которые вы бы хотели сделать доступными для ваших клиентов</p>
             <p>
-                <label class="checkbox-inline">
-                    <?php
-                    //echo Form::checkbox('all_cur_companies', $key, in_array($key, $cur_companies) );
+                <?php
                     echo '<a class="activate_all" href="javascript:void(0)">Выделить все</a>';
-                    ?>
-                </label>
+                ?>
             </p>
 
             <?php
