@@ -519,8 +519,7 @@ class Controller_Cabinet extends  Controller_Base{
         $insales_user = ORM::factory('InsalesUser', array('insales_id' => $insales_id));
         $settings = MemController::initSettingsMemcache($insales_user->id);
         $back_url = self::getUrl($settings->debug) . 'cabinet/autologin/';
-        echo $back_url;
-        exit();
+
         //$back_url = URL::base( $this->request ) . 'cabinet/autologin/';
         $token = md5( time() . $insales_id );
         $session = Session::instance();
