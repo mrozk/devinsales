@@ -496,7 +496,7 @@ class Controller_Cabinet extends  Controller_Base{
 
 
         $id = $this->request->param('id');
-        echo $insales_token;
+        //echo $insales_token;
         echo $id;
         exit();
 
@@ -532,7 +532,7 @@ class Controller_Cabinet extends  Controller_Base{
 
 
         $back_url = self::getUrl($settings->debug) . 'cabinet/autologin/' . $token . '/';
-        echo $back_url;
+        //echo $back_url;
         /*
         $session = Session::instance();
         $session->set('ddelivery_token', $token);
