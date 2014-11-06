@@ -180,7 +180,7 @@ if(typeof(topWindow.DDeliveryIntegration) == 'undefined')
                     status = data.comment;
 
                     hideCover();
-                    document.getElementById('ddelivery_container').style.display = 'none';
+                    //document.getElementById('ddelivery_container').style.display = 'none';
 
                     $('#shipping_address_city').attr('disabled','disabled');
                     $('#shipping_address_zip').attr('disabled','disabled');

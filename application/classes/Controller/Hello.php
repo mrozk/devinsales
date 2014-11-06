@@ -28,7 +28,7 @@ class Controller_Hello extends Controller
             $memcache->set( 'card_' . $token, json_encode( $info ), 0, 1200 );
             $result .= 'updatePriceAndSend("' . $token . '");';
         }else{
-           $result .= 'updatePriceAndSend(null);';
+           //$result .= 'updatePriceAndSend(null);';
         }
         //echo $this->request->query('callback');
         //$result .= 'enableDDButton();';
