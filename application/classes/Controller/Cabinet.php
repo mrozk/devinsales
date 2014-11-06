@@ -130,6 +130,7 @@ class Controller_Cabinet extends  Controller_Base{
     }
 
     public static function addWayProcess( $userID ){
+        MemController::getMemcacheInstance()->flush();
         $userID = (int)$userID;
         if( $userID > 0 ){
             $settings = MemController::initSettingsMemcache($userID);
