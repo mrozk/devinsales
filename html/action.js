@@ -233,6 +233,9 @@ if(typeof(topWindow.DDeliveryIntegration) == 'undefined')
 var DDeliveryIntegration = topWindow.DDeliveryIntegration;
 
 $(function(){
+
+
+
     $(document).ready(function(){
 
         $(".button" ).on('click',function(){
