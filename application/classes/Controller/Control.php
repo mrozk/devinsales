@@ -38,14 +38,12 @@ class Controller_Control extends Controller {
         }
     }
 
-    public function action_uninstall()
-    {
+    public function action_uninstall(){
         $token = $this->request->query('token');
         $shop = $this->request->query('shop');
         $insales_id = (int)$this->request->query('insales_id');
         $insales_user = ORM::factory('InsalesUser', array( 'insales_id' => $insales_id, 'passwd' => $token ));
-        if( $insales_user->loaded() )
-        {
+        if( $insales_user->loaded() ){
             $insales_user->delete();
         }
     }
