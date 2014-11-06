@@ -130,13 +130,13 @@ class Controller_Cabinet extends  Controller_Base{
     }
 
     public static function addWayProcess( $userID ){
-        MemController::getMemcacheInstance()->flush();
+
         $userID = (int)$userID;
         if( $userID > 0 ){
             $settings = MemController::initSettingsMemcache($userID);
 
-            if( !empty( $settings ) ){
 
+            if( !empty( $settings ) ){
                 $insales_api =  new InsalesApi( $settings->insalesPasswd, $settings->insalesShop );
                 self::preClean( $insales_api );
 
@@ -226,6 +226,7 @@ class Controller_Cabinet extends  Controller_Base{
                 // json_decode( $insales_api->api('PUT', '/admin/delivery_variants/' . $delivery->id . '.json', $payload) );
                 $insales_api->api('PUT', '/admin/delivery_variants/' . $delivery_variants->id . '.xml', $payload);
                 // Добавляем JS
+
                 // Подписываемся на хук на создание заказа
                 $payload = self::getXmlCreateHook( $settings->insalesuser_id );
                 $insales_api->api('POST', '/admin/webhooks.xml', $payload) ;
@@ -375,7 +376,7 @@ class Controller_Cabinet extends  Controller_Base{
         }
     }
 
-    public static  function getShippingMethod( $title, $description, $id = 0 ){
+    public static  function getShippingMethod( $title, $description, $id = 0, $testMode = 0 ){
         return $payload = '<?xml version="1.0" encoding="UTF-8"?>
                                 <delivery-variant>
                                   <title>' . $title . '</title>
@@ -384,6 +385,7 @@ class Controller_Cabinet extends  Controller_Base{
                                   <type>DeliveryVariant::External</type>
                                   <delivery-locations type="array"/>
                                   <javascript></javascript>
+                                  <url>' . self::getUrl($testMode) . 'hello/gus/' . $id . '</url>
                                   <price type="decimal">0</price>
                                   <add-payment-gateways>true</add-payment-gateways>
                                 </delivery-variant>';
