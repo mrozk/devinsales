@@ -18,12 +18,20 @@ return array
 			 *
 			 * Ports and sockets may be appended to the hostname.
 			 */
+            /*
 			'hostname'   => 'localhost',
 			'database'   => 'insales',
 			'username'   => 'root',
 			'password'   => 'litionkenotivili',
 			'persistent' => FALSE,
-		),
+            */
+            'hostname'   => 'localhost',
+            'database'   => 'c1devinsales',
+            'username'   => 'c1dba',
+            'password'   => 'OH2AgbFiU',
+            'persistent' => FALSE,
+
+        ),
 		'table_prefix' => '',
 		'charset'      => 'utf8',
 		'caching'      => FALSE,
@@ -39,10 +47,16 @@ return array
 			 * string   password    database password
 			 * boolean  persistent  use persistent connections?
 			 */
+            /*
 			'dsn'        => 'mysql:host=localhost;dbname=insales',
 			'username'   => 'root',
 			'password'   => 'litionkenotivili',
 			'persistent' => FALSE,
+            */
+            'dsn'        => 'mysql:host=localhost;dbname=c1devinsales',
+            'username'   => 'c1dba',
+            'password'   => 'OH2AgbFiU',
+            'persistent' => FALSE,
 		),
 		/**
 		 * The following extra options are available for PDO:
