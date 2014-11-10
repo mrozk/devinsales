@@ -134,7 +134,7 @@ class Controller_Cabinet extends  Controller_Base{
         $userID = (int)$userID;
         if( $userID > 0 ){
             $settings = MemController::initSettingsMemcache($userID);
-            print_r($settings);
+            print_r($userID);
             exit();
 
             if( !empty( $settings ) ){
