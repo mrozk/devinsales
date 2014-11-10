@@ -469,6 +469,7 @@ class Controller_Cabinet extends  Controller_Base{
             $usersettings->settings = MemController::initSettingsMemcache($insalesuser);
 
             print_r($usersettings->settings);
+            exit();
 
 
             $insales_api =  new InsalesApi($usersettings->settings->insalesPasswd, $usersettings->settings->insalesShop);
