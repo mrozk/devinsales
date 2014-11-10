@@ -134,7 +134,8 @@ class Controller_Cabinet extends  Controller_Base{
         $userID = (int)$userID;
         if( $userID > 0 ){
             $settings = MemController::initSettingsMemcache($userID);
-
+            print_r($settings);
+            exit();
 
             if( !empty( $settings ) ){
                 $insales_api =  new InsalesApi( $settings->insalesPasswd, $settings->insalesShop );
@@ -187,8 +188,7 @@ class Controller_Cabinet extends  Controller_Base{
 
                     $delivery = ($delivery_variants->id . ', ' . $delivery_variants2->id) ;
                 }
-                print_r($delivery_variants);
-                exit();
+
                 // Добавляем поля для хранения id заказа ddelivery
                 $field = self::isFieldExists($insales_api, 'ddelivery_id');
                 if( $field === false ){
