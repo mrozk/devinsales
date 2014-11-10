@@ -465,7 +465,10 @@ class Controller_Cabinet extends  Controller_Base{
 
         if ( isset($insalesuser) && !empty( $insalesuser ) ){
             $usersettings = ORM::factory('InsalesUser', array('insales_id' => $insalesuser));
-            $insales_api =  new InsalesApi($usersettings->passwd, $usersettings->shop);
+
+            $usersettings = MemController::initSettingsMemcache($insalesuser);
+            $insales_api =  new InsalesApi($usersettings->insalesPasswd, $usersettings->insalesShop);
+
             $payment = self::getPaymentWays($insales_api);
             $fields = self::getFields( $insales_api);
             $characteristics = self::getOptionFields( $insales_api );
