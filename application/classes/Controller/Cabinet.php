@@ -187,7 +187,7 @@ class Controller_Cabinet extends  Controller_Base{
 
                     $delivery = ($delivery_variants->id . ', ' . $delivery_variants2->id) ;
                 }
-
+                print_r($delivery_variants);
                 // Добавляем поля для хранения id заказа ddelivery
                 $field = self::isFieldExists($insales_api, 'ddelivery_id');
                 if( $field === false ){
