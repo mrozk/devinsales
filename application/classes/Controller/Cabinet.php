@@ -465,8 +465,9 @@ class Controller_Cabinet extends  Controller_Base{
 
         if ( isset($insalesuser) && !empty( $insalesuser ) ){
 
-            $usersettings = MemController::initSettingsMemcache($insalesuser);
-            $insales_api =  new InsalesApi($usersettings->insalesPasswd, $usersettings->insalesShop);
+            $usersettings = new stdClass();
+            $usersettings->settings = MemController::initSettingsMemcache($insalesuser);
+            $insales_api =  new InsalesApi($usersettings->settings->insalesPasswd, $usersettings->settings->insalesShop);
 
             $payment = self::getPaymentWays($insales_api);
             $fields = self::getFields( $insales_api);
