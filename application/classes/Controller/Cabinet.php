@@ -89,7 +89,7 @@ class Controller_Cabinet extends  Controller_Base{
             $settings = json_encode($settings);
             //$add_url = $this->request->post('add_url');
             $query = DB::update( 'insalesusers')->set( array('settings' => $settings /*,'add_url' => $add_url */) )
-                        ->where('insales_id','=', $insalesuser)->execute() ;
+                        ->where('id','=', $insalesuser)->execute() ;
             MemController::clearSettingsMemcache($insalesuser);
             $settings = MemController::initSettingsMemcache($insalesuser);
             $msg = 'Успешно сохранено';
@@ -468,7 +468,6 @@ class Controller_Cabinet extends  Controller_Base{
             $usersettings = new stdClass();
             $usersettings->settings = MemController::initSettingsMemcache($insalesuser);
             $insales_api =  new InsalesApi($usersettings->settings->insalesPasswd, $usersettings->settings->insalesShop);
-
 
 
             $payment = self::getPaymentWays($insales_api);
