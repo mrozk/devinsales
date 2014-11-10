@@ -497,10 +497,9 @@ class Controller_Cabinet extends  Controller_Base{
             $token = $params[0];
 
             $insales_user = ORM::factory('InsalesUser', array('insales_id' => $insales_id));
-            print_r($insales_user);
             if( $insales_user->loaded() ){
                 if( $insales_token == md5( $token . $insales_user->passwd ) ){
-                    $session->set('insalesuser', $insales_id);
+                    $session->set('insalesuser', $insales_user->id);
                     $settings = MemController::initSettingsMemcache($insales_user->id);
                     $this->redirect( Controller_Cabinet::getUrl($settings->debug) . 'cabinet/' );
                 }else{
