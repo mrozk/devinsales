@@ -128,7 +128,8 @@ if( empty($usersettings->settings) ){
             'debug' => ''
         );
 }else{
-    $settings = json_decode( $usersettings->settings, true );
+    $settings =  json_decode( json_encode( $usersettings->settings), true);
+    //$settings = $usersettings->settings;
 }
 ?>
 

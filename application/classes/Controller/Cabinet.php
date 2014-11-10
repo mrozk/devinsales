@@ -467,11 +467,6 @@ class Controller_Cabinet extends  Controller_Base{
 
             $usersettings = new stdClass();
             $usersettings->settings = MemController::initSettingsMemcache($insalesuser);
-
-            print_r($usersettings->settings);
-            exit();
-
-
             $insales_api =  new InsalesApi($usersettings->settings->insalesPasswd, $usersettings->settings->insalesShop);
 
 
@@ -493,7 +488,7 @@ class Controller_Cabinet extends  Controller_Base{
                     echo 'Вход осуществляется через личный кабинет insales.ru';
                     Notice::add( Notice::ERROR,'Доступ только из админпанели магазина insales' );
                 }
-        }
+            }
     }
 
     public function action_autologin(){
