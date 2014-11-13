@@ -201,7 +201,6 @@ if(typeof(topWindow.DDeliveryIntegration) == 'undefined')
             //alert(window.location.href.indexOf('delivery'));
 
             if(window.location.href.indexOf('delivery') != -1){
-                alert(window.location);
                 console.log(window.ORDER);
             }else{
                 params.client_name = $('#client_name').val();
