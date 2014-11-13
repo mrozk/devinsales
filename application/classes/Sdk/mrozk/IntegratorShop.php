@@ -753,10 +753,10 @@ class IntegratorShop extends \DDelivery\Adapter\PluginFilters
     }
 
     public function isConfirmedStatus( $order ){
-        /*
+
         if( isset( $this->settings->status_send )){
             return ((int)$this->settings->status_send);
-        }*/
+        }
         return true;
     }
 
