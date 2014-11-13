@@ -204,8 +204,10 @@ if(typeof(topWindow.DDeliveryIntegration) == 'undefined')
 
             if(window.location.href.indexOf('delivery') != -1){
                 alert(window.location);
+                console.log(window.ORDER.shipping_address);
             }else{
-                alert('hello');
+                order_form = $('#order_form').serializeArray();
+                order_form = $.param(order_form);
                 //order_form = $('#order_form').serializeArray();
                 //order_form = $.param(order_form);
                 //alert('');
