@@ -190,7 +190,7 @@ if(typeof(topWindow.DDeliveryIntegration) == 'undefined')
 
 
             var params =  {};
-            var order_form = {};
+            var order_form;
             if( DDeliveryIntegration.typeOfWindow != null ){
                 params.type_of_window = DDeliveryIntegration.typeOfWindow;
             }
@@ -200,15 +200,15 @@ if(typeof(topWindow.DDeliveryIntegration) == 'undefined')
             parametrs = $.param(params);
 
 
-            /*
+
             if(window.location.indexOf('delivery') != -1){
                 alert(window.location);
             }else{
-                order_form = $('#order_form').serializeArray();
-                order_form = $.param(order_form);
-                alert('');
+                //order_form = $('#order_form').serializeArray();
+                //order_form = $.param(order_form);
+                //alert('');
             }
-            */
+
 
             var url = ddelivery_insales.url + "sdk/?items=" + DDeliveryProtocolManager.getProductString()
                   + "&" + parametrs + "&" + order_form + "&" + "token=" + DDeliveryProtocolManager.token ;
