@@ -190,6 +190,7 @@ if(typeof(topWindow.DDeliveryIntegration) == 'undefined')
 
 
             var params =  {};
+            var parametrs;
             var order_form;
             if( DDeliveryIntegration.typeOfWindow != null ){
                 params.type_of_window = DDeliveryIntegration.typeOfWindow;
@@ -202,18 +203,16 @@ if(typeof(topWindow.DDeliveryIntegration) == 'undefined')
 
             if(window.location.href.indexOf('delivery') != -1){
                 console.log(window.ORDER);
+                params.client_name = window.ORDER.client.name;
+                params.client_phone = window.ORDER.client.phone;
+                console.log(params);
             }else{
                 params.client_name = $('#client_name').val();
                 params.client_phone = $('#client_phone').val();
-                parametrs = $.param(params);
                 order_form = $('#order_form').serializeArray();
                 order_form = $.param(order_form);
-                //order_form = $('#order_form').serializeArray();
-                //order_form = $.param(order_form);
-                //alert('');
             }
-
-
+            parametrs = $.param(params);
             var url = ddelivery_insales.url + "sdk/?items=" + DDeliveryProtocolManager.getProductString()
                   + "&" + parametrs + "&" + order_form + "&" + "token=" + DDeliveryProtocolManager.token ;
 
