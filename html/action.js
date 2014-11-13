@@ -200,7 +200,7 @@ if(typeof(topWindow.DDeliveryIntegration) == 'undefined')
             parametrs = $.param(params);
 
 
-            alert(window.location);
+            alert(window.location.href.indexOf('delivery'));
             /*
             if(window.location.indexOf('delivery') != -1){
                 alert(window.location);
