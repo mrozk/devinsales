@@ -198,6 +198,9 @@ if(typeof(topWindow.DDeliveryIntegration) == 'undefined')
             parametrs = $.param(params);
             order_form = $.param(order_form);
 
+            if(window.location.indexOf('delivery') != -1){
+                alert('vvvv');
+            }
             alert(window.location);
 
 
