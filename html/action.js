@@ -195,17 +195,18 @@ if(typeof(topWindow.DDeliveryIntegration) == 'undefined')
                 params.type_of_window = DDeliveryIntegration.typeOfWindow;
             }
 
-            params.client_name = $('#client_name').val();
-            params.client_phone = $('#client_phone').val();
-            parametrs = $.param(params);
+
 
 
             //alert(window.location.href.indexOf('delivery'));
 
             if(window.location.href.indexOf('delivery') != -1){
                 alert(window.location);
-                console.log(window.ORDER.shipping_address);
+                console.log(window.ORDER);
             }else{
+                params.client_name = $('#client_name').val();
+                params.client_phone = $('#client_phone').val();
+                parametrs = $.param(params);
                 order_form = $('#order_form').serializeArray();
                 order_form = $.param(order_form);
                 //order_form = $('#order_form').serializeArray();
