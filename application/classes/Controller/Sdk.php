@@ -279,6 +279,7 @@ class Controller_Sdk extends Controller
                     $result_products[] = $item;
                 }
             }
+            print_r($result_products);
             //print_r($result_products);
             //$prod_detail = file_get_contents( $url . '/products_by_id/' . implode(',', $idsArray) . '.json');
             //$items = json_decode( $prod_detail );
