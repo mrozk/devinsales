@@ -318,8 +318,8 @@ if( !empty($message['success'])){
                     'class' => 'form-control'
                 );
                 $options = array(
-                    1 => 'подтвержден',
-                    0 => 'не подтвержден',
+                    1 => 'подтверждена',
+                    0 => 'не подтверждена',
                 );
                 echo Form::select('status_send', $options, $settings['status_send'], $attrs);
 

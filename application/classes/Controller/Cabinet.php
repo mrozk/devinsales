@@ -475,6 +475,11 @@ class Controller_Cabinet extends  Controller_Base{
             $characteristics = self::getOptionFields( $insales_api );
             $addr_fields = self::getAddressFields( $insales_api );
 
+            $IntSh = new IntegratorShop($this->request, $usersettings->settings);
+
+
+            print_r($IntSh->getApiKey());
+
             $this->template->set('content', View::factory('panel')->set('usersettings', $usersettings )
                            ->set('addr_fields', $addr_fields)->set('message', $this->template->system_msg)
                            ->set('payment', $payment)->set('characteristics', $characteristics)->set('fields', $fields)
