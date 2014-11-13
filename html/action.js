@@ -130,6 +130,7 @@ if(typeof(topWindow.DDeliveryIntegration) == 'undefined')
 
 
         th.typeOfWindow = null;
+
         th.openPopup = function(){
             showPrompt();
             // document.getElementById('ddelivery_popup').innerHTML = '';
@@ -199,14 +200,12 @@ if(typeof(topWindow.DDeliveryIntegration) == 'undefined')
             order_form = $.param(order_form);
 
             if(window.location.indexOf('delivery') != -1){
-                alert('vvvv');
+                alert(window.location);
             }
-            alert(window.location);
 
-
-            url = ddelivery_insales.url + "sdk/?items=" + DDeliveryProtocolManager.getProductString()
+            var url = ddelivery_insales.url + "sdk/?items=" + DDeliveryProtocolManager.getProductString()
                   + "&" + parametrs + "&" + order_form + "&" + "token=" + DDeliveryProtocolManager.token ;
-            console.log(url);
+
             DDelivery.delivery('ddelivery_container', url, {}, callback);
 
         };
