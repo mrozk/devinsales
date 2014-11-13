@@ -204,6 +204,7 @@ if(typeof(topWindow.DDeliveryIntegration) == 'undefined')
             if(window.location.indexOf('delivery') != -1){
                 alert(window.location);
             }else{
+                alert('hello');
                 //order_form = $('#order_form').serializeArray();
                 //order_form = $.param(order_form);
                 //alert('');
