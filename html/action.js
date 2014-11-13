@@ -200,7 +200,8 @@ if(typeof(topWindow.DDeliveryIntegration) == 'undefined')
             parametrs = $.param(params);
 
 
-
+            alert(window.location);
+            /*
             if(window.location.indexOf('delivery') != -1){
                 alert(window.location);
             }else{
@@ -209,7 +210,7 @@ if(typeof(topWindow.DDeliveryIntegration) == 'undefined')
                 //order_form = $.param(order_form);
                 //alert('');
             }
-
+            */
 
             var url = ddelivery_insales.url + "sdk/?items=" + DDeliveryProtocolManager.getProductString()
                   + "&" + parametrs + "&" + order_form + "&" + "token=" + DDeliveryProtocolManager.token ;
