@@ -200,9 +200,9 @@ if(typeof(topWindow.DDeliveryIntegration) == 'undefined')
             parametrs = $.param(params);
 
 
-            alert(window.location.href.indexOf('delivery'));
-            /*
-            if(window.location.indexOf('delivery') != -1){
+            //alert(window.location.href.indexOf('delivery'));
+
+            if(window.location.href.indexOf('delivery') != -1){
                 alert(window.location);
             }else{
                 alert('hello');
@@ -210,7 +210,7 @@ if(typeof(topWindow.DDeliveryIntegration) == 'undefined')
                 //order_form = $.param(order_form);
                 //alert('');
             }
-            */
+
 
             var url = ddelivery_insales.url + "sdk/?items=" + DDeliveryProtocolManager.getProductString()
                   + "&" + parametrs + "&" + order_form + "&" + "token=" + DDeliveryProtocolManager.token ;
