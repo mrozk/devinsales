@@ -197,7 +197,8 @@ if(typeof(topWindow.DDeliveryIntegration) == 'undefined')
             }
 
 
-            alert("Ура Андрей");
+          alert('xxx');
+
 
 
 
