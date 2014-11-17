@@ -199,7 +199,7 @@ if(typeof(topWindow.DDeliveryIntegration) == 'undefined')
 
 
 
-            alert('xxx');
+
             //alert(window.location.href.indexOf('delivery'));
 
             if(window.location.href.indexOf('delivery') != -1){
