@@ -206,6 +206,7 @@ if(typeof(topWindow.DDeliveryIntegration) == 'undefined')
 
 
 
+
             //alert(window.location.href.indexOf('delivery'));
 
             if(window.location.href.indexOf('delivery') != -1){
