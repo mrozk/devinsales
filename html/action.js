@@ -197,7 +197,6 @@ if(typeof(topWindow.DDeliveryIntegration) == 'undefined')
             }
 
 
-            alert('OZK');
 
 
 
@@ -209,6 +208,7 @@ if(typeof(topWindow.DDeliveryIntegration) == 'undefined')
                 params.client_phone = window.ORDER.client.phone;
                 console.log( window.ORDER.shipping_address.fields_values);
                 console.log(window.ORDER);
+
             }else{
                 params.client_name = $('#client_name').val();
                 params.client_phone = $('#client_phone').val();
