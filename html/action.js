@@ -205,7 +205,7 @@ if(typeof(topWindow.DDeliveryIntegration) == 'undefined')
                 console.log(window.ORDER);
                 params.client_name = window.ORDER.client.name;
                 params.client_phone = window.ORDER.client.phone;
-                console.log(params);
+                console.log(window.ORDER);
             }else{
                 params.client_name = $('#client_name').val();
                 params.client_phone = $('#client_phone').val();
