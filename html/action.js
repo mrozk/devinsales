@@ -196,27 +196,13 @@ if(typeof(topWindow.DDeliveryIntegration) == 'undefined')
                 params.type_of_window = DDeliveryIntegration.typeOfWindow;
             }
 
-
-
-            alert('Ура Ура');
-
-
-
-
-
-
-
-
-
             //alert(window.location.href.indexOf('delivery'));
 
             if(window.location.href.indexOf('delivery') != -1){
-                console.log(window.ORDER);
+
                 params.client_name = window.ORDER.client.name;
                 params.client_phone = window.ORDER.client.phone;
-                console.log( window.ORDER.shipping_address.fields_values);
-                console.log(window.ORDER);
-
+                order_form = window.ORDER.shipping_address.fields_values;
             }else{
                 params.client_name = $('#client_name').val();
                 params.client_phone = $('#client_phone').val();
@@ -225,7 +211,7 @@ if(typeof(topWindow.DDeliveryIntegration) == 'undefined')
             }
             parametrs = $.param(params);
             var url = ddelivery_insales.url + "sdk/?items=" + DDeliveryProtocolManager.getProductString()
-                  + "&" + parametrs + "&" + order_form + "&" + "token=" + DDeliveryProtocolManager.token ;
+                      + "&" + parametrs + "&" + order_form + "&" + "token=" + DDeliveryProtocolManager.token ;
 
             DDelivery.delivery('ddelivery_container', url, {}, callback);
 
