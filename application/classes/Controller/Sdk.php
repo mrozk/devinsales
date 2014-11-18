@@ -8,6 +8,8 @@ include_once( APPPATH . 'classes/Sdk/mrozk/IntegratorShop2.php');
 
 class Controller_Sdk extends Controller
 {
+
+    /*
     public function get_request_state( $name )
     {
         $session = Session::instance();
@@ -74,6 +76,7 @@ class Controller_Sdk extends Controller
                               <add-payment-gateways>true</add-payment-gateways>
                             </delivery-variant>';
     }
+    */
     public function action_orderinfo(){
         $order = (int)$this->request->query('order');
 
@@ -109,8 +112,7 @@ class Controller_Sdk extends Controller
     }
 
 
-    public function setInsalesOrderStatus($cmsOrderID, $status, $clientID)
-    {
+    public function setInsalesOrderStatus($cmsOrderID, $status, $clientID){
         $insales_user = ORM::factory('InsalesUser', array('id' => $clientID));
 
         if ( $insales_user->loaded() )
@@ -279,77 +281,20 @@ class Controller_Sdk extends Controller
                     $result_products[] = $item;
                 }
             }
-
-            //print_r($result_products);
-            //$prod_detail = file_get_contents( $url . '/products_by_id/' . implode(',', $idsArray) . '.json');
-            //$items = json_decode( $prod_detail );
-            /*
-            if( count( $items->products) ){
-
-                for( $i = 0; $i < count( $items->products); $i++ ){
-
-                    $item = array();
-
-                    if( $settings->source_params != '1' ){
-                        $item['width'] = $this->getOptionValue($items->products[$i]->product_field_values, $settings->width );
-                        $item['height'] = $this->getOptionValue($items->products[$i]->product_field_values,
-                            $settings->height);
-                        $item['length'] = $this->getOptionValue($items->products[$i]->product_field_values,
-                            $settings->length);
-                    }else{
-                        $item['width'] = $this->getCaracteristicValue($items->products[$i]->characteristics, $settings->params_width );
-                        $item['height'] = $this->getCaracteristicValue($items->products[$i]->characteristics, $settings->params_height);
-                        $item['length'] = $this->getCaracteristicValue($items->products[$i]->characteristics, $settings->params_length);
-
-                    }
-
-                    $item['weight'] = $items->products[$i]->variants[0]->weight;
-
-                    $item['width'] =  (int) $this->getDefault($item['width'], $settings->plan_width);
-                    $item['height'] = (int) $this->getDefault($item['height'], $settings->plan_height);
-                    $item['length'] = (int) $this->getDefault($item['length'], $settings->plan_lenght);
-                    $item['weight'] = (float) $this->getDefault($item['weight'], $settings->plan_weight);
-
-                    if( !$item['width'] )
-                        $item['width'] = $settings->plan_width;
-                    if( !$item['height'] )
-                        $item['height'] = $settings->plan_height;
-                    if( !$item['length'] )
-                        $item['length'] = $settings->plan_lenght;
-                    if( !$item['weight'] )
-                        $item['weight'] = $settings->plan_weight;
-
-                    $item['id'] = $items->products[$i]->id;
-                    $item['title'] = $items->products[$i]->title;
-                    $item['price'] = $items->products[$i]->variants[0]->price;
-                    $item['quantity'] = $quantArray[$item['id']];
-                    $item['sku'] = $items->products[$i]->variants[0]->sku;
-                    $result_products[] = $item;
-                }
-            }
-            */
         }
         return $result_products;
     }
     public function action_index(){
         $items = $this->request->query('items');
         $k = $this->request->query('token'); //$_GET['token'] ;
+        $this->request->query('token');
         $card = 'card_' .$k;
-
-        //echo 'xxx';
-        //echo $token;
-        //echo $items;
-         //$has_token = MemController::getMemcacheInstance()->get( 'card_' . $token );
         $instance = MemController::getMemcacheInstance();
         $hasits_token = $instance->get($card);
-
         if(!empty($hasits_token)){
-            //echo $_SERVER['HTTP_REFERER'];
             $info = json_decode( $hasits_token, true );
             $settingsToIntegrator = MemController::initSettingsMemcache($info['id']);
-
             $url = parse_url($_SERVER['HTTP_REFERER']);
-
              if( isset($items) && !empty( $items ) ){
                  $info['cart'] = $this->getItemsFromInsales($url['scheme'] . '://' . $url['host'], $items, $settingsToIntegrator);
                  MemController::getMemcacheInstance()->set( $card, json_encode( $info ), 0, 1200  );
@@ -370,202 +315,5 @@ class Controller_Sdk extends Controller
          }else{
              echo 'Перезагрузите страницу браузера для продолжения';
          }
-    }
-
-
-    public function action_test(){
-        header('Content-Type: text/html; charset=utf-8');
-        $insales_user = ORM::factory('InsalesUser', array('id' =>22));
-        $insales_api =  new InsalesApi( $insales_user->passwd, $insales_user->shop );
-
-
-        $items = json_decode( $insales_api->api('GET', '/admin/products/29303486.json') );
-        print_r($items->product_field_values);
-        print_r($items->characteristics);
-        /*
-        if( $settings->source_params != '1' ){
-            $item['width'] = $this->getOptionValue($items->products[$i]->product_field_values, $settings->width );
-            $item['height'] = $this->getOptionValue($items->products[$i]->product_field_values,
-                $settings->height);
-            $item['length'] = $this->getOptionValue($items->products[$i]->product_field_values,
-                $settings->length);
-        }else{
-            $item['width'] = $this->getCaracteristicValue($items->products[$i]->characteristics, $settings->params_width );
-            $item['height'] = $this->getCaracteristicValue($items->products[$i]->characteristics, $settings->params_height);
-            $item['length'] = $this->getCaracteristicValue($items->products[$i]->characteristics, $settings->params_length);
-
-        }*/
-
-
-        /*
-        if( count( $items->products) ) {
-            for ($i = 0; $i < count($items->products); $i++) {
-
-            }
-        }*/
-        //exit();
-        $settings = json_decode($insales_user->settings );
-        //echo $settings->api;
-        try{
-            //$settings->rezhim = '1';
-           $IntegratorShop = new IntegratorShop( $this->request, $settings );
-           $ddeliveryUI = new DDeliveryUI( $IntegratorShop,true );
-            //echo $IntegratorShop->getApiKey();
-
-            //$order = $ddeliveryUI->initOrder(3055);
-            //print_r($order);
-            //echo $IntegratorShop->isTestMode();
-            //print_r($ddeliveryUI->checkOrderSelfValues($order));
-            ///echo $ddeliveryUI->createSelfOrder($order);
-            echo '<pre>';
-            //print_r($order);
-            echo '</pre>';
-
-            //echo $order->toPhone;
-           // $ddeliveryUI->createSelfOrder($order);
-        }catch (\DDelivery\DDeliveryException $e){
-            echo $e->getMessage();
-        }
-
-        /*
-        $insales_user = ORM::factory('InsalesUser', array('id' => 52));
-        $settings = json_decode($insales_user->settings );
-        $IntegratorShop = new IntegratorShop( $this->request, $settings );
-        //$IntegratorShop = new IntegratorShop2( );
-        $ddeliveryUI = new DDeliveryUI( $IntegratorShop,true );
-
-        $insales_api =  new InsalesApi( $insales_user->passwd, $insales_user->shop );
-        print_r($insales_api->api('GET', '/admin/domains.json'));
-        */
-        /*
-        $insales_user = ORM::factory('InsalesUser', array('id' => 22));
-        $settings = json_decode($insales_user->settings );
-
-        $insales_api =  new InsalesApi( $insales_user->passwd, $insales_user->shop );
-        print_r($insales_api);
-        $xml = "<js-tag>
-                    <type type=\"string\">JsTag::FileTag</type>
-                    <content>http://devinsales.ddelivery.ru/html/values.js</content>
-                </js-tag>";
-
-        print_r( $insales_api->api('GET', '/admin/js_tags.xml', $xml) );
-        */
-        //echo '</pre>';
-        /*
-        $insales_user = ORM::factory('InsalesUser', array('id' => 52));
-        $insales_api =  new InsalesApi( $insales_user->passwd, $insales_user->shop );
-        print_r($insales_api->api('DELETE', '/admin/delivery_variants/239921.xml') );
-        print_r($insales_api->api('DELETE', '/admin/delivery_variants/239920.xml') );
-        */
-        /*
-        $insales_user = ORM::factory('InsalesUser', array('id' => 29));
-
-        if ( $insales_user->loaded() )
-        {
-            echo $insales_user->id;
-        }
-        */
-        /*
-        $IntegratorShop = new IntegratorShop2( );
-        $ddeliveryUI = new DDeliveryUI( $IntegratorShop );
-        echo '<pre>';
-        print_r($ddeliveryUI->initOrder(360));
-        echo '</pre>';
-
-        echo 'xxx';
-        */
-        /*
-        $session = Session::instance();
-        $insalesuser = (int)$session->get('insalesuser');
-        echo $insalesuser;
-
-        if( !$insalesuser )
-        {
-            return;
-        }
-
-        $insales_user = ORM::factory('InsalesUser', array('insales_id' => $insalesuser));
-
-        if ( $insales_user->loaded() )
-        {
-
-            $insales_api =  new InsalesApi(  $insales_user->passwd,  $insales_user->shop );
-            // print_r( $insales_api->api('GET','/admin/delivery_variants.xml') );
-            $pulet = "<application-widget>
-<code>
-  &lt;html xmlns=&quot;http://www.w3.org/1999/xhtml&quot;&gt;
-  &lt;head&gt;
-    &lt;meta http-equiv=&quot;Content-Type&quot; content=&quot;text/html; charset=utf-8&quot;/&gt;
-    &lt;style&gt;
-      table#statuses {
-        border-collapse: collapse;
-        border-right: 1px solid black;
-        border-left: 1px solid black;
-      }
-      table#statuses td, table#statuses th {
-        border: 1px solid black;
-      }
-    &lt;/style&gt;
-  &lt;/head&gt;
-  &lt;body&gt;
-
-    &lt;table id='statuses' style='border: 1px solid black;'&gt;
-
-    &lt;/table&gt;
-
-    &lt;script&gt;
-      var data = {};
-      // функция которая вызывается во внешнем js файле и устанавливает значение переменной data
-      function set_data(input_object) {
-        data = input_object;
-      }
-      var table = document.getElementById('statuses');
-
-      // устанавливаем номер заказа, используя id из переменной window.order_info
-      var order_number_field = document.getElementById('order_number');
-      // order_number_field.innerHTML = window.order_info.id;
-      fields = window.order_info.fields_values;
-      size = fields.length;
-      var i = 0;
-      var green_lite = 0;
-      while(size != 0){
-        if( fields[size - 1].name == 'ddelivery_id' ){
-            if(fields[size - 1].value != 0){
-                green_lite = 1;
-            }
-        }
-
-        size--;
-      };
-      if( green_lite != 0 ){
-                // подключаем скрипт который передаёт нам данные через JSONP
-          var script = document.createElement('script');
-
-          script.src = '" . URL::base( $this->request ) . "sdk/orderinfo/?order=' + window.order_info.id;
-          document.documentElement.appendChild(script);
-
-          // после отработки внешнего скрипта, заполняем таблицу пришедшими данными
-          script.onload = function() {
-              for (var key in data) {
-                  var new_tr = document.createElement('tr');
-                  new_tr.innerHTML= '&lt;td&gt;'+ key +'&lt;/td&gt;&lt;td&gt;'+ data[key] +'&lt;/td&gt;';
-              table.appendChild(new_tr);
-            }
-          }
-      }
-    &lt;/script&gt;
-  &lt;/body&gt;
-  &lt;/html&gt;
-</code>
-<height>200</height>
-</application-widget>";
-
-            $result =  $insales_api->api('POST','/admin/application_widgets.xml', $pulet);
-            // $result =  $insales_api->api('GET','/admin/application_widgets.xml', $pulet);
-            //  $result =  $insales_api->api('DELETE','/admin/application_widgets/7006.xml', $pulet);
-            echo '<pre>';
-            print_r($result);
-            echo '</pre>';
-        } */
     }
 }

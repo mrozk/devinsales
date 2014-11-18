@@ -482,7 +482,6 @@ class IntegratorShop extends \DDelivery\Adapter\PluginFilters
      * @return string[]
      */
     public function getClientAddress() {
-        /// return array(1,2,3,4,5,6,7,8);
 
         $shipping_address = $this->request->query('shipping_address');
         $street = '';

@@ -143,11 +143,7 @@ if(typeof(topWindow.DDeliveryIntegration) == 'undefined')
 
                     fillFeields(data);
                     $( '.moto_moto').remove();
-
-
-
                     var activeBtn;
-
                     if(  ddelivery_insales.delivery_id.length == 2  ){
                         if( DDeliveryIntegration.typeOfWindow == 'onlyMap' ){
                             variant_id = ddelivery_insales.delivery_id[0];
@@ -179,10 +175,8 @@ if(typeof(topWindow.DDeliveryIntegration) == 'undefined')
                     $('.dd_last_check').val(data.orderId);
                     $('#price_' + variant_id).css('display','block');
                     status = data.comment;
-
                     hideCover();
                     //document.getElementById('ddelivery_container').style.display = 'none';
-
                     $('#shipping_address_city').attr('disabled','disabled');
                     $('#shipping_address_zip').attr('disabled','disabled');
                 }
@@ -195,8 +189,6 @@ if(typeof(topWindow.DDeliveryIntegration) == 'undefined')
             if( DDeliveryIntegration.typeOfWindow != null ){
                 params.type_of_window = DDeliveryIntegration.typeOfWindow;
             }
-
-            //alert(window.location.href.indexOf('delivery'));
 
             if(window.location.href.indexOf('delivery') != -1){
 
@@ -217,14 +209,6 @@ if(typeof(topWindow.DDeliveryIntegration) == 'undefined')
 
         };
         var style = document.createElement('STYLE');
-        /*
-        style.innerHTML = ' #delivery_info_ddelivery_all a{display: none;} ' +
-                ' #ddelivery_popup { display: inline-block; position:relative; vertical-align: middle; margin: 10px auto; width: 1000px; height: 650px;} ' +
-                ' #ddelivery_container { position: fixed; top: 0; left: 0; z-index: 9999;display: none; width: 100%; height: 100%; text-align: center;  } ' +
-                ' #ddelivery_container:before { display: inline-block; height: 100%; content: \'\'; vertical-align: middle;} ' +
-                ' #ddelivery_cover {  position: fixed; top: 0; left: 0; z-index: 9000; width: 100%; height: 100%; background-color: #000; background: rgba(0, 0, 0, 0.5); filter: progid:DXImageTransform.Microsoft.gradient(startColorstr = #7F000000, endColorstr = #7F000000); } ';
-
-        */
 
         style.innerHTML = // Скрываем ненужную кнопку
                 " #delivery_info_ddelivery_all a{display: none;} " +
@@ -285,25 +269,6 @@ $(function(){
         if( ddelivery_insales.delivery_id.length == 2 ){
             $('#order_delivery_variant_id_' + ddelivery_insales.delivery_id[1]).parent().next().append(buttonCode2);
         }
-        /*
-        var buttonCode1 = '<div class=\"dd_asset_conteiner\" style=\"position: relative\">' +
-                            '<input type=\"hidden\" class=\"dd_last_check\" value=\"\">' +
-                            '<button id="dd_start1" disabled="disabled" onclick=\"return false\" class=\"startDD button\" style=\"max-height:18px;font:12px Tahoma,sans-serif; padding:  2px 9px;display:block;min-width: 150px\" ' +
-                            ' href=\"javascript:void(0);\" >Выбрать</button></div>';
-
-        var buttonCode2 =    '<div class=\"dd_asset_conteiner\" style=\"position: relative\">' +
-                             '<input type=\"hidden\" class=\"dd_last_check\" value=\"\">' +
-                             '<button id="dd_start2" disabled="disabled" onclick=\"return false\" class=\"startDD button\" style=\"max-height:18px;font:12px Tahoma,sans-serif; padding:  2px 9px;display:block;min-width: 150px\" ' +
-                             ' href=\"javascript:void(0);\" >Выбрать</button></div>';
-
-
-
-        $('#order_delivery_variant_id_' + ddelivery_insales.delivery_id[0]).parent().next().append(buttonCode1 );
-
-        if( ddelivery_insales.delivery_id.length == 2 ){
-            $('#order_delivery_variant_id_' + ddelivery_insales.delivery_id[1]).parent().next().append(buttonCode2);
-        }
-        */
         // Спрятать плохие поля
         $('.delivery_variants .radio_button').on('change',function(){
             if( ddelivery_insales.delivery_id.indexOf(  parseInt( $(this).val())) != -1 ){
