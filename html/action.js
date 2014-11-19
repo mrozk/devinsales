@@ -58,6 +58,7 @@ if(typeof(DDeliveryIntegration) == 'undefined')
             var params =  {};
             var order_form;
             var parametrs = '';
+            var shipping_address = {};
             if( getTypeOfOrder() == TYPE_WINDOW_STEP){
                 params.client_name = window.ORDER.client.name;
                 params.client_phone = window.ORDER.client.phone;
@@ -65,13 +66,15 @@ if(typeof(DDeliveryIntegration) == 'undefined')
             }else{
                 params.client_name = $('#client_name').val();
                 params.client_phone = $('#client_phone').val();
-                params.shipping_address = $('#order_form').serializeArray();
+                //params.shipping_address = $('#order_form').serializeArray();
+                shipping_address = $.param( $('#order_form').serializeArray() );
+
             }
             params.type_of_window = typeOfWindow;
             parametrs = $.param(params);
 
-            var url = ddelivery_insales.url + "sdk/?items=" + items + "&" + parametrs + "&" + "token=" + token;
-
+            var url = ddelivery_insales.url + "sdk/?items=" + items + "&" + parametrs + "&" + shipping_address + "&" + "token=" + token;
+            console.log(url);
             return url;
         }
 
