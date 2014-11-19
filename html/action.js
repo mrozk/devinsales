@@ -1,6 +1,6 @@
 if(typeof(DDeliveryIntegration) == 'undefined')
     DDeliveryIntegration = (function(){
-        var typeOfWindow;
+        var typeOfWindow = '';
         var div;
         // Токен для общения с сервером
         var token = '';
@@ -37,7 +37,7 @@ if(typeof(DDeliveryIntegration) == 'undefined')
             }
         }
 
-        function getTypeOfWindow(){
+        function getTypeOfOrder(){
             if(window.location.href.indexOf('delivery') != -1){
                 return TYPE_WINDOW_STEP;
             }
@@ -56,24 +56,22 @@ if(typeof(DDeliveryIntegration) == 'undefined')
         function getSdkURL(){
             var items = getProductString();
             var params =  {};
-            var parametrs;
             var order_form;
-            /*if( DDeliveryIntegration.typeOfWindow != null ){
-                params.type_of_window = DDeliveryIntegration.typeOfWindow;
-            }*/
-            if( getTypeOfWindow() == TYPE_WINDOW_STEP){
+            var parametrs = '';
+            if( getTypeOfOrder() == TYPE_WINDOW_STEP){
                 params.client_name = window.ORDER.client.name;
                 params.client_phone = window.ORDER.client.phone;
-                order_form = window.ORDER.shipping_address.fields_values;
+                //params.shipping_address = window.ORDER.shipping_address.fields_values;
             }else{
                 params.client_name = $('#client_name').val();
                 params.client_phone = $('#client_phone').val();
-                order_form = $('#order_form').serializeArray();
-                order_form = $.param(order_form);
+                params.shipping_address = $('#order_form').serializeArray();
             }
+            params.type_of_window = typeOfWindow;
             parametrs = $.param(params);
-            var url = ddelivery_insales.url + "sdk/?items=" + items
-                      + "&" + parametrs + "&" + order_form + "&" + "token=" + token;
+
+            var url = ddelivery_insales.url + "sdk/?items=" + items + "&" + parametrs + "&" + "token=" + token;
+
             return url;
         }
 
@@ -90,48 +88,24 @@ if(typeof(DDeliveryIntegration) == 'undefined')
         var sdkCallBack = {
             close: function(){
                 hideCover();
-                //document.getElementById('ddelivery_container').style.display = 'none';
             },
             change: function(data) {
-
+                var activeBtn = getActiveBtn();
                 fillFeields(data);
                 $( '.moto_moto').remove();
-                var activeBtn;
-                if(  ddelivery_insales.delivery_id.length == 2  ){
-                    if( DDeliveryIntegration.typeOfWindow == 'onlyMap' ){
-                        variant_id = ddelivery_insales.delivery_id[0];
-                        activeBtn = 'dd_start1';
-                    }else if( DDeliveryIntegration.typeOfWindow == 'onlyCourier' ){
-                        console.log('onlyCourier');
-                        variant_id = ddelivery_insales.delivery_id[1];
-                        activeBtn = 'dd_start2';
-                    }
-                }else{
-                    console.log('onlyBoth');
-                    variant_id = ddelivery_insales.delivery_id[0];
-                    activeBtn = 'dd_start1';
-                }
-                /*
-                 $( '#' + activeBtn).parent().append( '<div class="moto_moto" style="' +
-                 'margin-top: 0px; color:#E98B73" >' + data.comment + '</div>' );
-                 */
-                $( '#' + activeBtn).after( '<div class="moto_moto" style="' +
-                    'margin-top: 0px; color:#E98B73" >' + data.comment + '</div>' );
-                //var variant_id = ddelivery_insales.delivery_id;
-                CheckoutDelivery.find( variant_id ).setFieldsValues( [{fieldId: ddelivery_insales.field2_id, value: ddelivery_insales._id}] );
 
-                //alert(data.comment+ ' интернет магазину нужно взять с пользователя за доставку '+data.clientPrice+' руб. OrderId: '+data.orderId);
-                CheckoutDelivery.find( variant_id ).setFieldsValues( [{fieldId: ddelivery_insales.field3_id, value: data.comment }] );
-                console.log(CheckoutDelivery);
-                CheckoutDelivery.find( variant_id ).setFieldsValues( [{fieldId: ddelivery_insales.field_id, value: data.orderId }] );
-                CheckoutDelivery.find( variant_id ).toExternal().setPrice(data.clientPrice);
+                $( '#' + activeBtn.activeBtn).after( '<div class="moto_moto" style="' + 'margin-top: 0px; color:#E98B73" >' + data.comment + '</div>' );
+                CheckoutDelivery.find( activeBtn.variant_id ).setFieldsValues( [{fieldId: ddelivery_insales.field2_id, value: ddelivery_insales._id}] );
+                CheckoutDelivery.find( activeBtn.variant_id ).setFieldsValues( [{fieldId: ddelivery_insales.field3_id, value: data.comment }] );
+                CheckoutDelivery.find( activeBtn.variant_id ).setFieldsValues( [{fieldId: ddelivery_insales.field_id, value: data.orderId }] );
+                CheckoutDelivery.find( activeBtn.variant_id ).toExternal().setPrice(data.clientPrice);
+
                 $('.dd_last_check').val(data.orderId);
                 $('#price_' + variant_id).css('display','block');
-                status = data.comment;
                 hideCover();
-                //document.getElementById('ddelivery_container').style.display = 'none';
                 $('#shipping_address_city').attr('disabled','disabled');
                 $('#shipping_address_zip').attr('disabled','disabled');
+
             }
         };
 
@@ -151,6 +125,30 @@ if(typeof(DDeliveryIntegration) == 'undefined')
         function enableDDButton(){
             $('.startDD').attr('disabled',false);
         }
+
+        function getActiveBtn(){
+            var activeBtn;
+            var variant_id;
+            if(  ddelivery_insales.delivery_id.length == 2  ){
+                if( typeOfWindow == 'onlyMap' ){
+                    variant_id = ddelivery_insales.delivery_id[0];
+                    activeBtn = 'dd_start1';
+                }else if( typeOfWindow == 'onlyCourier' ){
+                    console.log('onlyCourier');
+                    variant_id = ddelivery_insales.delivery_id[1];
+                    activeBtn = 'dd_start2';
+                }
+            }else{
+                console.log('onlyBoth');
+                variant_id = ddelivery_insales.delivery_id[0];
+                activeBtn = 'dd_start1';
+            }
+            return {
+                variant_id:variant_id,
+                activeBtn:activeBtn
+            }
+        }
+
         return {
             openPopup: function(){
                 openPopup();
@@ -201,12 +199,13 @@ if(typeof(DDeliveryIntegration) == 'undefined')
                     // Клик по кнопке
                     $('.startDD').on('click', function(){
                         var radio;
+                        var th = this;
                         if(  ddelivery_insales.delivery_id.length == 2  ){
                             if( $(this).attr('id') == 'dd_start1' ){
-                                typeOfWindow = 'onlyMap';
+                                th.typeOfWindow = 'onlyMap';
                                 radio = ddelivery_insales.delivery_id[0];
                             }else if($(this).attr('id') == 'dd_start2'){
-                                typeOfWindow = 'onlyCourier';
+                                th.typeOfWindow = 'onlyCourier';
                                 radio = ddelivery_insales.delivery_id[1];
                             }
                         }else{

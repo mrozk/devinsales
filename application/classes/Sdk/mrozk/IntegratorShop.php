@@ -27,8 +27,7 @@ class IntegratorShop extends \DDelivery\Adapter\PluginFilters
 
         $this->settings = $settings;
 
-        if( empty($this->settings->api) )
-        {
+        if( empty($this->settings->api) ){
             throw new  \DDelivery\DDeliveryException("Пустой api ключ");
         }
         if( empty( $this->settings->address ) ){
