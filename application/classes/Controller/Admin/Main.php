@@ -11,11 +11,10 @@ class Controller_Admin_Main extends Controller_Admin_Layout{
         $id = (int)$this->request->query('id');
 
         if( !empty($id) ){
-
-            $settings = Controller_Cabinet::_extractPost($this->request);
+            $old_settings = MemController::initSettingsMemcache($id);
+            $settings = Controller_Cabinet::_extractPost($this->request, $old_settings);
             $settings['debug'] = (int)$this->request->post('debug');
             $settings = json_encode( $settings );
-
             $query = DB::update('insalesusers')->set( array('settings' => $settings /*, 'add_url' => $add_url*/) )
                         ->where('id','=', $id)->execute();
             MemController::clearSettingsMemcache($id);
@@ -125,21 +124,19 @@ class Controller_Admin_Main extends Controller_Admin_Layout{
     // Главная страница
     public function action_user(){
         $id = (int)$this->request->query('id');
-        $usersettings = ORM::factory('InsalesUser', array('id' => $id));
-        if( $usersettings->id ) {
-            $insales_api = new InsalesApi($usersettings->passwd, $usersettings->shop);
-
+        $settings = MemController::initSettingsMemcache($id);
+        if( $settings->insalesuser_id ) {
+            $insales_api = new InsalesApi($settings->insalesPasswd, $settings->insalesShop);
             $payment = Controller_Cabinet::getPaymentWays($insales_api);
             $fields = Controller_Cabinet::getFields($insales_api);
             $characteristics = Controller_Cabinet::getOptionFields($insales_api);
             $addr_fields = Controller_Cabinet::getAddressFields($insales_api);
 
 
-
-            $this->template->set('content', View::factory('panel')->set('id', $id)->set('usersettings', $usersettings)
+            $this->template->set('content', View::factory('panel')->set('id', $id)->set('settings', $settings)
                 ->set('addr_fields', $addr_fields)->set('message', $this->template->system_msg)
                 ->set('payment', $payment)->set('characteristics', $characteristics)->set('fields', $fields)
-                ->set('base_url', URL::base($this->request))->set('add_url', $usersettings->add_url)
+                ->set('base_url', URL::base($this->request))->set('add_url', $settings->add_url)
                 ->set('is_admin', 1));
         }
     }

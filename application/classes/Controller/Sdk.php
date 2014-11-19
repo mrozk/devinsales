@@ -287,7 +287,6 @@ class Controller_Sdk extends Controller
     public function action_index(){
         $items = $this->request->query('items');
         $k = $this->request->query('token'); //$_GET['token'] ;
-        $this->request->query('token');
         $card = 'card_' .$k;
         $instance = MemController::getMemcacheInstance();
         $hasits_token = $instance->get($card);

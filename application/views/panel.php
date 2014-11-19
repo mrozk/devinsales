@@ -12,14 +12,13 @@
 
         $('.activate_all').on('click', function(){
             $(this).parent().parent().find('input:checkbox').each(function(){
-                console.log($(this));
-                $(this).attr('checked', true);
+                $(this).prop('checked', true);
             });
         });
 
         $('.deactivate_all').on('click', function(){
             $(this).parent().parent().find('input:checkbox').each(function(){
-                $(this).attr('checked', false);
+                $(this).prop('checked', false);
             });
         });
 
@@ -65,89 +64,11 @@
 </script>
 <?php
 $companiesArray = \DDelivery\DDeliveryUI::getCompanySubInfo();
-?>
-<?php
-
-if( empty($usersettings->settings) ){
-
-    $companiesArrayIDs = array_keys($companiesArray);
-    $pvz_companies = implode(',', $companiesArrayIDs);
-    $cur_companies = implode(',', $companiesArrayIDs);
-
-    $settings =
-        array(
-            'api' => '',
-            'rezhim' => '',
-            'declared' => '',
-            'width' => '',
-            'height' => '',
-            'length' => '',
-            'weight' => '',
-            'status' => '',
-            'secondname' => '',
-            'firstname' => '',
-            'plan_width' => '',
-            'plan_lenght' => '',
-            'plan_height' => '',
-            'plan_weight' => '',
-            'type' => '',
-            'pvz_companies' => $pvz_companies,
-            'cur_companies' => $cur_companies,
-            'from1' => '',
-            'to1' => '',
-            'val1' => '',
-            'sum1' => '',
-            'from2' => '',
-            'to2' => '',
-            'val2' => '',
-            'sum2' => '',
-            'from3' =>'',
-            'to3' => '',
-            'val3' => '',
-            'sum3' => '',
-            'okrugl' => '',
-            'shag' => '',
-            'zabor' => '',
-            'payment' => '',
-            'address' => '',
-            'theme' => '',
-            'form' => '',
-            'common_caption' => '',
-            'self_caption' => '',
-            'courier_caption',
-            'common_description' => '',
-            'self_description' => '',
-            'courier_description' => '',
-            'source_params'  => '',
-
-            'params_width' => '',
-            'params_length' => '',
-            'params_height'  => '',
-
-            'status_send' => '',
-            'debug' => ''
-        );
-}else{
-    $settings =  json_decode( json_encode( $usersettings->settings), true);
-    //$settings = $usersettings->settings;
-}
+$pvz_companies = explode( ',', $settings->pvz_companies );
+$cur_companies = explode( ',', $settings->cur_companies );
 ?>
 
 
-<?php
-if(empty($settings['address'])){
-    $address = array('street' => '','house' => '','corp' => '','flat' => '');
-}else{
-    $address = json_decode($settings['address'],true);
-}
-
-$pvz_companies = explode( ',', $settings['pvz_companies'] );
-$cur_companies = explode( ',', $settings['cur_companies'] );
-
-//$allowed_cur_payment =  explode( ',', $settings['allowed_cur_payment']);
-//$allowed_self_payment = explode(',', $settings['allowed_self_payment'])
-
-?>
 
 <?php
 if( strpos( $_SERVER['REQUEST_URI'], 'admin')){
@@ -194,19 +115,9 @@ if ($user !== null){
                 </button>
                 <a class="navbar-brand active" style="color: #fff" href="javascript:void(0)">Настройки DDelivery Insales</a>
             </div>
-            <?php /*
-            <div class="navbar-collapse collapse">
-                <ul class="nav navbar-nav">
-                    <li ><a href="http://<?php echo $usersettings->shop . '/admin/installed_applications/';  ?>">Вернуться в кабинет</a></li>
-                    <li ><a  href="<?php echo $base_url . 'cabinet/addway/'?>">Добавить способ доставки в Insales</a></li>
-                    <li><a class="btn btn-xs btn-success" onclick="jQuery('#insales-form').submit();" href="javascript:void(0)">Сохранить</a></li>
-                    <li><a href="http://ddelivery.ru">DDelivery.ru</a></li>
 
-                </ul>
-            </div><!--/.nav-collapse -->
-            <?php */ ?>
             <div style="margin-top: 5px;">
-                <a  class="btn btn-warning"  href="http://<?php echo $usersettings->shop . '/admin/installed_applications/';  ?>">Вернуться в кабинет</a>
+                <a  class="btn btn-warning"  href="http://<?php echo $settings->insalesShop . '/admin/installed_applications/';  ?>">Вернуться в кабинет</a>
                 <a class="btn btn-success" href="<?php echo $base_url . 'cabinet/addway/'?>">Добавить способ доставки в Insales</a>
                 <a class="btn btn-success" onclick="jQuery('#insales-form').submit();" href="javascript:void(0)">Сохранить</a>
                 <a class="btn btn-lg btn-link" href="http://ddelivery.ru">DDelivery.ru</a>
@@ -268,7 +179,7 @@ if( !empty($message['success'])){
                     'class' => 'form-control req',
                     'required' => ''
                 );
-                echo Form::input('api', $settings['api'], $attrs);
+                echo Form::input('api', $settings->api, $attrs);
                 ?>
             </p>
 
@@ -283,7 +194,7 @@ if( !empty($message['success'])){
                     '1' => 'Тестирование (stage.ddelivery.ru)',
                     '2' => 'Рабочий (cabinet.ddelivery.ru)'
                 );
-                echo Form::select('rezhim', $options, $settings['rezhim'], $attrs);
+                echo Form::select('rezhim', $options, $settings->rezhim, $attrs);
                 ?>
             </p>
 
@@ -304,7 +215,7 @@ if( !empty($message['success'])){
                     'delivered' => 'доставлен',
                     'declined' => 'отменен',
                 );
-                echo Form::select('status', $options, $settings['status'], $attrs);
+                echo Form::select('status', $options, $settings->status, $attrs);
 
                 ?>
             </p>
@@ -321,7 +232,7 @@ if( !empty($message['success'])){
                     1 => 'подтверждена',
                     0 => 'не подтверждена',
                 );
-                echo Form::select('status_send', $options, $settings['status_send'], $attrs);
+                echo Form::select('status_send', $options, $settings->status_send, $attrs);
 
                 ?>
             </p>
@@ -339,7 +250,7 @@ if( !empty($message['success'])){
                     'placeholder' => 'Какой % от стоимости товара страхуется',
                     'class' => 'form-control req int'
                 );
-                echo Form::input('declared', (isset($settings['declared'])?$settings['declared']:100), $attrs);
+                echo Form::input('declared', (isset($settings->declared)?$settings->declared:100), $attrs);
                 ?>
             </p>
 
@@ -354,7 +265,7 @@ if( !empty($message['success'])){
                     'default' => 'По умолчанию',
                     'blue' => 'Blue'
                 );
-                echo Form::select('theme', $options, $settings['theme'], $attrs);
+                echo Form::select('theme', $options, $settings->theme, $attrs);
                 ?>
             </p>
 
@@ -371,7 +282,7 @@ if( !empty($message['success'])){
                     '3' => 'Курьеры',
                     '4' => 'Разделить ПВЗ и курьеры'
                 );
-                echo Form::select('type', $options, $settings['type'], $attrs);
+                echo Form::select('type', $options, $settings->type, $attrs);
                 ?>
             </p>
 
@@ -386,7 +297,7 @@ if( !empty($message['success'])){
                     '0' => 'требуется',
                     '1' => 'не требуется'
                 );
-                echo Form::select('form', $options, $settings['form'], $attrs);
+                echo Form::select('form', $options, $settings->form, $attrs);
                 ?>
             </p>
 
@@ -406,7 +317,7 @@ if( !empty($message['success'])){
                         '0' => 'Нет',
                         '1' => 'Да'
                     );
-                    echo Form::select('debug', $options, $settings['debug'], $attrs);
+                    echo Form::select('debug', $options, $settings->debug, $attrs);
                     ?>
                 </p>
 
@@ -436,7 +347,7 @@ if( !empty($message['success'])){
                     'placeholder' => 'DDelivery - сервис доставки',
                     'class' => 'form-control'
                 );
-                echo Form::input('common_caption', $settings['common_caption'], $attrs);
+                echo Form::input('common_caption', $settings->common_caption, $attrs);
                 ?>
             </p>
 
@@ -447,7 +358,7 @@ if( !empty($message['success'])){
                     'placeholder' => 'Доставка товаров во все населенные пункты России + пункты самовывоза в 150 городах',
                     'class' => 'form-control'
                 );
-                echo Form::input('common_description', $settings['common_description'], $attrs);
+                echo Form::input('common_description', $settings->common_description, $attrs);
                 ?>
             </p>
 
@@ -460,7 +371,7 @@ if( !empty($message['success'])){
                     'placeholder' => 'DDelivery - самовывоз',
                     'class' => 'form-control'
                 );
-                echo Form::input('self_caption', $settings['self_caption'], $attrs);
+                echo Form::input('self_caption', $settings->self_caption, $attrs);
                 ?>
             </p>
 
@@ -472,7 +383,7 @@ if( !empty($message['success'])){
                     'placeholder' => 'Доставка товаров во все населенные пункты России + пункты самовывоза в 150 городах',
                     'class' => 'form-control'
                 );
-                echo Form::input('self_description', $settings['self_description'], $attrs);
+                echo Form::input('self_description', $settings->self_description, $attrs);
                 ?>
             </p>
 
@@ -485,7 +396,7 @@ if( !empty($message['success'])){
                     'placeholder' => 'DDelivery - курьерская доставка',
                     'class' => 'form-control'
                 );
-                echo Form::input('courier_caption',$settings['courier_caption'], $attrs);
+                echo Form::input('courier_caption',$settings->courier_caption, $attrs);
                 ?>
             </p>
 
@@ -497,7 +408,7 @@ if( !empty($message['success'])){
                     'placeholder' => 'Доставка товаров во все населенные пункты России + пункты самовывоза в 150 городах',
                     'class' => 'form-control'
                 );
-                echo Form::input('courier_description', $settings['courier_description'], $attrs);
+                echo Form::input('courier_description', $settings->courier_description, $attrs);
                 ?>
             </p>
 
@@ -526,7 +437,7 @@ if( !empty($message['success'])){
                     'placeholder' => 'Ширина, см',
                     'class' => 'form-control req int'
                 );
-                echo Form::input('plan_width', (isset($settings['plan_width'])?$settings['plan_width']:10), $attrs);
+                echo Form::input('plan_width', (isset($settings->plan_width)?$settings->plan_width:10), $attrs);
                 ?>
             </p>
 
@@ -537,7 +448,7 @@ if( !empty($message['success'])){
                     'placeholder' => 'Длина, см',
                     'class' => 'form-control req int'
                 );
-                echo Form::input('plan_lenght', (isset($settings['plan_lenght'] )?$settings['plan_lenght']:10), $attrs);
+                echo Form::input('plan_lenght', (isset($settings->plan_lenght )?$settings->plan_lenght:10), $attrs);
                 ?>
             </p>
 
@@ -550,7 +461,7 @@ if( !empty($message['success'])){
                     'placeholder' => 'Высота, см',
                     'class' => 'form-control req int'
                 );
-                echo Form::input('plan_height', (isset($settings['plan_height'] )?$settings['plan_height']:10), $attrs);
+                echo Form::input('plan_height', (isset($settings->plan_height )?$settings->plan_height:10), $attrs);
                 ?>
             </p>
 
@@ -561,7 +472,7 @@ if( !empty($message['success'])){
                     'placeholder' => 'Вес, кг',
                     'class' => 'form-control req float'
                 );
-                echo Form::input('plan_weight', (isset($settings['plan_weight'])?$settings['plan_weight']:1), $attrs);
+                echo Form::input('plan_weight', (isset($settings->plan_weight)?$settings->plan_weight:1), $attrs);
                 ?>
             </p>
 
@@ -585,7 +496,7 @@ if( !empty($message['success'])){
                     'class' => 'form-control'
                 );
 
-                echo Form::select('source_params',  $source_params, $settings['source_params'], $attrs);
+                echo Form::select('source_params',  $source_params, $settings->source_params, $attrs);
 
                 ?>
             </p>
@@ -599,7 +510,7 @@ if( !empty($message['success'])){
                 $gabarits = array();
                 $gabarits[0] = 'Пораметры';
                 $gabarits[1] = 'Дополнительные поля магазина';
-                echo Form::select('width', $gabarits, $settings['width'], $attrs);
+                echo Form::select('width', $gabarits, $settings->width, $attrs);
                 ?>
             </p>
             */ ?>
@@ -612,7 +523,7 @@ if( !empty($message['success'])){
                     'class' => 'form-control'
                 );
 
-                echo Form::select('width', $fields, $settings['width'], $attrs);
+                echo Form::select('width', $fields, $settings->width, $attrs);
 
                 ?>
             </p>
@@ -625,7 +536,7 @@ if( !empty($message['success'])){
                     'class' => 'form-control'
                 );
 
-                echo Form::select('length', $fields, $settings['length'], $attrs);
+                echo Form::select('length', $fields, $settings->length, $attrs);
                 ?>
             </p>
 
@@ -636,7 +547,7 @@ if( !empty($message['success'])){
                 $attrs = array(
                     'class' => 'form-control'
                 );
-                echo Form::select('height', $fields, $settings['height'], $attrs);
+                echo Form::select('height', $fields, $settings->height, $attrs);
                 ?>
             </p>
 
@@ -650,7 +561,7 @@ if( !empty($message['success'])){
                     'class' => 'form-control'
                 );
 
-                echo Form::select('params_width', $characteristics, $settings['params_width'], $attrs);
+                echo Form::select('params_width', $characteristics, $settings->params_width, $attrs);
 
                 ?>
             </p>
@@ -663,7 +574,7 @@ if( !empty($message['success'])){
                     'class' => 'form-control'
                 );
 
-                echo Form::select('params_length', $characteristics, $settings['params_length'], $attrs);
+                echo Form::select('params_length', $characteristics, $settings->params_length, $attrs);
                 ?>
             </p>
 
@@ -674,7 +585,7 @@ if( !empty($message['success'])){
                 $attrs = array(
                     'class' => 'form-control'
                 );
-                echo Form::select('params_height', $characteristics, $settings['params_height'], $attrs);
+                echo Form::select('params_height', $characteristics, $settings->params_height, $attrs);
                 ?>
             </p>
 
@@ -682,13 +593,15 @@ if( !empty($message['success'])){
 
 
         </div>
+        <?php
+        $address = json_decode( $settings->address, true);
+        ?>
         <div class="col-lg-6">
 
             <h4>Улица</h4>
             <p class="bg-success">Выберите поле, соответствующее полю "Улица" в Вашей системе</p>
             <p>
                 <?php
-
 
                 $attrs = array(
                     'class' => 'form-control'
@@ -757,7 +670,7 @@ if( !empty($message['success'])){
                     'class' => 'form-control'
                 );
                 ///print_r($payment);
-                echo Form::select('payment', $payment, $settings['payment'], $attrs);
+                echo Form::select('payment', $payment, $settings->payment, $attrs);
                 ?>
             </p>
         </div>
@@ -874,7 +787,7 @@ if( !empty($message['success'])){
                     'placeholder' => 'От',
                     'class' => 'form-control int'
                 );
-                echo Form::input('from1', $settings['from1'], $attrs);
+                echo Form::input('from1', $settings->from1, $attrs);
                 ?>
             </div>
 
@@ -885,7 +798,7 @@ if( !empty($message['success'])){
                     'placeholder' => 'До',
                     'class' => 'form-control int'
                 );
-                echo Form::input('to1', $settings['to1'], $attrs);
+                echo Form::input('to1', $settings->to1, $attrs);
                 ?>
             </div>
 
@@ -901,7 +814,7 @@ if( !empty($message['success'])){
                     '3' => 'Магазин оплачивает процент от стоимости доставки',
                     '4' => 'Магазин оплачивает конкретную сумму от доставки. Если сумма больше, то всю доставку<'
                 );
-                echo Form::select('val1', $options, $settings['val1'], $attrs);
+                echo Form::select('val1', $options, $settings->val1, $attrs);
                 ?>
             </div>
 
@@ -911,7 +824,7 @@ if( !empty($message['success'])){
                     'placeholder' => 'Сумма',
                     'class' => 'form-control int'
                 );
-                echo Form::input('sum1', $settings['sum1'], $attrs);
+                echo Form::input('sum1', $settings->sum1, $attrs);
                 ?>
             </div>
 
@@ -925,7 +838,7 @@ if( !empty($message['success'])){
                     'placeholder' => 'От',
                     'class' => 'form-control int'
                 );
-                echo Form::input('from2', $settings['from2'], $attrs);
+                echo Form::input('from2', $settings->from2, $attrs);
                 ?>
             </div>
 
@@ -936,7 +849,7 @@ if( !empty($message['success'])){
                     'placeholder' => 'До',
                     'class' => 'form-control int'
                 );
-                echo Form::input('to2', $settings['to2'], $attrs);
+                echo Form::input('to2', $settings->to2, $attrs);
                 ?>
             </div>
 
@@ -952,7 +865,7 @@ if( !empty($message['success'])){
                     '3' => 'Магазин оплачивает процент от стоимости доставки',
                     '4' => 'Магазин оплачивает конкретную сумму от доставки. Если сумма больше, то всю доставку<'
                 );
-                echo Form::select('val2', $options, $settings['val2'], $attrs);
+                echo Form::select('val2', $options, $settings->val2, $attrs);
                 ?>
             </div>
 
@@ -962,7 +875,7 @@ if( !empty($message['success'])){
                     'placeholder' => 'Сумма',
                     'class' => 'form-control int'
                 );
-                echo Form::input('sum2', $settings['sum2'], $attrs);
+                echo Form::input('sum2', $settings->sum2, $attrs);
                 ?>
             </div>
 
@@ -976,7 +889,7 @@ if( !empty($message['success'])){
                     'placeholder' => 'От',
                     'class' => 'form-control int'
                 );
-                echo Form::input('from3', $settings['from3'], $attrs);
+                echo Form::input('from3', $settings->from3, $attrs);
                 ?>
             </div>
 
@@ -987,7 +900,7 @@ if( !empty($message['success'])){
                     'placeholder' => 'До',
                     'class' => 'form-control int'
                 );
-                echo Form::input('to3', $settings['to3'], $attrs);
+                echo Form::input('to3', $settings->to3, $attrs);
                 ?>
             </div>
 
@@ -1003,7 +916,7 @@ if( !empty($message['success'])){
                     '3' => 'Магазин оплачивает процент от стоимости доставки',
                     '4' => 'Магазин оплачивает конкретную сумму от доставки. Если сумма больше, то всю доставку<'
                 );
-                echo Form::select('val3', $options, $settings['val3'], $attrs);
+                echo Form::select('val3', $options, $settings->val3, $attrs);
                 ?>
             </div>
 
@@ -1013,7 +926,7 @@ if( !empty($message['success'])){
                     'placeholder' => 'Сумма',
                     'class' => 'form-control int'
                 );
-                echo Form::input('sum3', $settings['sum3'], $attrs);
+                echo Form::input('sum3', $settings->sum3, $attrs);
                 ?>
             </div>
         </div>
@@ -1033,7 +946,7 @@ if( !empty($message['success'])){
                     '2' => 'Округлять в большую сторону',
                     '3' => 'Округлять цену математически',
                 );
-                echo Form::select('okrugl', $options, $settings['okrugl'], $attrs);
+                echo Form::select('okrugl', $options, $settings->okrugl, $attrs);
                 ?>
             </div>
             <div class="col-lg-3" style="text-align: center">
@@ -1046,7 +959,7 @@ if( !empty($message['success'])){
                     'placeholder' => 'Шаг',
                     'class' => 'form-control float'
                 );
-                echo Form::input('shag', $settings['shag'], $attrs);
+                echo Form::input('shag', $settings->shag, $attrs);
                 ?>
             </div>
 
@@ -1058,7 +971,7 @@ if( !empty($message['success'])){
             </p>
             <label class="checkbox-inline">
                 <?php
-                echo Form::checkbox('zabor', '1', ( $settings['zabor'] )? true : false );
+                echo Form::checkbox('zabor', '1', ( $settings->zabor )? true : false );
                 ?>
                 Выводить стоимость забора в цене доставки
             </label>

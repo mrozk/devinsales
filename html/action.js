@@ -27,8 +27,7 @@ if(typeof(DDeliveryIntegration) == 'undefined')
         function fillFeields(data){
             $( '#client_name').val(data.userInfo.firstName);
             $( '#client_phone').val(data.userInfo.toPhone);
-            //typeof(topWindow.DDeliveryIntegration) == 'undefined'
-            //$( '#shipping_address_address').val(data.comment);
+
             if( data.type == "2" ){
                 $('#shipping_address_field_' + data.house).val(data.userInfo.toHouse);
                 $('#shipping_address_field_' + data.street).val(data.userInfo.toStreet);
@@ -58,23 +57,19 @@ if(typeof(DDeliveryIntegration) == 'undefined')
             var params =  {};
             var order_form;
             var parametrs = '';
-            var shipping_address = {};
+            var shipping_address = '';
             if( getTypeOfOrder() == TYPE_WINDOW_STEP){
                 params.client_name = window.ORDER.client.name;
                 params.client_phone = window.ORDER.client.phone;
-                //params.shipping_address = window.ORDER.shipping_address.fields_values;
             }else{
                 params.client_name = $('#client_name').val();
                 params.client_phone = $('#client_phone').val();
-                //params.shipping_address = $('#order_form').serializeArray();
                 shipping_address = $.param( $('#order_form').serializeArray() );
-
             }
             params.type_of_window = typeOfWindow;
             parametrs = $.param(params);
 
-            var url = ddelivery_insales.url + "sdk/?items=" + items + "&" + parametrs + "&" + shipping_address + "&" + "token=" + token;
-            console.log(url);
+            var url = ddelivery_insales.url + "sdk/?items=" + items + "&" + parametrs + "&" + shipping_address  + "&" + "token=" + token;
             return url;
         }
 
@@ -94,21 +89,20 @@ if(typeof(DDeliveryIntegration) == 'undefined')
             },
             change: function(data) {
                 var activeBtn = getActiveBtn();
-                fillFeields(data);
                 $( '.moto_moto').remove();
-
                 $( '#' + activeBtn.activeBtn).after( '<div class="moto_moto" style="' + 'margin-top: 0px; color:#E98B73" >' + data.comment + '</div>' );
                 CheckoutDelivery.find( activeBtn.variant_id ).setFieldsValues( [{fieldId: ddelivery_insales.field2_id, value: ddelivery_insales._id}] );
                 CheckoutDelivery.find( activeBtn.variant_id ).setFieldsValues( [{fieldId: ddelivery_insales.field3_id, value: data.comment }] );
                 CheckoutDelivery.find( activeBtn.variant_id ).setFieldsValues( [{fieldId: ddelivery_insales.field_id, value: data.orderId }] );
                 CheckoutDelivery.find( activeBtn.variant_id ).toExternal().setPrice(data.clientPrice);
-
                 $('.dd_last_check').val(data.orderId);
-                $('#price_' + variant_id).css('display','block');
+                $('#price_' + activeBtn.variant_id).css('display','block');
                 hideCover();
-                $('#shipping_address_city').attr('disabled','disabled');
-                $('#shipping_address_zip').attr('disabled','disabled');
-
+                if( getTypeOfOrder() == TYPE_WINDOW_ONE ){
+                    fillFeields(data);
+                    $('#shipping_address_city').attr('disabled','disabled');
+                    $('#shipping_address_zip').attr('disabled','disabled');
+                }
             }
         };
 
@@ -126,7 +120,7 @@ if(typeof(DDeliveryIntegration) == 'undefined')
             body.appendChild(div);
         }
         function enableDDButton(){
-            $('.startDD').attr('disabled',false);
+            $('.startDD').prop('disabled',false);
         }
 
         function getActiveBtn(){
@@ -202,13 +196,13 @@ if(typeof(DDeliveryIntegration) == 'undefined')
                     // Клик по кнопке
                     $('.startDD').on('click', function(){
                         var radio;
-                        var th = this;
+
                         if(  ddelivery_insales.delivery_id.length == 2  ){
                             if( $(this).attr('id') == 'dd_start1' ){
-                                th.typeOfWindow = 'onlyMap';
+                                typeOfWindow = 'onlyMap';
                                 radio = ddelivery_insales.delivery_id[0];
                             }else if($(this).attr('id') == 'dd_start2'){
-                                th.typeOfWindow = 'onlyCourier';
+                                typeOfWindow = 'onlyCourier';
                                 radio = ddelivery_insales.delivery_id[1];
                             }
                         }else{
@@ -228,12 +222,16 @@ if(typeof(DDeliveryIntegration) == 'undefined')
         };
 })();
 
+
 DDeliveryIntegration.init();
 
-
 function updatePriceAndSend( key_on_server ){
-    DDeliveryIntegration.updateToken( key_on_server );
+    jQuery(".loader").css("display","none");
+    DDeliveryIntegration.updateToken(key_on_server);
 }
+
+
+
 
 
 

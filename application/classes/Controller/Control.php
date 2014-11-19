@@ -23,6 +23,7 @@ class Controller_Control extends Controller {
                 $insales_user->token = $token;
                 $insales_user->shop = $shop;
                 $insales_user->insales_id = $insales_id;
+                $insales_user->settings = Controller_Cabinet::getDefaultParams();
                 $insales_user->passwd = $password;
                 $insales_user->save();
                 // $this->addNewShipping( $insales_user->shop, $insales_user->passwd );

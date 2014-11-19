@@ -5,9 +5,30 @@ include_once( APPPATH . 'classes/Sdk/mrozk/IntegratorShop.php');
 
 class Controller_Cabinet extends  Controller_Base{
 
-    const TestServerSuf = 'http://insales2.ddelivery.ru/';
+    const TestServerSuf = 'http://devinsales.ddelivery.ru/';
 
-    public static  function _extractPost($request){
+    public static function getSettingsArrayNames(){
+        return   array(
+                    'api','rezhim','declared','width','height','length','weight','status','secondname',
+                    'firstname','plan_width','plan_lenght','plan_height','plan_weight','type','pvz_companies',
+                    'cur_companies', 'from1', 'to1', 'val1', 'sum1', 'from2', 'to2', 'val2', 'sum2',
+                    'from3','to3','val3','sum3','okrugl','shag','zabor', 'payment','address', 'theme', 'form',
+                    'common_caption','self_caption','courier_caption','common_description','self_description',
+                    'courier_description', 'source_params', 'params_width','params_length',
+                    'params_height','status_send', 'debug'
+        );
+    }
+    public static function getDefaultParams(){
+        $fields = self::getSettingsArrayNames();
+        $result = array();
+        foreach( $fields as $item  ){
+            $result[$item] = '';
+        }
+        $result['pvz_companies'] = implode(',', array_keys(\DDelivery\DDeliveryUI::getCompanySubInfo()));
+        $result['cur_companies'] = implode(',', array_keys(\DDelivery\DDeliveryUI::getCompanySubInfo()));
+        return json_encode($result);
+    }
+    public static  function _extractPost($request, $old_settings ){
         $zabor = $request->post('zabor');
         if( empty( $zabor ) ){
             $request->post('zabor', '');
@@ -30,6 +51,19 @@ class Controller_Cabinet extends  Controller_Base{
         $request->post('cur_companies', $cur_companies);
         $address = $request->post('address');
         $request->post('address', json_encode($address));
+
+        $fields = self::getSettingsArrayNames();
+        $result = array();
+
+        foreach( $fields as $item  ){
+            if(isset($_POST[$item])){
+                $old_settings->$item = $request->post($item);
+            }
+        }
+        foreach( $fields as $item  ){
+            $result[$item] = $old_settings->$item;
+        }
+        return $result;
 
         return   array( 'api' => $request->post('api'),
                         'rezhim' => $request->post('rezhim'),
@@ -85,7 +119,8 @@ class Controller_Cabinet extends  Controller_Base{
         $session = Session::instance();
         $insalesuser = (int)$session->get('insalesuser');
         if ( !empty( $insalesuser ) ){
-            $settings = self::_extractPost($this->request);
+            $old_settings = MemController::initSettingsMemcache($insalesuser);
+            $settings = self::_extractPost($this->request, $old_settings );
             $settings = json_encode($settings);
             //$add_url = $this->request->post('add_url');
             $query = DB::update( 'insalesusers')->set( array('settings' => $settings /*,'add_url' => $add_url */) )
@@ -465,22 +500,19 @@ class Controller_Cabinet extends  Controller_Base{
 
         if ( isset($insalesuser) && !empty( $insalesuser ) ){
 
-            $usersettings = new stdClass();
-            $usersettings->settings = MemController::initSettingsMemcache($insalesuser);
-            $insales_api =  new InsalesApi($usersettings->settings->insalesPasswd, $usersettings->settings->insalesShop);
-
+            $settings = MemController::initSettingsMemcache($insalesuser);
+            $insales_api =  new InsalesApi($settings->insalesPasswd, $settings->insalesShop);
 
             $payment = self::getPaymentWays($insales_api);
             $fields = self::getFields( $insales_api);
             $characteristics = self::getOptionFields( $insales_api );
             $addr_fields = self::getAddressFields( $insales_api );
 
-            $IntSh = new IntegratorShop($this->request, $usersettings->settings);
 
-            $this->template->set('content', View::factory('panel')->set('usersettings', $usersettings )
+            $this->template->set('content', View::factory('panel')->set('settings', $settings )
                            ->set('addr_fields', $addr_fields)->set('message', $this->template->system_msg)
                            ->set('payment', $payment)->set('characteristics', $characteristics)->set('fields', $fields)
-                           ->set('base_url', URL::base( $this->request ))->set('add_url', $usersettings->add_url));
+                           ->set('base_url', URL::base( $this->request ))->set('add_url', $settings->add_url));
 
             }else{
                 if( !empty( $insales_id ) && !empty( $shop ) ){
@@ -501,7 +533,6 @@ class Controller_Cabinet extends  Controller_Base{
 
             $insales_id = (int)$params[1];
             $token = $params[0];
-
             $insales_user = ORM::factory('InsalesUser', array('insales_id' => $insales_id));
             if( $insales_user->loaded() ){
                 if( $insales_token == md5( $token . $insales_user->passwd ) ){

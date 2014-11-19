@@ -29,12 +29,18 @@ class MemController{
             $settings = $memcache->get('settings_' . $id );
             if( empty($settings) ){
                 $query = DB::select()->from('insalesusers')->where( 'id', '=', $id )->as_object()->execute();
+
                 if( isset( $query[0]->id )){
+
                     $settings = json_decode( $query[0]->settings );
+
                     $settings->insalesuser_id = $query[0]->id;
                     $settings->insalesPasswd = $query[0]->passwd;
                     $settings->insalesShop = $query[0]->shop;
+                    $settings->add_url = $query[0]->add_url;
                     $settings->delivery_variant_id = $query[0]->delivery_variant_id;
+
+                    $memcache->set('settings_' . $id, json_encode( $settings ));
                     return $settings;
                 }
             }else{
