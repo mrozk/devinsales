@@ -101,8 +101,7 @@ class RequestProvider
      * @return DDeliverySDKResponse
      */
 	public function request($action, $params = array(), 
-	                        $method = 'get', $server = '')
-	{
+	                        $method = 'get', $server = ''){
 		
 		$this->countRequests++;
 		
@@ -112,16 +111,15 @@ class RequestProvider
 	    $urlSuffix = $this->_setRequest($server, $params);
 
 	    $this->_setSpecificOptionsToRequest( $method, $action, $server, $urlSuffix );
-
+		
 	    $result = curl_exec($this->curl[$server]);
 
 
 	    $response = new DDeliverySDKResponse( $result, $this->curl[$server] );
-	    
+
 	    if(!$this->keepActive)
 	    {
 	    	curl_close($this->curl[$server]);
-
 	    	unset($this->curl[$server]);
 	    }
 	    
@@ -188,7 +186,6 @@ class RequestProvider
 			curl_setopt($this->curl[$server], CURLOPT_POST, true);
 			curl_setopt($this->curl[$server], CURLOPT_POSTFIELDS, $urlSuffix);
 		}
-       // echo $url;
 	}
     
 }

@@ -2,11 +2,21 @@
 <html lang="ru-RU">
     <head>
         <meta charset="UTF-8">
-        <link href='http://fonts.googleapis.com/css?family=PT+Sans:400,400italic,700,700italic&subset=latin,cyrillic-ext' rel='stylesheet' type='text/css'>
+        <link href='//fonts.googleapis.com/css?family=PT+Sans:400,400italic,700,700italic&subset=latin,cyrillic-ext' rel='stylesheet' type='text/css'>
+
         <link rel="stylesheet" href="<?=$styleUrl?>css/screen.css?<?=$version?>"/>
     </head>
     <body>
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+    <script type="application/javascript">
+        var ddCaptionConfig = {
+            caption1:"<?=$captions['CAPTION6']?>",
+            caption2:"<?=$captions['CAPTION7']?>",
+            caption3:"<?=$captions['CAPTION8']?>",
+            caption4:"<?=$captions['CAPTION9']?>",
+            caption5:"<?=$captions['CAPTION10']?>"
+        }
+    </script>
     <script type="text/javascript" src="<?=$staticURL?>js/modernizr.custom.76185.js?<?=$version?>"></script>
     <script type="text/javascript" src="<?=$staticURL?>js/jquery.mCustomScrollbar.concat.min.js?<?=$version?>"></script>
     <script type="text/javascript" src="<?=$staticURL?>js/jquery.custom-radio-checkbox.min.js?<?=$version?>"></script>
@@ -20,11 +30,24 @@
     <script type="text/javascript" src="<?=$staticURL?>js/ddelivery.contact_form.js?<?=$version?>"></script>
     <script type="text/javascript" src="<?=$staticURL?>js/ddelivery.type_form.js?<?=$version?>"></script>
     <script src="//api-maps.yandex.ru/2.0/?load=package.full&lang=ru-RU" async="async" type="text/javascript"></script>
+    <style type="text/css">
+        .map-popup{
+            width: <?=$this->shop->getModuleWidth();?>px;
+            height: <?=$this->shop->getModuleHeight();?>px;
+        }
+        .map-canvas{
+            width: <?=$this->shop->getModuleWidth();?>px;
+            height: <?=((int)$this->shop->getModuleHeight() - 90);?>px
+        }
+        .map-popup .map-popup__main{
+            height: <?=((int)$this->shop->getModuleHeight() - 90);?>px
+        }
+    </style>
     <div id="ddelivery"></div>
     <div id="ddelivery_loader">
         <div class="map-popup">
             <div class="map-popup__head">
-                <p>DDelivery. Доставка в удобную Вам точку.</p>
+                <p><?=$captions['CAPTION1']?></p>
 
                 <div class="map-popup__head__close">&nbsp;</div>
             </div>
@@ -33,19 +56,19 @@
                 <div class="map-popup__main__overlay">&nbsp;</div>
                 <div class="map-popup__main__delivery">
                     <div class="loader">
-                        <p>Подождите пожалуйста, мы ищем лучшие предложения</p>
+                        <p><?=$captions['CAPTION2']?></p>
                         <img src="<?=$styleUrl?>img/ajax_loader_horizont.gif"/>
                     </div>
                     <div>
                         <p class="load_error">
-                            Произошла ошибка, <a href="javascript:void(0)">повторить запрос</a>
+                            <?=$captions['CAPTION3']?><a href="javascript:void(0)"><?=$captions['CAPTION4']?></a>
                         </p>
                     </div>
                 </div>
 
             </div>
             <div class="map-popup__bott">
-                <a href="http://ddelivery.ru/" target="blank">Сервис доставки DDelivery.ru</a>
+                <a href="http://ddelivery.ru/" target="blank"><?=$captions['CAPTION5']?></a>
             </div>
 
         </div>

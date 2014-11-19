@@ -9,7 +9,6 @@ namespace DDelivery\Order;
 
 use DDelivery\Adapter\DShopAdapter;
 use DDelivery\DDeliveryException;
-use DDelivery\Point\DDeliveryAbstractPoint;
 use DDelivery\DataBase\SQLite;
 
 /**
@@ -107,7 +106,13 @@ class DDeliveryOrder
      * @var string email
      */
     public $toEmail;
-    
+
+
+    /**
+     * @var string индекс
+     */
+    public $toIndex;
+
     /**
      * @var string улица
      */
@@ -331,6 +336,9 @@ class DDeliveryOrder
         return $this->_id;
     }
 
+    public function getToIndex(){
+        return $this->toIndex;
+    }
     
     /**
      * @param  $point
@@ -479,8 +487,6 @@ class DDeliveryOrder
             $return .= ' корп.'.$this->toHousing;
         if($this->toFlat)
             $return .= ' кв.'.$this->toFlat;
-        if($this->toFlat)
-            $return .= ', '.$this->cityName;
 
         return $return;
     }

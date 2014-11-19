@@ -18,8 +18,7 @@ use DDelivery\Sdk\DDeliverySDK;
  * Class DShopAdapter
  * @package DDelivery\Adapter
  */
-abstract class DShopAdapter
-{
+abstract class DShopAdapter{
     /**
      * Тип кеширования централизованый(забираются все точки с сервера)
      */
@@ -30,7 +29,7 @@ abstract class DShopAdapter
      */
     const CACHING_TYPE_INDIVIDUAL = 'individual';
 
-    const SDK_VERSION = '2.1.1';
+    const SDK_VERSION = '2.1.8.5';
     /**
      * Имя редактируется
      */
@@ -102,6 +101,15 @@ abstract class DShopAdapter
      */
     const FIELD_REQUIRED_EMAIL = 32768;
 
+    /**
+     * Zip редактируется
+     */
+    const FIELD_EDIT_INDEX = 65536;
+    /**
+     * Zip обязательное
+     */
+    const FIELD_REQUIRED_INDEX = 131072;
+
 
     /**
      * Кеш объекта
@@ -110,7 +118,9 @@ abstract class DShopAdapter
     private $productsFromCart = null;
 
     const DB_MYSQL = 1;
+
     const DB_SQLITE = 2;
+
 
     /**
      * Сопоставление cтатуса заказов на стороне cms
@@ -162,6 +172,25 @@ abstract class DShopAdapter
 
     /**
      *
+     * Формируем сообщение для логов
+     *
+     * @param \Exception $e
+     * @param array $extraParams
+     * @return mixed
+     */
+    public function  getErrorMsg( \Exception $e, $extraParams = array() ){}
+    /**
+     *
+     * Залоггировать ошибку
+     *
+     * @param \Exception $e
+     * @return mixed
+     */
+    public function logMessage( \Exception $e ){}
+
+
+    /**
+     *
      * Тип кеширования, для централизированого подхода и для индивидуального решения
      * разные
      *
@@ -183,7 +212,7 @@ abstract class DShopAdapter
     /**
      * Возвращаем сервер для логгирования ошибок
      */
-    public function getLogginServer(){
+    public static function getLogginServer(){
         return 'http://service.ddelivery.ru/loggin.php';
     }
 
@@ -195,7 +224,7 @@ abstract class DShopAdapter
      * @param DDeliveryOrder $order
      * @return mixed
      */
-    public function finalFilterSelfCompanies( $companyArray,$order ){
+    public function finalFilterSelfCompanies( $companyArray, $order ){
         return $companyArray;
     }
 
@@ -212,22 +241,12 @@ abstract class DShopAdapter
     }
 
     /**
-     * Получить доступные способы оплаты для Самовывоза ( можно анализировать содержимое order )
+     * Учитывать фильтрацию НПП при работе
      * @param $order DDeliveryOrder
-     * @return array
+     * @return bool
      */
-    public function getSelfPaymentVariants( $order ){
-        return array();
-    }
+    public abstract function getPaymentFilterEnabled( $order );
 
-    /**
-     * Получить доступные способы оплаты для курьера ( можно анализировать содержимое order )
-     * @param $order DDeliveryOrder
-     * @return array
-     */
-    public function getCourierPaymentVariants( $order ){
-        return array();
-    }
     /**
      * Возвращает путь до файла базы данных sqlite, положите его в место не доступное по прямой ссылке
      * @return string
@@ -261,8 +280,7 @@ abstract class DShopAdapter
      * Включить кэш
      * @return bool
      */
-    public function isCacheEnabled()
-    {
+    public function isCacheEnabled(){
         return true;
     }
 
@@ -344,7 +362,7 @@ abstract class DShopAdapter
             'articule 222',
             'Веселый клоун'	//	string $name Название вещи
         );
-        $products[] = new DDeliveryProduct(2, 10, 13, 15, 0.3, 1500, 2, 'articule 222', 'Грустный клоун');
+        $products[] = new DDeliveryProduct(2, 10, 13, 15, 0.3, 1500, 2, 'articule another', 'Грустный клоун');
         return $products;
     }
     /**
@@ -361,7 +379,18 @@ abstract class DShopAdapter
         }
         return $this->productsFromCart;
     }
-    
+
+    /**
+     *
+     * Перед получение списка точек
+     *
+     * @param $resultPoints array
+     * @param $order DDeliveryOrder
+     * @param $resultCompanies array
+     *
+     * @return array
+     */
+    public abstract function prePointListReturn( $resultPoints, $order, $resultCompanies );
     /**
      * Возвращает API ключ, вы можете получить его для Вашего приложения в личном кабинете
      * @return string
@@ -410,7 +439,16 @@ abstract class DShopAdapter
      * @return string|null
      */
     public function getClientPhone() {
-        return '79211234567'; //null;
+        return null;
+    }
+
+    /**
+     * Если вы знаете индекс(zip code), то верните его тут
+     * @return string|null
+     */
+    public function getClientZipCode()
+    {
+        return null;
     }
 
     /**
@@ -448,10 +486,10 @@ abstract class DShopAdapter
      * Если есть необходимость искать точки на сервере ddelivery
      * 
      * @param \DDelivery\Order\DDeliveryOrder $order
-     * 
+     * @param int $pointId
      * @return boolean
      */
-    public function preGoToFindPoints( $order ){
+    public function preGoToFindPoints( $order , $pointId = 0 ){
         return true;        	
     }
     
@@ -461,7 +499,7 @@ abstract class DShopAdapter
      * 
      * @param \DDelivery\Order\DDeliveryOrder $order
      * 
-     * @return float
+     * @return bool
      */
     public function sendOrderToDDeliveryServer( $order ){
         return true;    	
@@ -515,19 +553,15 @@ abstract class DShopAdapter
      * Верните id города в системе DDelivery
      * @return int
      */
-    public function getClientCityId() {
-        if(isset($_COOKIE['ddCityId'])){
-            return $_COOKIE['ddCityId'];
-        }
-        return 0;
-    }
+    public abstract function getClientCityId();
 
 
     /**
      * Возвращает стоимоть заказа
      * @return float
      */
-    public function getAmount(){
+    public function getAmount()
+    {
         $amount = 0.;
         foreach($this->getProductsFromCart() as $product) {
             $amount .= $product->getPrice() * $product->getQuantity();
@@ -561,7 +595,6 @@ abstract class DShopAdapter
      * @return int
      */
     public function getCourierRequiredFields(){
-        return 0;
         // ВВести все обязательно, кроме корпуса
         return self::FIELD_EDIT_FIRST_NAME | self::FIELD_REQUIRED_FIRST_NAME
             | self::FIELD_EDIT_PHONE | self::FIELD_REQUIRED_PHONE
@@ -578,7 +611,6 @@ abstract class DShopAdapter
      * @return int
      */
     public function getSelfRequiredFields(){
-        return 0;
         // Имя, фамилия, мобилка
         return self::FIELD_EDIT_FIRST_NAME | self::FIELD_REQUIRED_FIRST_NAME
              | self::FIELD_EDIT_PHONE | self::FIELD_REQUIRED_PHONE | self::FIELD_EDIT_EMAIL;
@@ -621,8 +653,56 @@ abstract class DShopAdapter
     }
 
     /**
-     * Получить строку с ошибкой поиска компании
-     * @param $order
+     * Ширина модуля
+     * @return string
      */
-    public function getEmptyCompanyError($order){}
+    public function getModuleWidth(){
+        return '1000';
+    }
+
+    /**
+     * Высота модуля
+     * @return string
+     */
+    public function getModuleHeight(){
+        return '650';
+    }
+
+    /**
+     * Получить массив с кастомными курьерскими компаниями
+     * @return array
+     */
+    public abstract function getCustomCourierCompanies();
+
+    /**
+     * Получить массив с кастомными компаниями самовывоза
+     * @return array
+     */
+    public abstract function getCustomSelfCompanies();
+
+    /**
+     * Получить массив с кастомными точками самовывоза
+     * @return array
+     */
+    public abstract function getCustomSelfPoints();
+
+    /**
+     *
+     * Текст когда компании не найдены
+     *
+     * @param DDeliveryOrder $order
+     * @return mixed
+     */
+    public abstract function getEmptyCompanyError($order);
+
+    public abstract function getSelfPaymentVariants($order);
+
+    public abstract function getCourierPaymentVariants($order);
+
+    /**
+     * Возвращает массив с различными надписями на модуле
+     * @return array
+     */
+    public abstract function  getCaptions();
+
 }
