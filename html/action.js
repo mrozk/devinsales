@@ -151,7 +151,7 @@ if(typeof(DDeliveryIntegration) == 'undefined')
                 openPopup();
             },
             init: function(){
-                alert('xxx');
+
                 initStyle();
                 $(document).ready(function(){
                     $(".button" ).on('click',function(){
