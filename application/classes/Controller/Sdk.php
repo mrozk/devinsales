@@ -7,75 +7,37 @@ include_once( APPPATH . 'classes/Sdk/mrozk/IntegratorShop.php');
 
 class Controller_Sdk extends Controller
 {
-
-    /*
-    public function get_request_state( $name )
-    {
-        $session = Session::instance();
-        $query = $this->request->query($name);
-        if( !empty( $query ) )
-        {
-            $session->set( $name, $query );
-            return $query;
-        }
-        else
-        {
-            return $session->get( $name );
-        }
-    }
-
-
-
-    public function action_status()
-    {
-        $uid = (int)$this->get_request_state('insales_id');
-        if( !$uid )
-        {
-            return;
-        }
-        $IntegratorShop = new IntegratorShop( $this->request, $uid );
-        $ddeliveryUI = new DDeliveryUI($IntegratorShop);
-
-
-        $orders = $ddeliveryUI->getUnfinishedOrders();
-        $statusReport = array();
-        if( count( $orders ) )
-        {
-            foreach ( $orders as $item)
-            {
-                $rep = $this->changeInsalesOrderStatus( $item, $ddeliveryUI );
-                if( count( $rep ) )
-                {
-                    $statusReport[] = $rep;
-                }
+    public function action_index(){
+        $items = $this->request->query('items');
+        $k = $this->request->query('token'); //$_GET['token'] ;
+        $card = 'card_' .$k;
+        $instance = MemController::getMemcacheInstance();
+        $hasits_token = $instance->get($card);
+        if(!empty($hasits_token)){
+            $info = json_decode( $hasits_token, true );
+            $settingsToIntegrator = MemController::initSettingsMemcache($info['id']);
+            $url = parse_url($_SERVER['HTTP_REFERER']);
+            if( isset($items) && !empty( $items ) ){
+                $info['cart'] = $this->getItemsFromInsales($url['scheme'] . '://' . $url['host'], $items, $settingsToIntegrator);
+                MemController::getMemcacheInstance()->set( $card, json_encode( $info ), 0, 1200  );
             }
+            try{
+                $IntegratorShop = new IntegratorShop( $this->request, $settingsToIntegrator, $info );
+                //echo $IntegratorShop->getApiKey();
+                $ddeliveryUI = new DDeliveryUI( $IntegratorShop );
+                $order = $ddeliveryUI->getOrder();
+                $order->addField1 = $settingsToIntegrator->insalesuser_id;
+                $ddeliveryUI->render(isset($_REQUEST) ? $_REQUEST : array());
+            }
+            catch( \DDelivery\DDeliveryException $e ){
+                echo $e->getMessage();
+                $ddeliveryUI->logMessage($e);
+            }
+        }else{
+            echo 'Перезагрузите страницу браузера для продолжения';
         }
-        return $statusReport;
-
     }
-    public function getXmlJsToInsales( $insalesuser_id, $field_id, $field2_id)
-    {
-        return $payload = '<?xml version="1.0" encoding="UTF-8"?>
-                            <delivery-variant>
-                              <title>DDelivery</title>
-                              <position type="integer">1</position>
-                              <url>' . URL::base( $this->request ) . 'hello/gus/</url>
-                              <description>DDelivery</description>
-                              <type>DeliveryVariant::External</type>
-                              <delivery-locations type="array"/>
-                              <javascript>&lt;script type="text/javascript" src="' . URL::base( $this->request ) . 'html/js/ddelivery.js"&gt;&lt;/script&gt;
 
-                                     &lt;script type="text/javascript"&gt;var ddelivery_insales={"field_id":' . $field_id . ',
-                                     "field2_id":' . $field2_id . ',"_id":' . $insalesuser_id . ',
-                                     "url": "' . URL::base( $this->request ) . '"
-                                       };&lt;/script&gt;
-                                    &lt;script type="text/javascript" src="' . URL::base( $this->request ) . 'html/action.js"&gt;&lt;/script&gt;
-                              </javascript>
-                              <price type="decimal">0</price>
-                              <add-payment-gateways>true</add-payment-gateways>
-                            </delivery-variant>';
-    }
-    */
     public function action_orderinfo(){
         $order = (int)$this->request->query('order');
 
@@ -283,34 +245,5 @@ class Controller_Sdk extends Controller
         }
         return $result_products;
     }
-    public function action_index(){
-        $items = $this->request->query('items');
-        $k = $this->request->query('token'); //$_GET['token'] ;
-        $card = 'card_' .$k;
-        $instance = MemController::getMemcacheInstance();
-        $hasits_token = $instance->get($card);
-        if(!empty($hasits_token)){
-            $info = json_decode( $hasits_token, true );
-            $settingsToIntegrator = MemController::initSettingsMemcache($info['id']);
-            $url = parse_url($_SERVER['HTTP_REFERER']);
-             if( isset($items) && !empty( $items ) ){
-                 $info['cart'] = $this->getItemsFromInsales($url['scheme'] . '://' . $url['host'], $items, $settingsToIntegrator);
-                 MemController::getMemcacheInstance()->set( $card, json_encode( $info ), 0, 1200  );
-             }
-             try{
-                 $IntegratorShop = new IntegratorShop( $this->request, $settingsToIntegrator, $info );
-                 //echo $IntegratorShop->getApiKey();
-                 $ddeliveryUI = new DDeliveryUI( $IntegratorShop );
-                 $order = $ddeliveryUI->getOrder();
-                 $order->addField1 = $settingsToIntegrator->insalesuser_id;
-                 $ddeliveryUI->render(isset($_REQUEST) ? $_REQUEST : array());
-             }
-             catch( \DDelivery\DDeliveryException $e ){
-                 echo $e->getMessage();
-                 $ddeliveryUI->logMessage($e);
-             }
-         }else{
-             echo 'Перезагрузите страницу браузера для продолжения';
-         }
-    }
+
 }
