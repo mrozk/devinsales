@@ -2,9 +2,8 @@
 
 use DDelivery\DDeliveryUI;
 
-include_once( APPPATH . 'classes/Sdk/application/bootstrap.php');
+include_once( APPPATH . 'classes/Sdk/vendor/autoload.php');
 include_once( APPPATH . 'classes/Sdk/mrozk/IntegratorShop.php');
-include_once( APPPATH . 'classes/Sdk/mrozk/IntegratorShop2.php');
 
 class Controller_Sdk extends Controller
 {
