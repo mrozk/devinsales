@@ -1,0 +1,52 @@
+{
+    "_readme": [
+        "This file locks the dependencies of your project to a known state",
+        "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
+        "This file is @generated automatically"
+    ],
+    "hash": "c60d1a87549cd53b60aa2b8ae8d15d5a",
+    "packages": [
+        {
+            "name": "ddelivery/sdk",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/ddelivery/DDelivery/",
+                "reference": "9a4000906c8c3ff55ad909afd22a175988600c89"
+            },
+            "require": {
+                "php": ">=5.3.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "DDelivery": "application/classes"
+                }
+            },
+            "license": [
+                "proprietary"
+            ],
+            "authors": [
+                {
+                    "name": "ddelivery",
+                    "email": "info@ddelivery.ru"
+                }
+            ],
+            "description": "sdk",
+            "homepage": "https://github.com/ddelivery/DDelivery/",
+            "keywords": [
+                "delivery"
+            ],
+            "time": "2014-11-20 21:22:45"
+        }
+    ],
+    "packages-dev": [],
+    "aliases": [],
+    "minimum-stability": "stable",
+    "stability-flags": {
+        "ddelivery/sdk": 20
+    },
+    "prefer-stable": false,
+    "platform": [],
+    "platform-dev": []
+}

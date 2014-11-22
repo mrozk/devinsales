@@ -1,0 +1,11 @@
+{
+    "require": {
+        "ddelivery/sdk": "dev-master"
+    },
+    "repositories": [
+        {
+            "type": "git",
+            "url": "https://github.com/ddelivery/DDelivery/"
+        }
+    ]
+}
