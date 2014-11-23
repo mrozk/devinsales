@@ -1,6 +1,9 @@
 <?php defined('SYSPATH') or die('No direct script access.');
 
-include_once( APPPATH . 'classes/Sdk/application/bootstrap.php');
+//include_once( APPPATH . 'classes/Sdk/application/bootstrap.php');
+
+
+include_once( APPPATH . 'classes/Sdk/vendor/autoload.php');
 include_once( APPPATH . 'classes/Sdk/mrozk/IntegratorShop.php');
 
 class Controller_Cabinet extends  Controller_Base{
