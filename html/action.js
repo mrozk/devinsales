@@ -9,6 +9,7 @@ if(typeof(DDeliveryIntegration) == 'undefined')
         var TYPE_WINDOW_STEP = 2;
 
 
+
         function hideCover() {
             document.body.removeChild(document.getElementById('ddelivery_cover'));
             document.getElementsByTagName('body')[0].style.overflow = "";
