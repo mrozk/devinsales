@@ -12,7 +12,7 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/ddelivery/DDelivery/",
-                "reference": "9a4000906c8c3ff55ad909afd22a175988600c89"
+                "reference": "98738788a38f80b77f6eee5ca8cdc14a495dfada"
             },
             "require": {
                 "php": ">=5.3.0"
@@ -37,7 +37,7 @@
             "keywords": [
                 "delivery"
             ],
-            "time": "2014-11-20 21:22:45"
+            "time": "2014-11-23 10:52:28"
         }
     ],
     "packages-dev": [],
