@@ -17,6 +17,11 @@
                     "type":"zip",
                     "url":"https://github.com/ddelivery/DDelivery/archive/master.zip",
                     "reference":"master"
+                },
+                "autoload": {
+                    "psr-0": {
+                        "DDelivery": "application/classes"
+                    }
                 }
             }
         }

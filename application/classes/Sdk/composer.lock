@@ -4,7 +4,7 @@
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "6f34aed3e330d9394b1735e623d3cb72",
+    "hash": "d29f3f8f6cbb7f6215948c908318908f",
     "packages": [
         {
             "name": "ddelivery/sdk",
