@@ -1,11 +1,24 @@
 {
     "require": {
-        "ddelivery/sdk": "dev-master"
+        "ddelivery/sdk": "2.1.9"
     },
     "repositories": [
         {
-            "type": "git",
-            "url": "https://github.com/ddelivery/DDelivery/"
+            "type":"package",
+            "package":{
+                "name":"ddelivery/sdk",
+                "version":"2.1.9",
+                "dist":{
+                    "type":"zip",
+                    "url":"https://github.com/ddelivery/DDelivery/archive/master.zip",
+                    "reference":"master"
+                },
+                "source":{
+                    "type":"zip",
+                    "url":"https://github.com/ddelivery/DDelivery/archive/master.zip",
+                    "reference":"master"
+                }
+            }
         }
     ]
 }
