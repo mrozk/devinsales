@@ -9,7 +9,6 @@ include_once( APPPATH . 'classes/Sdk/mrozk/IntegratorShop2.php');
 class Controller_Sdk extends Controller
 {
     public function action_index(){
-        echo 'xxx';
 
         $items = $this->request->query('items');
         $k = $this->request->query('token'); //$_GET['token'] ;
