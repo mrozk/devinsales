@@ -1,0 +1,33 @@
+{
+    "_readme": [
+        "This file locks the dependencies of your project to a known state",
+        "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
+        "This file is @generated automatically"
+    ],
+    "hash": "6f34aed3e330d9394b1735e623d3cb72",
+    "packages": [
+        {
+            "name": "ddelivery/sdk",
+            "version": "2.1.9",
+            "source": {
+                "type": "zip",
+                "url": "https://github.com/ddelivery/DDelivery/archive/master.zip",
+                "reference": "master"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://github.com/ddelivery/DDelivery/archive/master.zip",
+                "reference": "master",
+                "shasum": null
+            },
+            "type": "library"
+        }
+    ],
+    "packages-dev": [],
+    "aliases": [],
+    "minimum-stability": "stable",
+    "stability-flags": [],
+    "prefer-stable": false,
+    "platform": [],
+    "platform-dev": []
+}

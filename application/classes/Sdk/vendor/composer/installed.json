@@ -1,0 +1,20 @@
+[
+    {
+        "name": "ddelivery/sdk",
+        "version": "2.1.9",
+        "version_normalized": "2.1.9.0",
+        "source": {
+            "type": "zip",
+            "url": "https://github.com/ddelivery/DDelivery/archive/master.zip",
+            "reference": "master"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://github.com/ddelivery/DDelivery/archive/master.zip",
+            "reference": "master",
+            "shasum": null
+        },
+        "type": "library",
+        "installation-source": "dist"
+    }
+]
