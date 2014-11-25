@@ -20,7 +20,12 @@
                 "reference": "master",
                 "shasum": null
             },
-            "type": "library"
+            "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "DDelivery": "application/classes"
+                }
+            }
         }
     ],
     "packages-dev": [],

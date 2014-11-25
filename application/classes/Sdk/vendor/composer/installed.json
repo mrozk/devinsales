@@ -15,6 +15,11 @@
             "shasum": null
         },
         "type": "library",
-        "installation-source": "dist"
+        "installation-source": "dist",
+        "autoload": {
+            "psr-0": {
+                "DDelivery": "application/classes"
+            }
+        }
     }
 ]
