@@ -40,13 +40,10 @@ class Controller_Sdk extends Controller
 
     public function action_orderinfo(){
         $order = (int)$this->request->query('order');
-
         try{
-            $IntegratorShop = new IntegratorShop2();
-            $ddeliveryUI = new DDeliveryUI($IntegratorShop,true);
-
+            //$IntegratorShop = new IntegratorShop($this->request,);
+            $ddeliveryUI = new DDeliveryUI(/*$IntegratorShop*/ null, true);
             $order = $ddeliveryUI->initOrder($order);
-
             if( $order->localId ){
                 $errorMsg = '';
                 try{
