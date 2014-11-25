@@ -2,7 +2,9 @@
 
 
 use DDelivery\DDeliveryUI;
-include_once( APPPATH . 'classes/Sdk/application/bootstrap.php');
+//include_once( APPPATH . 'classes/Sdk/application/bootstrap.php');
+
+include_once( APPPATH . 'classes/Sdk/vendor/autoload.php');
 include_once( APPPATH . 'classes/Sdk/mrozk/IntegratorShop.php');
 
 class Controller_Admin_Main extends Controller_Admin_Layout{
