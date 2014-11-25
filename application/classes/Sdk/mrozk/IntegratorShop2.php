@@ -12,11 +12,6 @@ use DDelivery\Order\DDStatusProvider;
 
 class IntegratorShop2 extends \DDelivery\Adapter\PluginFilters
 {
-
-
-
-
-
     /**
      * Синхронизация локальных статусов
      * @var array

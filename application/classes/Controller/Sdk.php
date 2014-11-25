@@ -4,6 +4,7 @@ use DDelivery\DDeliveryUI;
 
 include_once( APPPATH . 'classes/Sdk/vendor/autoload.php');
 include_once( APPPATH . 'classes/Sdk/mrozk/IntegratorShop.php');
+include_once( APPPATH . 'classes/Sdk/mrozk/IntegratorShop2.php');
 
 class Controller_Sdk extends Controller
 {
@@ -41,8 +42,7 @@ class Controller_Sdk extends Controller
     public function action_orderinfo(){
         $order = (int)$this->request->query('order');
         try{
-            $settings = MemController::initSettingsMemcache(22);
-            $IntegratorShop = new IntegratorShop($this->request, $settings);
+            $IntegratorShop = new IntegratorShop2();
             $ddeliveryUI = new DDeliveryUI($IntegratorShop, true);
             $order = $ddeliveryUI->initOrder($order);
             if( $order->localId ){
