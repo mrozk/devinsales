@@ -24,12 +24,18 @@ return array
 			'username'   => 'root',
 			'password'   => 'litionkenotivili',
 			'persistent' => FALSE,
-            */
+
             'hostname'   => 'localhost',
             'database'   => 'c1devinsales',
             'username'   => 'c1dba',
             'password'   => 'OH2AgbFiU',
             'persistent' => FALSE,
+            */
+            'hostname'   => 'localhost',
+            'database'   => 'c1insales',
+            'username'   => 'c1dba',
+            'password'   => 'OH2AgbFiU',
+            'persistent' => FALSE
 
         ),
 		'table_prefix' => '',
@@ -53,10 +59,16 @@ return array
 			'password'   => 'litionkenotivili',
 			'persistent' => FALSE,
             */
+            /*
             'dsn'        => 'mysql:host=localhost;dbname=c1devinsales',
             'username'   => 'c1dba',
             'password'   => 'OH2AgbFiU',
             'persistent' => FALSE,
+            */
+            'dsn'        => 'mysql:host=localhost;dbname=c1insales',
+            'username'   => 'c1dba',
+            'password'   => 'OH2AgbFiU',
+            'persistent' => FALSE
 		),
 		/**
 		 * The following extra options are available for PDO:
