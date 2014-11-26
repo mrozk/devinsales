@@ -75,6 +75,7 @@ if(typeof(DDeliveryIntegration) == 'undefined')
         }
 
         function openPopup(){
+            console.log('check deploy');
             if( token == '' ){
                 alert('Ошибка идентификации клиента');
                 return;
@@ -89,6 +90,7 @@ if(typeof(DDeliveryIntegration) == 'undefined')
                 hideCover();
             },
             change: function(data) {
+
                 if( getTypeOfOrder() == TYPE_WINDOW_ONE ){
                     fillFeields(data);
                     $('#shipping_address_city').attr('disabled','disabled');
