@@ -75,7 +75,7 @@ if(typeof(DDeliveryIntegration) == 'undefined')
         }
 
         function openPopup(){
-            console.log('check deploy');
+
             if( token == '' ){
                 alert('Ошибка идентификации клиента');
                 return;
