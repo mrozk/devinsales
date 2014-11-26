@@ -51,15 +51,19 @@ class Controller_Orders extends Controller
                             if( count($query) ){
                                 $order = $ddeliveryUI->initOrder( $query[0]->id );
 
-                                $order->firstName = $data->shipping_address->name;
-                                $order->toEmail = $data->client->email;
 
-                                // Валидация телефона
+                                if( isset($data->shipping_address->name) && !empty($data->shipping_address->name) ){
+                                    $order->firstName = $data->shipping_address->name;
+                                }
 
-                                $order->toPhone = $IntegratorShop->formatPhone( $data->shipping_address->phone );
-                                $order->toPhone = substr( $order->toPhone , -10);
+                                if( isset($data->client->email) && !empty($data->client->email) ){
+                                    $order->toEmail = $data->client->email;
+                                }
 
-                                // Валидация телефона
+                                if( isset($data->shipping_address->phone) && !empty($data->shipping_address->phone) ){
+                                    $order->toPhone = $IntegratorShop->formatPhone( $data->shipping_address->phone );
+                                    $order->toPhone = substr( $order->toPhone , -10);
+                                }
 
 
                                 if( $order->type == \DDelivery\Sdk\DDeliverySDK::TYPE_COURIER ){
@@ -137,9 +141,21 @@ class Controller_Orders extends Controller
                             $ddeliveryUI->onCmsOrderFinish( $ddelivery_id, $data->number,
                                                             $data->fulfillment_status, $data->payment_gateway_id );
                             $order = $ddeliveryUI->initOrder($ddelivery_id);
-                                    $order->firstName = $data->shipping_address->name;
-                                    $order->toEmail = $data->client->email;
-                                    $order->toPhone = $IntegratorShop->formatPhone( $data->shipping_address->phone );
+
+
+                            if( isset($data->shipping_address->name) && !empty($data->shipping_address->name) ){
+                                $order->firstName = $data->shipping_address->name;
+                            }
+
+                            if( isset($data->client->email) && !empty($data->client->email) ){
+                                $order->toEmail = $data->client->email;
+                            }
+
+                            if( isset($data->shipping_address->phone) && !empty($data->shipping_address->phone) ){
+                                $order->toPhone = $IntegratorShop->formatPhone( $data->shipping_address->phone );
+                                $order->toPhone = substr( $order->toPhone , -10);
+                            }
+
 
                             $order->amount = $data->items_price;
                             $order->addField2 = $data->id;
