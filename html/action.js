@@ -38,7 +38,7 @@ if(typeof(DDeliveryIntegration) == 'undefined')
         }
 
         function getTypeOfOrder(){
-            if(window.location.href.indexOf('delivery') != -1){
+            if(window.location.href.indexOf('delivery/') != -1){
                 return TYPE_WINDOW_STEP;
             }
             return TYPE_WINDOW_ONE;
@@ -89,6 +89,11 @@ if(typeof(DDeliveryIntegration) == 'undefined')
                 hideCover();
             },
             change: function(data) {
+                if( getTypeOfOrder() == TYPE_WINDOW_ONE ){
+                    fillFeields(data);
+                    $('#shipping_address_city').attr('disabled','disabled');
+                    $('#shipping_address_zip').attr('disabled','disabled');
+                }
                 var activeBtn = getActiveBtn();
                 $( '.moto_moto').remove();
                 $( '#' + activeBtn.activeBtn).after( '<div class="moto_moto" style="' + 'margin-top: 0px; color:#E98B73" >' + data.comment + '</div>' );
@@ -99,11 +104,6 @@ if(typeof(DDeliveryIntegration) == 'undefined')
                 $('.dd_last_check').val(data.orderId);
                 $('#price_' + activeBtn.variant_id).css('display','block');
                 hideCover();
-                if( getTypeOfOrder() == TYPE_WINDOW_ONE ){
-                    fillFeields(data);
-                    $('#shipping_address_city').attr('disabled','disabled');
-                    $('#shipping_address_zip').attr('disabled','disabled');
-                }
             }
         };
 
