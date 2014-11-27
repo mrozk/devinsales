@@ -493,6 +493,7 @@ class Controller_Cabinet extends  Controller_Base{
     }
 
     public function action_index(){
+
         $insales_id = (int)$this->request->query('insales_id');
         $shop = $this->request->query('shop');
 
@@ -518,9 +519,11 @@ class Controller_Cabinet extends  Controller_Base{
                            ->set('base_url', URL::base( $this->request ))->set('add_url', $settings->add_url));
 
             }else{
+
                 if( !empty( $insales_id ) && !empty( $shop ) ){
                     $this->_proccess_enter($insales_id, $shop);
                 }else{
+
                     echo 'Вход осуществляется через личный кабинет insales.ru';
                     Notice::add( Notice::ERROR,'Доступ только из админпанели магазина insales' );
                 }
