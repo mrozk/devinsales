@@ -62,7 +62,8 @@ return array
             'dsn'        => 'mysql:host=localhost;dbname=insales',
             'username'   => 'root',
             'password'   => 'litionkenotivili',
-            'persistent' => FALSE,
+            'persistent' => FALSE
+
             /*
 			'dsn'        => 'mysql:host=localhost;dbname=insales',
 			'username'   => 'root',
